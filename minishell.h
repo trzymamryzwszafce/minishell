@@ -13,6 +13,14 @@
 #ifndef MINI_SHELL_H
 # define MINI_SHELL_H
 
-# include "libft.h"
+# include "libft/libft.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+typedef struct s_mini
+{
+	char* arg_list;
+}	t_mini;
 
 #endif

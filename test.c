@@ -1,25 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "minishell.h"
 
-/*void	ft_check_white_spaces(char *str)
+void split_input(t_mini arguments, char *input)
 {
 	int i;
-	int len;
+	char **splited_input;
 
-	len = ft_strlen(str);
 	i = 0;
-	while (str[i] == 32 || str[i] == 9)
+	splited_input = ft_split(input, ' ');
+	while (splited_input[i])
 	{
-
+		arguments.arg_list = splited_input[i];
+		printf("%s$\n", arguments.arg_list); //żeby zobaczyć czy na pewno dobrze jest
+		i++;
 	}
-}*/
+}
 
 int main(void)
 {
+	t_mini arguments;
 	char *input;
 
 	using_history(); //historia tego co było wcześniej wpisywane w >>>
@@ -27,14 +25,12 @@ int main(void)
 	while (1) {
 		input = readline(">>> ");
 		if (!input)
-			return (0); //potrzebne
-//		ft_check_white_spaces(input);
-		if (strcmp(input, "/log") == 0)
-			printf("LOG: This is a message\n"); 
+			return (0);
 		else if (*input)
 		{
 			add_history(input); //dodajemy historię
-			printf("You typed: %s\n", input);
+			split_input(arguments, input);
+			//printf("You typed: %s\n", input);
 		}
 		free(input);
 	}

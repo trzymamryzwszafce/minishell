@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <szmadeja@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 03:37:01 by szmadeja          #+#    #+#             */
-/*   Updated: 2024/12/18 20:22:46 by szmadeja         ###   ########.fr       */
+/*   Created: 2025/04/27 20:23:30 by nadamczy          #+#    #+#             */
+/*   Updated: 2025/06/04 13:45:52 by nadamczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *head)
+void	ft_free_split(char **arr)
 {
-	t_list	*last;
+	int	i;
 
-	if (!head)
-		return ;
-	if (!*lst)
+	i = 0;
+	while (arr[i])
 	{
-		*lst = head;
-		return ;
+		free(arr[i]);
+		i++;
 	}
-	last = ft_lstlast(*lst);
-	last->next = head;
+	free(arr);
 }
