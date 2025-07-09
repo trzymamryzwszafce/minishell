@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -I includes -I libft
 NAME = bigshell
 
 # Source Files (all .c files in the current directory)
-SRCS = $(wildcard src/*.c)
+SRCS = $(wildcard parsing/*.c) main.c
 
 # Object Files
 OBJS = $(SRCS:.c=.o)
@@ -24,7 +24,7 @@ all: $(LIBFT_LIB) $(NAME)
 
 # Build executable
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_LNK)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_LNK) -lreadline
 
 # Compile object files
 %.o: %.c
