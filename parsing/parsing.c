@@ -1,51 +1,57 @@
 #include "../minishell.h"
 
-int ft_count_words(char **array)
+int	ft_count_words(char **array)
 {
-	int count = 0;
+	int	count;
+
+	count = 0;
 	if (!array)
-		return 0;
+		return (0);
 	while (array[count])
 		count++;
-	return count;
+	return (count);
 }
 
-int ft_count_args(char **args) //dodaje do listy arguments argumenty tak długo aż znajdzie NULL, pipe lub redirect - jak znajdzie kolejną komendę to doda ją do argumentów - to do naprawy!!!
+int	ft_count_args(char **args) //dodaje do listy arguments argumenty tak długo aż znajdzie NULL, pipe lub redirect - jak znajdzie kolejną komendę to doda ją do argumentów - to do naprawy!!!
 {
-	int count = 0;
+	int	count;
+
+	count = 0;
 	while (args[count] && !ft_is_redirect(args[count]) && !ft_is_pipe(args[count]))
 		count++;
-	return count;
+	return (count);
 }
 
-char **ft_copy_args(char **arg_list, int start, int count)
+char	**ft_copy_args(char **arg_list, int start, int count)
 {
-	char **result = malloc(sizeof(char *) * (count + 1));
-	int i = 0;
+	char	**result;
+	int		i;
+
+	result = malloc (sizeof(char *) * (count + 1));
+	i = 0;
 	if (!result)
-		return NULL;
+		return (NULL);
 	while (i < count)
 	{
 		result[i] = ft_strdup(arg_list[start + i]);
 		i++;
 	}
-	result[i] = NULL;
-	return result;
+	result[i] = (NULL);
+	return (result);
 }
 
-char **add_to_str_array(char **array, char *str)
+char	**add_to_str_array(char **array, char *str)
 {
-	int i = 0;
-	char **new_array;
+	int		i;
+	char	**new_array;
 
+	i = 0;
 	if (array)
 		while (array[i])
 			i++;
-
 	new_array = malloc(sizeof(char *) * (i + 2));
 	if (!new_array)
-		return NULL;
-
+		return (NULL);
 	i = 0;
 	while (array && array[i])
 	{
@@ -55,14 +61,14 @@ char **add_to_str_array(char **array, char *str)
 	new_array[i++] = ft_strdup(str);
 	new_array[i] = NULL;
 	free(array);
-	return new_array;
+	return (new_array);
 }
 
-void ft_split_input(t_mini *arguments, char *input)
+void	ft_split_input(t_mini *arguments, char *input)
 {
-	int i;
-	int count;
-	char **splited_input;
+	int		i;
+	int		count;
+	char	**splited_input;
 
 	i = 0;
 	count = 0;
@@ -80,5 +86,5 @@ void ft_split_input(t_mini *arguments, char *input)
 		i++;
 	}
 	arguments->arg_list[i] = NULL;
-    ft_free_split(splited_input);
+	ft_free_split(splited_input);
 }
