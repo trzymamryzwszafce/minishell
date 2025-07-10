@@ -6,7 +6,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I includes -I libft
 
 # Executable Name
-NAME = bigshell
+NAME = minishell
 
 # Source Files (all .c files in the current directory)
 SRCS = $(wildcard parsing/*.c) main.c
