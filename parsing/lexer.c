@@ -82,48 +82,6 @@ void	ft_lexer(t_mini *mini)
 
 /*void	ft_lexer(t_mini *mini)
 {
-	t_lexer *cmd_line = malloc(sizeof(t_lexer)), *new_node;
-	int i = 0, arg_count;
-
-	if (!cmd_line) return;
-	ft_null_lexer(cmd_line);
-	mini->lexer = cmd_line;
-	while (mini->arg_list[i])
-	{
-		if (ft_is_redirect(mini->arg_list[i]) || ft_is_pipe(mini->arg_list[i]))
-			printf("syntax error near unexpected token `%s`\n", mini->arg_list[i]);
-		else if (ft_is_cmd(mini->arg_list[i]))
-			cmd_line->command = ft_strdup(mini->arg_list[i++]);
-		else
-			printf("%s: command not found\n", mini->arg_list[i]);
-		if (mini->arg_list[i] && mini->arg_list[i][0] == '-')
-			cmd_line->flag = ft_strdup(mini->arg_list[i++]);
-		if ((arg_count = ft_count_args(&mini->arg_list[i])) > 0)
-			cmd_line->params = ft_copy_args(mini->arg_list, i, i += arg_count, arg_count);
-		while (mini->arg_list[i] && ft_is_redirect(mini->arg_list[i]))
-		{
-			char *redir_type = mini->arg_list[i++];
-			if (!mini->arg_list[i]) printf("syntax error: expected file after redirection\n");
-			cmd_line->type = add_to_str_array(cmd_line->type, redir_type);
-			cmd_line->redir_targets = add_to_str_array(cmd_line->redir_targets, mini->arg_list[i++]);
-		}
-		if (mini->arg_list[i] && ft_is_pipe(mini->arg_list[i]))
-			i++;
-		if (mini->arg_list[i])
-		{
-			new_node = malloc(sizeof(t_lexer));
-			if (!new_node) return;
-			ft_null_lexer(new_node);
-			cmd_line->next = new_node;
-			cmd_line = new_node;
-		}
-		else 
-			cmd_line->next = NULL;
-	}
-}*/
-
-/*void	ft_lexer(t_mini *mini)
-{
 	t_lexer *cmd_line;
 	t_lexer *new_node;
 	int arg_count;
