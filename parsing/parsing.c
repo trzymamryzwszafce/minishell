@@ -1,17 +1,5 @@
 #include "../minishell.h"
 
-int	ft_count_words(char **array)
-{
-	int	count;
-
-	count = 0;
-	if (!array)
-		return (0);
-	while (array[count])
-		count++;
-	return (count);
-}
-
 int	ft_count_args(char **args) //dodaje do listy arguments argumenty tak długo aż znajdzie NULL, pipe lub redirect - jak znajdzie kolejną komendę to doda ją do argumentów - to do naprawy!!!
 {
 	int	count;
@@ -27,7 +15,7 @@ char	**ft_copy_args(char **arg_list, int start, int count)
 	char	**result;
 	int		i;
 
-	result = malloc (sizeof(char *) * (count + 1));
+	result = malloc(sizeof(char *) * (count + 1));
 	i = 0;
 	if (!result)
 		return (NULL);

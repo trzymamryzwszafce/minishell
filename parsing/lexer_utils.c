@@ -1,11 +1,15 @@
 #include "../minishell.h"
 
-int	ft_is_cmd(char *cmd)
+t_lexer	*ft_create_next_node(t_lexer *current)
 {
-	if (ft_strcmp(cmd, "cmd") == 0)
-		return (1); // tylko do testów, obsługuje tylko  cmp
-	else
-		return (0);
+	t_lexer	*new_node;
+
+	new_node = malloc(sizeof(t_lexer));
+	if (!new_node)
+		return (NULL);
+	ft_null_lexer(new_node);
+	current->next = new_node;
+	return (new_node);
 }
 
 int	ft_is_redirect(char *token)
