@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:22:38 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/07/23 02:15:25 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:28:34 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_lexer
 	char	*command;
 	char	*flag;
 	char	**params;
-	char	**type;
+	char	**type; //na odpowiednim miejscu w array dla danego redirect jest zapisany plik do którego to ma isc
 	char	**redir_targets;
 	struct	s_lexer *next;
 }		t_lexer;

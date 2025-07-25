@@ -14,8 +14,12 @@ t_lexer	*ft_create_next_node(t_lexer *current)
 
 int	ft_is_redirect(char *token)
 {
-	return (!ft_strcmp(token, ">") || !ft_strcmp(token, ">>")
-		|| !ft_strcmp(token, "<") || !ft_strcmp(token, "<<"));
+	if (!token)
+		return (0);
+	return (ft_strcmp(token, ">") == 0
+		|| ft_strcmp(token, ">>") == 0
+		|| ft_strcmp(token, "<") == 0
+		|| ft_strcmp(token, "<<") == 0);
 }
 
 int	ft_is_pipe(char *token)

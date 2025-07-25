@@ -42,32 +42,32 @@ int main(void)
 		free(input);
 		ft_lexer(arguments);
 		
-		// //debuger dla lexera
-		// t_lexer *cur = arguments->lexer;
-		// int node = 1;
-		// while (cur)
-		// {
-		// 	printf("\n--- NODE %d ---\n", node++);
-		// 	printf("command : %s\n", cur->command ? cur->command : "(null)");
-		// 	printf("flag    : %s\n", cur->flag ? cur->flag : "(null)");
-		// 	if (cur->params)
-		// 	{
-		// 		printf("arguments:\n");
-		// 		for (int i = 0; cur->params[i]; i++)
-		// 			printf("  [%d] %s\n", i, cur->params[i]);
-		// 	}
-		// 	else
-		// 		printf("arguments: (null)\n");
-		// 	if (cur->type && cur->redir_targets)
-		// 	{
-		// 		printf("redirections:\n");
-		// 		for (int i = 0; cur->type[i] && cur->redir_targets[i]; i++)
-		// 			printf("  %s -> %s\n", cur->type[i], cur->redir_targets[i]);
-		// 	}
-		// 	else
-		// 		printf("redirections: (none)\n");
-		// 	cur = cur->next;
-		// }
+		//debuger dla lexera
+		t_lexer *cur = arguments->lexer;
+		int node = 1;
+		while (cur)
+		{
+			printf("\n--- NODE %d ---\n", node++);
+			printf("command : %s\n", cur->command ? cur->command : "(null)");
+			printf("flag    : %s\n", cur->flag ? cur->flag : "(null)");
+			if (cur->params)
+			{
+				printf("arguments:\n");
+				for (int i = 0; cur->params[i]; i++)
+					printf("  [%d] %s\n", i, cur->params[i]);
+			}
+			else
+				printf("arguments: (null)\n");
+			if (cur->type && cur->redir_targets)
+			{
+				printf("redirections:\n");
+				for (int i = 0; cur->type[i] && cur->redir_targets[i]; i++)
+					printf("  %s -> %s\n", cur->type[i], cur->redir_targets[i]);
+			}
+			else
+				printf("redirections: (none)\n");
+			cur = cur->next;
+		}
 		
 		ft_free_mini(arguments);
 	}
