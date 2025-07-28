@@ -41,6 +41,7 @@ int main(void)
 		}
 		free(input);
 		ft_lexer(arguments);
+//		ft_parse_lexer(arguments);
 		
 		//debuger dla lexera
 		t_lexer *cur = arguments->lexer;

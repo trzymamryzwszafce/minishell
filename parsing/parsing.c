@@ -10,6 +10,24 @@ int	ft_count_args(char **args) //dodaje do listy arguments argumenty tak długo 
 	return (count);
 }
 
+int 	ft_count_only_args(char **args, int *i)
+{
+	int cnt;
+	int k;
+
+	cnt = 0;
+	k  = *i;
+	while (args[k] && !ft_is_redirect(args[k]) && !ft_is_pipe(args[k]))
+	{
+    	if (args[k][0] == '-')
+        	;
+    	else
+        	cnt++;
+    	k++;
+	}
+	return (cnt);
+}
+
 char	**ft_copy_args(char **arg_list, int start, int count)
 {
 	char	**result;

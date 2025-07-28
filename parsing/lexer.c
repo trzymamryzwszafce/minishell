@@ -18,32 +18,46 @@ void ft_process_flag(t_lexer *cmd_line, char **args, int *i)
 
 int	ft_process_command(t_lexer *cmd_line, char **args, int *i)
 {
-	if (ft_is_pipe(args[*i])) //moze byc pierwszy redirect
+	if (ft_is_pipe(args[*i]))
 	{
 		printf("syntax error near unexpected token `%s`\n", args[*i]);
+		return (0);
+	}
+	else if (cmd_line->command)
+	{
+		printf("%s: cannot access '%s': No such file or directory", cmd_line->command, args[*i]);
 		return (0);
 	}
 	else if (ft_is_redirect(args[*i]))
 		return (1);
 	else
 		cmd_line->command = ft_strdup(args[(*i)++]);
-	cmd_line->flag = ft_strdup("");
-	ft_process_flag(cmd_line, args, i);
 	return (1);
 }
 
-void	ft_process_arguments(t_lexer *cmd_line, char **args, int *i)
+void ft_process_arguments(t_lexer *cmd_line, char **args, int *i)
 {
-	int	arg_count;
+    int arg_count;
+    int j;
 
-	arg_count = ft_count_args(&args[*i]);
-	if (ft_is_redirect(args[*i]))
-		return ;
-	if (arg_count > 0)
-	{
-		cmd_line->params = ft_copy_args(args, *i, arg_count);
-		*i += arg_count;
-	}
+	j = 0;
+    arg_count = ft_count_only_args(args, i);
+    if (!args[*i] || ft_is_redirect(args[*i]) || ft_is_pipe(args[*i]))
+        return;
+    cmd_line->params = malloc(sizeof(char *) * (arg_count + 1));
+    if (!cmd_line->params)
+    {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+    while (args[*i] && !ft_is_redirect(args[*i]) && !ft_is_pipe(args[*i]))
+    {
+        if (args[*i][0] == '-')
+            ft_process_flag(cmd_line, args, i);
+        else
+            cmd_line->params[j++] = strdup(args[(*i)++]);
+    }
+    cmd_line->params[j] = NULL;
 }
 
 int	ft_process_redirects(t_lexer *cmd_line, char **args, int *i)

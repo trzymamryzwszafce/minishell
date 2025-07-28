@@ -30,7 +30,7 @@ int	ft_is_pipe(char *token)
 void	ft_null_lexer(t_lexer *cmd_line)
 {
 	cmd_line->command = NULL;
-	cmd_line->flag = NULL;
+	cmd_line->flag = ft_strdup("");
 	cmd_line->params = NULL;
 	cmd_line->type = NULL;
 	cmd_line->redir_targets = NULL;
