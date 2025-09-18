@@ -1,12 +1,11 @@
 /* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:22:38 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/07/28 00:50:07 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/09/06 21:49:36 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +18,24 @@
 # include <readline/history.h>
 #include <stdbool.h>
 
+typedef enum s_type
+{
+	R_IN,		// <
+	R_OUT_TRUNC,	// >
+	R_OUT_APP,	// >>
+	R_HEREDOC,	// <<
+	PIPE,		// |
+	ARG,	
+
+}		t_type;
+
+typedef struct s_token
+{
+	char *elem;
+	t_type type;
+	struct s_token *next;
+}		t_token;
+
 typedef struct s_lexer
 {
 	char	*command;
@@ -26,44 +43,33 @@ typedef struct s_lexer
 	char	**params;
 	char	**type; //na odpowiednim miejscu w array dla danego redirect jest zapisany plik do którego to ma isc
 	char	**redir_targets;
-	char	**envp;
 	struct	s_lexer *next;
 }		t_lexer;
 
-typedef enum s_redir_type
-{
-    R_IN,        // <
-    R_OUT_TRUNC, // >
-    R_OUT_APP,   // >>
-    R_HEREDOC    // <<
-}		t_redir_type;
 
-typedef struct s_redir
-{
-    t_redir_type type;
-    char         *target;   // nazwa pliku / limiter heredoca
-}		t_redir;
+
+//to oddam szymonowi
 
 typedef struct s_command
 {
-	char	*cmd; //cmd, flags, args - ostatni cmd[] == NULL
-	int		argc; //nie wiem czy tu zostanie 
-	t_redir	*redir;
-	int		redir_count;
-	int		in_fd;
-    int		out_fd; //nad tymi dwoma jeszcze myśle
-	char	*heredoc_tmp; //wypierdala - bool
-    int		heredoc_fd;
+	char	**cmd; //cmd, args, flags - ostatni cmd[] == NULL
+	char	**red_out;
+	char	**red_in;
+	bool	append;
+	char	*pipe_out; //(może jako bool)jak nie ma pipe to jest NULL jeśli jest to execve bierze input jako output albo na odwrót chuj wie
+	bool	redir;
 }		t_command; //jeżeli będzie kolejna to oznacza że jest pipe 
 
 typedef struct s_pipeline
 {
-    t_command	*cmds;
-    int			cmd_count;
-    char		**envp;
-    int			last_exit_status;
-    bool		parse_error;
+	t_command	*cmds;
+	int	cmd_count;
+	char	*binary; //pliki do sprawdzenia czy się otwierają
+	char	*heredoc;
+	char	**envp; //to jako normalnie lista osobnych env
 }		t_pipeline;
+
+
 
 typedef struct s_mini
 {
@@ -71,6 +77,11 @@ typedef struct s_mini
 	t_lexer	*lexer;	
 	t_pipeline	*cmd_line;
 }		t_mini;
+
+//main.c 
+
+void	ft_split_input(t_token *tokens, char *input);
+
 
 //lexer.c
 int		ft_process_command(t_lexer *cmd_line, char **args, int *i);
@@ -89,6 +100,5 @@ int		ft_count_args(char **args);
 int 	ft_count_only_args(char **args, int *i);
 char	**ft_copy_args(char **arg_list, int start, int count);
 char	**add_to_str_array(char **array, char *str);
-void	ft_split_input(t_mini *arguments, char *input);
 
 #endif

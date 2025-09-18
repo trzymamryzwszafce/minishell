@@ -70,27 +70,3 @@ char	**add_to_str_array(char **array, char *str)
 	return (new_array);
 }
 
-void	ft_split_input(t_mini *arguments, char *input)
-{
-	int		i;
-	int		count;
-	char	**splited_input;
-
-	i = 0;
-	count = 0;
-	splited_input = ft_split(input, ' ');
-	if (!splited_input)
-		return ;
-	while (splited_input[count])
-		count++;
-	arguments->arg_list = malloc(sizeof(char *) * (count + 1));
-	if (!arguments->arg_list)
-		return ;
-	while (i < count)
-	{
-		arguments->arg_list[i] = ft_strdup(splited_input[i]);
-		i++;
-	}
-	arguments->arg_list[i] = NULL;
-	ft_free_split(splited_input);
-}

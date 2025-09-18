@@ -37,27 +37,27 @@ int	ft_process_command(t_lexer *cmd_line, char **args, int *i)
 
 void ft_process_arguments(t_lexer *cmd_line, char **args, int *i)
 {
-    int arg_count;
-    int j;
+	int arg_count;
+	int j;
 
 	j = 0;
-    arg_count = ft_count_only_args(args, i);
-    if (!args[*i] || ft_is_redirect(args[*i]) || ft_is_pipe(args[*i]))
-        return;
-    cmd_line->params = malloc(sizeof(char *) * (arg_count + 1));
-    if (!cmd_line->params)
-    {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    while (args[*i] && !ft_is_redirect(args[*i]) && !ft_is_pipe(args[*i]))
-    {
-        if (args[*i][0] == '-')
-            ft_process_flag(cmd_line, args, i);
-        else
-            cmd_line->params[j++] = strdup(args[(*i)++]);
-    }
-    cmd_line->params[j] = NULL;
+	arg_count = ft_count_only_args(args, i);
+	if (!args[*i] || ft_is_redirect(args[*i]) || ft_is_pipe(args[*i]))
+		return;
+	cmd_line->params = malloc(sizeof(char *) * (arg_count + 1));
+	if (!cmd_line->params)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	while (args[*i] && !ft_is_redirect(args[*i]) && !ft_is_pipe(args[*i]))
+	{
+		if (args[*i][0] == '-')
+			ft_process_flag(cmd_line, args, i);
+		else
+			cmd_line->params[j++] = strdup(args[(*i)++]);
+	}
+	cmd_line->params[j] = NULL;
 }
 
 int	ft_process_redirects(t_lexer *cmd_line, char **args, int *i)
