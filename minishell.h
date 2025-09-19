@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 typedef enum s_type
 {
@@ -25,8 +26,10 @@ typedef enum s_type
 	R_OUT_APP,	// >>
 	R_HEREDOC,	// <<
 	PIPE,		// |
-	ARG,	
-
+	ARG,		// cmd, args, flags
+	REDIR_FILE_OUT,	// file after out redirection
+	REDIR_FILE_IN,	// file after in redirection
+	ENV,		// envp
 }		t_type;
 
 typedef struct s_token
@@ -78,10 +81,20 @@ typedef struct s_mini
 	t_pipeline	*cmd_line;
 }		t_mini;
 
-//main.c 
 
-void	ft_split_input(t_token *tokens, char *input);
+//splitting_args.c
+int	ft_count_input_words(char const *s);
+t_token	*ft_create_node(t_token *cur);
+t_token *ft_add_node(t_token *token, char *s, int *i, int n);
+int ft_count_chars(char *s, int n);
+t_token	*ft_is_limiter(t_token *token, char *input, int *i);
+void ft_split_input(t_token *tokens, char *input);
 
+
+//tokenizer.c
+void ft_tokenizer_input(t_token *token);
+void ft_add_type(t_token *token);
+void ft_is_redir_pipe(t_token *token);
 
 //lexer.c
 int		ft_process_command(t_lexer *cmd_line, char **args, int *i);
@@ -89,11 +102,13 @@ void	ft_process_arguments(t_lexer *cmd_line, char **args, int *i);
 int		ft_process_redirects(t_lexer *cmd_line, char **args, int *i);
 void	ft_lexer(t_mini *arguments);
 
+
 //lexer_utils.c
 t_lexer	*ft_create_next_node(t_lexer *current);
 void	ft_null_lexer(t_lexer *cmd_line);
 int		ft_is_redirect(char *token);
 int		ft_is_pipe(char *token);
+
 
 //parsing.c
 int		ft_count_args(char **args);
