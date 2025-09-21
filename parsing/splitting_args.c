@@ -11,11 +11,11 @@ int	ft_count_input_words(char const *s)
 	count = 0;
 	while (s[i] != '\0')
 	{
-		while (s[i] == ' ' || s[i] == '\t' || s[i] == '>' || s[i] == '<')
+		while (s[i] == ' ' || s[i] == '\t' || s[i] == '>' || s[i] == '<' || s[i] == '|')
 			i++;
 		if (s[i] != '\0')
 			count++;
-		while (s[i] != ' ' && s[i] != '\t' && s[i] != '>' && s[i] != '<' && s[i] != '\0')
+		while (s[i] != ' ' && s[i] != '\t' && s[i] != '>' && s[i] != '<' && s[i] != '|' && s[i] != '\0')
 			i++;
 	}
 	return (count);
@@ -29,7 +29,10 @@ t_token	*ft_create_node(t_token *cur)
 	if (!new_node)
 		return (NULL);
 	if (cur)
+	{
 		cur->next = new_node;
+		new_node->prev = cur;
+	}
 	return (new_node);
 }
 
@@ -50,6 +53,17 @@ t_token *ft_add_node(t_token *token, char *s, int *i, int n) //tu trzeba uaktual
 		(*i)++;
 		j++;
 	}
+	token->elem = string;
+
+	// if (s[*i])
+	// 	token->next = ft_create_node(token);
+	// else
+	// 	token->next = NULL;
+
+	// if (token->next)
+	// 	return (token->next);
+	// else 
+	// 	return (token);
 	string[j] = '\0';
 	token->elem = string;
 	token->next = ft_create_node(token);
@@ -57,39 +71,87 @@ t_token *ft_add_node(t_token *token, char *s, int *i, int n) //tu trzeba uaktual
 }
 
 //n - num where to start
-int ft_count_chars(char *s, int n) 
+int ft_count_chars(char *s, int n)
 {
 	int	count;
+	char q;
 
 	count = 0;
-	while (s[n] != ' ' && s[n] != '\t' && s[n] != '<' && s[n] != '>' && s[n] != '|' && s[n] && s[n] != 39 && s[n] != 34)
+	while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<' && s[n] != '>' && s[n] != '|')
 	{
-		count++;
-		n++;
+		if (s[n] == 39 || s[n] == 34)
+		{
+			q = s[n++];
+			count++;
+			while (s[n] && s[n] != q)
+			{
+				n++;
+				count++;
+			}
+			if (s[n] == q)
+			{
+				n++;
+				count++;
+			}
+		}
+		else
+		{
+			n++;
+			count++;
+		}
 	}
 	return (count);
 }
 
-int ft_count_until_deli(char *s, int n, char delimiter)
+int ft_count_until_deli(char *s, int n, char delimiter, int count) //count is not updated 
 {
-	int	count;
+	char q;
 
-	count = 0;
+	count++;
 	n++;
-	count++;
-	while (s[n] != delimiter && s[n])
+	while (s[n] && s[n] != delimiter)
 	{
-		count++;
 		n++;
+		count++;
 	}
-	count++;
+	if (s[n] == delimiter)
+	{
+		n++;
+		count++;
+	}
+	while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<' && s[n] != '>' && s[n] != '|')
+	{
+		if (s[n] == 39 || s[n] == 34) {
+			q = s[n++];
+			count++;
+			while (s[n] && s[n] != q)
+			{
+				n++;
+				count++;
+			}
+			if (s[n] == q)
+			{
+				n++;
+				count++;
+			}
+		} 
+		else 
+		{
+			while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<' && s[n] != '>' && s[n] != '|' && s[n] != 39 && s[n] != 34)
+			{
+				n++;
+				count++;
+			}
+		}
+	}
 	return (count);
 }
 
 t_token	*ft_quote(t_token *token, char *input, char deli, int *i)
 {
 	int n;
-	n = ft_count_until_deli(input, *i, deli);
+	n = 0;
+	n = ft_count_until_deli(input, *i, deli, n);
 	return (ft_add_node(token, input, i, n));
 }
 
@@ -99,6 +161,8 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 	
 	if (!input[*i])
 		return (token);
+	if (input[*i] == 39 || input[*i] == 34)
+		return (ft_quote(token, input, input[*i], i));
 	if ((input[*i] == '>' && input[*i + 1] == '>' && input[*i + 1]) || (input[*i] == '<' && input[*i + 1] == '<' && input[*i + 1]))
 		return (ft_add_node(token, input, i,  2));
 	if (input[*i] == '<' || input[*i] == '>' || input[*i] == '|')
@@ -109,12 +173,10 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 			(*i)++;
         	return (token);
 	}
-	if (input[*i] == 39 || input[*i] == 34)
-		return (ft_quote(token, input, input[*i], i));
 	n = ft_count_chars(input, *i);
 	if (n > 0)
 		return (ft_add_node(token, input, i, n));
-	(*i)++; //jeżeli n == 0 trzrba przesunąć o 1 żeby nie zaciąć pętli
+	(*i)++; //jeżeli n == 0 trzeba przesunąć o 1, żeby nie zaciąć pętli
 	return (token);
 }
 

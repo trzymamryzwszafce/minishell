@@ -31,9 +31,7 @@ char *ft_dupa(enum s_type dupa)
 		case R_HEREDOC : return "heredoc";
 		case PIPE : return "pipe";
 		case ARG : return "arg";
-		case REDIR_FILE_OUT : return "file aft out redir";
-		case REDIR_FILE_IN : return "file aft in redir";
-		case ENV : return "env";
+		//case ENV : return "env";
 	}
 	return (NULL);
 }
@@ -43,6 +41,7 @@ int main(void)
 //	t_mini *arguments;
 	char *input;
 	t_token *tokens;
+	int error;
 	using_history();
 	while (1)
 	{
@@ -56,7 +55,13 @@ int main(void)
 			if (!tokens)
 				return (1);
 			ft_split_input(tokens, input);
-			ft_tokenizer_input(tokens);
+			error = ft_type_input(tokens);
+			if (error)
+			{
+				//ft_error_message(error);
+				//printf("to jest error numer: %d\n", error);
+				return (error);
+			}
 		}
 		free(input);
 		//debuger na tokeny
