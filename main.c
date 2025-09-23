@@ -1,26 +1,5 @@
 #include "minishell.h"
 
-void ft_free_mini(t_mini *arguments)
-{
-	t_lexer *tmp;
-	ft_free_split(arguments->arg_list);
-	while (arguments->lexer)
-	{
-		tmp = arguments->lexer->next;
-		free(arguments->lexer->command);
-		free(arguments->lexer->flag);
-		if (arguments->lexer->params)
-			ft_free_split(arguments->lexer->params);
-		if (arguments->lexer->type)
-			ft_free_split(arguments->lexer->type);
-		if (arguments->lexer->redir_targets)
-			ft_free_split(arguments->lexer->redir_targets);
-		free(arguments->lexer);
-		arguments->lexer = tmp;
-	}
-	free(arguments);
-}
-
 char *ft_dupa(enum s_type dupa)
 {
 	switch (dupa)
@@ -51,17 +30,18 @@ int main(void)
 		else if (*input)
 		{
 			add_history(input);
+			//od tego momentu trzeba nową funkcje parsingową do main zrobić
 			tokens = malloc(sizeof(t_token));
 			if (!tokens)
 				return (1);
 			ft_split_input(tokens, input);
 			error = ft_type_input(tokens);
-			if (error)
-			{
-				//ft_error_message(error);
-				//printf("to jest error numer: %d\n", error);
-				return (error);
-			}
+			// if (error)
+			// {
+			// 	//ft_error_message(error);
+			// 	//printf("to jest error numer: %d\n", error);
+			// 	return (error);
+			// }
 		}
 		free(input);
 		//debuger na tokeny
@@ -69,8 +49,6 @@ int main(void)
 			printf("node: %s\n", p->elem ? p->elem : "(null)");
 			printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
 		}
-
-		//	ft_free_mini(arguments);
 	}
 	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
 	return (0);

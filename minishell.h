@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/09/21 19:57:41 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/09/22 19:03:00 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int	ft_count_input_words(char const *s);
 t_token	*ft_create_node(t_token *cur);
 t_token *ft_add_node(t_token *token, char *s, int *i, int n);
 int ft_count_chars(char *s, int n);
-int ft_count_until_deli(char *s, int n, char delimiter, int count);
 t_token	*ft_quote(t_token *token, char *input, char deli, int *i);
 t_token	*ft_is_limiter(t_token *token, char *input, int *i);
 void ft_split_input(t_token *tokens, char *input);
 
+int ft_count_until_deli(char *s, int n, char delimiter, int count);
 
 //tokenizer.c
 int ft_type_input(t_token *token);
@@ -99,26 +99,5 @@ void ft_add_type(t_token *token);
 void ft_is_redir_pipe(t_token *token);
 
 void ft_error_message(int exit_code);
-
-
-//lexer.c
-int		ft_process_command(t_lexer *cmd_line, char **args, int *i);
-void	ft_process_arguments(t_lexer *cmd_line, char **args, int *i);
-int		ft_process_redirects(t_lexer *cmd_line, char **args, int *i);
-void	ft_lexer(t_mini *arguments);
-
-
-//lexer_utils.c
-t_lexer	*ft_create_next_node(t_lexer *current);
-void	ft_null_lexer(t_lexer *cmd_line);
-int		ft_is_redirect(char *token);
-int		ft_is_pipe(char *token);
-
-
-//parsing.c
-int		ft_count_args(char **args);
-int 	ft_count_only_args(char **args, int *i);
-char	**ft_copy_args(char **arg_list, int start, int count);
-char	**add_to_str_array(char **array, char *str);
 
 #endif
