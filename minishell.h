@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/09/22 19:03:00 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/09/27 20:28:20 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <unistd.h>
+# include <string.h>
 
 typedef enum s_type
 {
@@ -53,6 +54,13 @@ typedef struct s_lexer
 
 //to oddam szymonowi
 
+typedef struct s_envp
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_envp;
+
 typedef struct s_command
 {
 	char	**cmd; //cmd, args, flags - ostatni cmd[] == NULL
@@ -69,7 +77,7 @@ typedef struct s_pipeline
 	int	cmd_count;
 	char	*binary; //pliki do sprawdzenia czy się otwierają
 	char	*heredoc;
-	char	**envp; //to jako normalnie lista osobnych env
+	t_envp	**envp; //to jako normalnie lista osobnych env
 }		t_pipeline;
 
 
@@ -92,6 +100,8 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i);
 void ft_split_input(t_token *tokens, char *input);
 
 int ft_count_until_deli(char *s, int n, char delimiter, int count);
+
+int ft_parsing(void);
 
 //tokenizer.c
 int ft_type_input(t_token *token);
