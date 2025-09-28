@@ -19,7 +19,7 @@ int ft_parsing(void) //return error code
 {
     char *input;
 	t_token *tokens;
-	int error;
+	//int error;
 	using_history();
 	while (1)
 	{
@@ -34,14 +34,14 @@ int ft_parsing(void) //return error code
 			if (!tokens)
 				return (1);
 			ft_split_input(tokens, input);
-			error = ft_type_input(tokens);
-            printf("%d\n", error);
-			if (error)
-			{
-				//ft_error_message(error);
-				printf("to jest error numer: %d\n", error);
-				return (error);
-			}
+			//error = ft_type_input(tokens);
+            //printf("%d\n", error);
+			//if (error)
+			//{
+			//	//ft_error_message(error);
+			//	printf("to jest error numer: %d\n", error);
+			//	return (error);
+			//}
 		}
 		free(input);
 		
@@ -53,5 +53,6 @@ int ft_parsing(void) //return error code
 		}
 	}
 	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
-    return (error);
+    //return (error);
+	return (0);
 }
