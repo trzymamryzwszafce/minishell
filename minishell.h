@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/10/01 11:57:27 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/10/06 17:05:39 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,6 @@ typedef struct s_token
 	struct s_token *next;
 }		t_token;
 
-typedef struct s_lexer
-{
-	char	*command;
-	char	*flag;
-	char	**params;
-	char	**type; //na odpowiednim miejscu w array dla danego redirect jest zapisany plik do którego to ma isc
-	char	**redir_targets;
-	struct	s_lexer *next;
-}		t_lexer;
-
-
-
 //to oddam szymonowi
 
 typedef struct s_envp
@@ -77,18 +65,8 @@ typedef struct s_pipeline
 	int	cmd_count;
 	char	*binary; //pliki do sprawdzenia czy się otwierają
 	char	*heredoc;
-	t_envp	**envp; //to jako normalnie lista osobnych env
+	t_envp	**envp;
 }		t_pipeline;
-
-
-
-typedef struct s_mini
-{
-	char	**arg_list; //wszystkie argumenty
-	t_lexer	*lexer;	
-	t_pipeline	*cmd_line;
-}		t_mini;
-
 
 //splitting_args.c
 int	ft_count_input_words(char const *s);
