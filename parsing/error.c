@@ -45,13 +45,15 @@ int ft_quote_error(char *s)
 	return (0);
 }
 
-int ft_pipe_error(int position, char *current, char *next)
+int ft_pipe_error(int position, char *current, char *next, enum s_type next_type)
 {
     if (position == 0 && ft_strcmp(current, "|") == 0)
         return (258);
     if (!next && ft_strcmp(current, "|") == 0)
         return (258);
     if (current && ft_strcmp(current, "|") == 0 && ft_strcmp(next, "|") == 0)
+        return (258);
+    if (current && ft_strcmp(current, "|") == 0 && (next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC))
         return (258);
     return (0);
 }
@@ -60,7 +62,7 @@ int ft_redir_error(enum s_type cur_type, enum s_type next_type)
 {
     if ((cur_type == R_IN || cur_type == R_OUT_APP || cur_type == R_OUT_TRUNC || cur_type == R_HEREDOC) && 
         (next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC))
-            return (258);
+        return (258);
     return (0);
 }
 
@@ -85,7 +87,7 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
         }
 	    else if (cur->type == PIPE && error == 0)
         {
-            error = ft_pipe_error(i, cur->elem, cur->next->elem);
+            error = ft_pipe_error(i, cur->elem, cur->next->elem, cur->next->type);
             if (error)
             {
                 message = "|";
@@ -94,7 +96,7 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
         }
         else if ((cur->type == R_IN || cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC || cur->type == R_HEREDOC) && error == 0)
         {
-            if (!cur->next)
+            if (!cur->next) //ostatni redir tutaj jest handlowany
             {
                 error = 258;
                 message = cur->elem;
