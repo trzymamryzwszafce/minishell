@@ -1,10 +1,8 @@
 #include "minishell.h"
 
-
-
-int main(void)
+int	main(void)
 {
-	int error;
+	int	error;
 
 	error = ft_parsing();
 	//if error -> program zwraca nową linijkę ale nie kończy programu

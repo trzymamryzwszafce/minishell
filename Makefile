@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -I includes -I libft -g
 NAME = minishell
 
 # Source Files (all .c files in the current directory)
-SRCS = $(wildcard parsing/*.c) main.c
+SRCS = $(wildcard parsing/*.c execution/*.c) main.c
 
 # Object Files
 OBJS = $(SRCS:.c=.o)

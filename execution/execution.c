@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 void	execution(t_pipeline *args)
 {
 	exec_cmd(args);
+	*/
