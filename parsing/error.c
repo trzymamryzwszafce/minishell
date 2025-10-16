@@ -12,8 +12,10 @@ void ft_error_message(int exit_code, char *message)
         write(2, "minishell: syntax error near unexpected token '", 47);
         if (ft_strcmp(message, ">>") == 0 || ft_strcmp(message, "<<") == 0)
             write(2, message, 2);
-		else if (ft_strcmp(message, "|") == 0 || ft_strcmp(message, ">") || ft_strcmp(message, "<"))
+		else if (ft_strcmp(message, "|") == 0 || ft_strcmp(message, ">") == 0 || ft_strcmp(message, "<") == 0)
             write(2, message, 1);
+        else if (ft_strcmp(message, "newline") == 0)
+            write(2, message, 7);
         write(2, "'\n", 2);
 	}
     return ;
@@ -61,7 +63,7 @@ int ft_pipe_error(int position, char *current, char *next, enum s_type next_type
 int ft_redir_error(enum s_type cur_type, enum s_type next_type)
 {
     if ((cur_type == R_IN || cur_type == R_OUT_APP || cur_type == R_OUT_TRUNC || cur_type == R_HEREDOC) && 
-        (next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC))
+        (next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC || next_type == PIPE))
         return (258);
     return (0);
 }
@@ -96,16 +98,16 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
         }
         else if ((cur->type == R_IN || cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC || cur->type == R_HEREDOC) && error == 0)
         {
-            if (!cur->next) //ostatni redir tutaj jest handlowany
+            if (cur->next->elem == NULL) //ostatni redir tutaj jest handlowany
             {
                 error = 258;
-                message = cur->elem;
+                message = "newline";
                 break;
             }
             error = ft_redir_error(cur->type, cur->next->type);
             if (error)
             {
-                message = cur->elem;
+                message = cur->next->elem;
                 break;
             }
         }

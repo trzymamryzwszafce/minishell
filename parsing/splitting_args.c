@@ -32,6 +32,7 @@ t_token	*ft_create_node(t_token *cur)
 	{
 		cur->next = new_node;
 		new_node->prev = cur;
+	//	new_node->next = NULL;
 	}
 	return (new_node);
 }
