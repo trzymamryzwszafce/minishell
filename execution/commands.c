@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/09/27 22:49:27 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:41:49 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 void	exec_external(t_pipeline *args)
 {
 	pid_t	pid;
@@ -33,3 +33,4 @@ void	(t_pipeline *args)
 	else
 		exec_external(args);
 }
+*/

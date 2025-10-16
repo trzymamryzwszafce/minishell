@@ -116,7 +116,6 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
 	return (error);
 }
 
-
 int ft_type_input(t_token *token)
 {
 	t_token *cur;
