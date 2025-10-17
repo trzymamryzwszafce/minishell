@@ -37,17 +37,18 @@ int	main(void)
 			error = ft_type_input(tokens);
 		}
 		free(input);
+		//debuger na tokeny
+			for (t_token *p = tokens; p; p = p->next) {
+				printf("node: %s\n", p->elem ? p->elem : "(null)");
+				printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
+			}
 		if (error == 0)
 		{
 			//egzekucja
 			//printf("klasa\n");
 			
 			
-			//debuger na tokeny
-			for (t_token *p = tokens; p; p = p->next) {
-				printf("node: %s\n", p->elem ? p->elem : "(null)");
-				printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
-			}
+			
 		}
         
 	}
