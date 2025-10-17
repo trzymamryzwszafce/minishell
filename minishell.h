@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/10/15 22:59:13 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/10/18 00:25:02 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_token *ft_add_node(t_token *token, char *s, int *i, int n);
 int ft_count_chars(char *s, int n);
 t_token	*ft_quote(t_token *token, char *input, char deli, int *i);
 t_token	*ft_is_limiter(t_token *token, char *input, int *i);
-void ft_split_input(t_token *tokens, char *input);
+int ft_split_input(t_token *tokens, char *input);
 
 int ft_count_until_deli(char *s, int n, char delimiter, int count);
 

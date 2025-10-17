@@ -33,22 +33,20 @@ int	main(void)
 			tokens = malloc(sizeof(t_token));
 			if (!tokens)
 				return (1);
-			ft_split_input(tokens, input);
-			error = ft_type_input(tokens);
+			error = ft_split_input(tokens, input);
+			if (error == 0)
+				error = ft_type_input(tokens);
 		}
 		free(input);
 		//debuger na tokeny
-			for (t_token *p = tokens; p; p = p->next) {
-				printf("node: %s\n", p->elem ? p->elem : "(null)");
-				printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
-			}
 		if (error == 0)
 		{
 			//egzekucja
 			//printf("klasa\n");
-			
-			
-			
+			for (t_token *p = tokens; p; p = p->next) {
+				printf("node: %s\n", p->elem ? p->elem : "(null)");
+				printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
+			}
 		}
         
 	}

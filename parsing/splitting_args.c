@@ -99,23 +99,23 @@ t_token	*ft_quote(t_token *token, char *input, char deli, int *i)
 	return (ft_add_node(token, input, i, count));
 }
 
-t_token *ft_check_weird_edge_case(t_token *token, char *input, int *i) //im here - it doesnt work
-{
-	//case >><> i ><>
-	if (input[*i + 1] == '>')
-	{
-		return ft_add_node(token, input, i, 2);
-	}
-	else if (input[*i + 1] == '<')
-	{
-		ft_add_node(token, input, i, 1);
-	}
-	if (input[*i] && input[*i + 1] && input[*i] == '<' && input[*i + 1] == '>')
-	{
-		return ft_add_node(token, input, i, 2);
-	}
-	return (token);
-}
+// t_token *ft_check_weird_edge_case(t_token *token, char *input, int *i) //im here - it doesnt work
+// {
+// 	//case >><> i ><>
+// 	if (input[*i + 1] == '>')
+// 	{
+// 		return ft_add_node(token, input, i, 2);
+// 	}
+// 	else if (input[*i + 1] == '<')
+// 	{
+// 		ft_add_node(token, input, i, 1);
+// 	}
+// 	if (input[*i] && input[*i + 1] && input[*i] == '<' && input[*i + 1] == '>')
+// 	{
+// 		return ft_add_node(token, input, i, 2);
+// 	}
+// 	return (token);
+// }
 
 t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 {
@@ -125,8 +125,8 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 		return (token);
 	if (input[*i] == 39 || input[*i] == 34)
 		return (ft_quote(token, input, input[*i], i));
-	if (input[*i] == '>' && input[*i + 1])
-		return (ft_check_weird_edge_case(token, input, i));
+	// if (input[*i] == '>' && input[*i + 1])
+	// 	return (ft_check_weird_edge_case(token, input, i));
 	if (((input[*i] == '>' && input[*i + 1] == '>' && input[*i + 1]) || (input[*i] == '<' && input[*i + 1] == '<' && input[*i + 1])) && input[*i])
 		return (ft_add_node(token, input, i,  2));
 	if ((input[*i] == '<' || input[*i] == '>' || input[*i] == '|') && input[*i])
@@ -146,14 +146,25 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 	return (token);
 }
 
-void ft_split_input(t_token *tokens, char *input)
+int ft_split_input(t_token *tokens, char *input)
 {
 	int	i;
 	t_token	*cur;
+	int input_len;
+	char *found;
+	int error;
 
+	input_len = ft_strlen(input);
 	cur = tokens;
 	i = 0;
+	if (ft_strnstr(input, ">><>", input_len) != NULL || ft_strnstr(input, "><>", input_len) != NULL)
+	{
+		write(2, "minishell: syntax error near unexpected token '<>'\n", 51);
+		return (258);
+	}
 	while (input[i])
 		cur = ft_is_limiter(cur, input, &i);
+
+	return (0);
 }
 
