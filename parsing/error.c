@@ -9,7 +9,7 @@ void ft_error_message(int exit_code, char *message)
             write(2, "minishell: syntax error: unclosed quotes\n", 41);
             return ;
         }
-        write(2, "minishell: syntax error near unexpected token '", 47);
+        write(2, "minishell: syntax error near unexpected token `", 47);
         if (ft_strcmp(message, ">>") == 0 || ft_strcmp(message, "<<") == 0)
             write(2, message, 2);
 		else if (ft_strcmp(message, "|") == 0 || ft_strcmp(message, ">") == 0 || ft_strcmp(message, "<") == 0)
