@@ -68,6 +68,24 @@ typedef struct s_pipeline
 	t_envp	**envp;
 }		t_pipeline;
 
+// co chce dostac ąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąąą
+
+/*
+typedef struct s_command
+{
+	char	**cmd;
+	char	**red_out;
+	char	**red_in;
+	bool	append;
+	bool	*pipe_out;
+	bool	redir;
+	int	cmd_count;
+	char	*binary;
+	char	*heredoc;
+	t_envp	**envp;
+}		t_command;
+*/ 
+
 //splitting_args.c
 int	ft_count_input_words(char const *s);
 t_token	*ft_create_node(t_token *cur);
