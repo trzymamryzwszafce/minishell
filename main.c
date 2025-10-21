@@ -38,7 +38,6 @@ void ft_process_input(char *input)
 	if (!tokens)
 		return ;
 	error = ft_parsing(tokens, input, 0);
-
 	if (error == 0)
 	{
 		//egzekucja
@@ -48,8 +47,10 @@ void ft_process_input(char *input)
 
 int	main(void)
 {
+	extern char **environ;
  	char *input;
 	using_history();
+	ft_create_envp(environ);
 	while (1)
 	{
 		input = readline(">>> ");
