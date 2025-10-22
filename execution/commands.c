@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/10/15 21:41:49 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/10/20 19:55:24 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_external(t_pipeline *args)
 	pid = fork();
 	if (pid = 0)
 	{
-		execve(args->cmds->cmd[0], args->cmds->cmd, args->envp);
+		execve(args->cmds->cmd, args->cmds->cmd, args->envp);
 		exit(1);
 	}
 	else if (pid > 0)
