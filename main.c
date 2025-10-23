@@ -21,6 +21,20 @@ char *ft_dupa(enum s_type dupa)
 // 			}
 
 
+void free_env_list(t_envp *envp)
+{
+    t_envp *tmp;
+
+    while (envp)
+    {
+        tmp = envp->next;
+        free(envp->key);
+        free(envp->value);
+        free(envp);
+        envp = tmp;
+    }
+}
+
 int ft_parsing(t_token *tokens, char *input,  int error)
 {
 	error = ft_split_input(tokens, input);
@@ -28,7 +42,7 @@ int ft_parsing(t_token *tokens, char *input,  int error)
 		error = ft_type_input(tokens);
 	return (error);
 }
-void ft_process_input(char *input)
+void ft_process_input(char *input, t_envp **envp)
 {
 	t_token *tokens;
 	int error;
@@ -45,21 +59,24 @@ void ft_process_input(char *input)
 	free(tokens);
 }
 
+
 int	main(void)
 {
 	extern char **environ;
  	char *input;
+	t_envp *envp;
 	using_history();
-	ft_create_envp(environ);
+	envp = ft_create_envp(environ);
 	while (1)
 	{
 		input = readline(">>> ");
 		if (!input)
 			return (0);
 		else if (*input)
-			ft_process_input(input);
+			ft_process_input(input, &envp);
 		free(input);
 	}
+	free_env_list(envp);
 	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
 	return (0);
 }

@@ -11,11 +11,13 @@ int	ft_count_input_words(char const *s)
 	count = 0;
 	while (s[i] != '\0')
 	{
-		while (s[i] == ' ' || s[i] == '\t' || s[i] == '>' || s[i] == '<' || s[i] == '|')
+		while (s[i] == ' ' || s[i] == '\t' || s[i] == '>'
+			|| s[i] == '<' || s[i] == '|')
 			i++;
 		if (s[i] != '\0')
 			count++;
-		while (s[i] != ' ' && s[i] != '\t' && s[i] != '>' && s[i] != '<' && s[i] != '|' && s[i] != '\0')
+		while (s[i] != ' ' && s[i] != '\t' && s[i] != '>'
+			&& s[i] != '<' && s[i] != '|' && s[i] != '\0')
 			i++;
 	}
 	return (count);
@@ -32,14 +34,13 @@ t_token	*ft_create_node(t_token *cur)
 	{
 		cur->next = new_node;
 		new_node->prev = cur;
-	//	new_node->next = NULL;
 	}
 	return (new_node);
 }
 
-t_token *ft_add_node(t_token *token, char *s, int *i, int n) //tu trzeba uaktualnić i, n - num of chars to add
+t_token	*ft_add_node(t_token *token, char *s, int *i, int n)
 {
-	int	j;
+	int		j;
 	char	*string;
 
 	if (n <= 0 || !token)
@@ -59,13 +60,14 @@ t_token *ft_add_node(t_token *token, char *s, int *i, int n) //tu trzeba uaktual
 }
 
 //n - num where to start
-int ft_count_chars(char *s, int n)
+int	ft_count_chars(char *s, int n)
 {
-	int	count;
-	char q;
+	int		count;
+	char	q;
 
 	count = 0;
-	while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<' && s[n] != '>' && s[n] != '|')
+	while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<'
+		&& s[n] != '>' && s[n] != '|')
 	{
 		if (s[n] == 39 || s[n] == 34)
 		{
@@ -93,7 +95,8 @@ int ft_count_chars(char *s, int n)
 
 t_token	*ft_quote(t_token *token, char *input, char deli, int *i)
 {
-	int count;
+	int	count;
+
 	count = 0;
 	count = ft_count_until_deli(input, *i, deli, count);
 	return (ft_add_node(token, input, i, count));
@@ -101,51 +104,53 @@ t_token	*ft_quote(t_token *token, char *input, char deli, int *i)
 
 t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 {
-	int n;
-	
+	int	n;
+
 	if (!input[*i])
 		return (token);
 	if (input[*i] == 39 || input[*i] == 34)
 		return (ft_quote(token, input, input[*i], i));
-	if (((input[*i] == '>' && input[*i + 1] == '>' && input[*i + 1]) || (input[*i] == '<' && input[*i + 1] == '<' && input[*i + 1])) && input[*i])
-		return (ft_add_node(token, input, i,  2));
+	if (((input[*i] == '>' && input[*i + 1] == '>' && input[*i + 1])
+			|| (input[*i] == '<' && input[*i + 1] == '<'
+				&& input[*i + 1])) && input[*i])
+		return (ft_add_node(token, input, i, 2));
 	if ((input[*i] == '<' || input[*i] == '>' || input[*i] == '|') && input[*i])
 		return (ft_add_node(token, input, i, 1));
 	if ((input[*i] == ' ' || input[*i] == '\t') && input[*i])
 	{
 		while (input[*i] == ' ' || input[*i] == '\t')
 			(*i)++;
-        return (token);
+		return (token);
 	}
 	if (!input[*i])
-		return (token); //nie wiem czy to jest potrzebne 
+		return (token);
 	n = ft_count_chars(input, *i);
 	if (n > 0)
 		return (ft_add_node(token, input, i, n));
-	(*i)++; //jeżeli n == 0 trzeba przesunąć o 1, żeby nie zaciąć pętli
+	(*i)++;
 	return (token);
 }
 
-int ft_split_input(t_token *tokens, char *input)
+int	ft_split_input(t_token *tokens, char *input)
 {
-	int	i;
+	int		i;
 	t_token	*cur;
-	int input_len;
-	char *found;
-	int error;
+	int		input_len;
+	char	*found;
+	int		error;
 
 	input_len = ft_strlen(input);
 	cur = tokens;
 	i = 0;
-	if (ft_strnstr(input, ">><>", input_len) != NULL || ft_strnstr(input, ">> <>", input_len) != NULL
-		|| ft_strnstr(input, "><>", input_len) != NULL || ft_strnstr(input, "> <>", input_len) != NULL)
+	if (ft_strnstr(input, ">><>", input_len) != NULL
+		|| ft_strnstr(input, ">> <>", input_len) != NULL
+		|| ft_strnstr(input, "><>", input_len) != NULL
+		|| ft_strnstr(input, "> <>", input_len) != NULL)
 	{
 		write(2, "minishell: syntax error near unexpected token `<>'\n", 51);
 		return (258);
 	}
 	while (input[i])
 		cur = ft_is_limiter(cur, input, &i);
-
 	return (0);
 }
-
