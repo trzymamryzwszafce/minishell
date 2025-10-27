@@ -12,21 +12,23 @@
 
 #include "../minishell.h"
 /*
-void	exec_external(t_pipeline *args)
+void	exec_external(void)
 {
 	pid_t	pid;
+	char	*argv[] = {"/bin/ls", "-l", NULL};
+	char	*envp[] = {NULL};
 
 	pid = fork();
-	if (pid = 0)
+	if (pid == 0)
 	{
-		execve(args->cmds->cmd, args->cmds->cmd, args->envp);
+		execve(argv[0], argv, envp);
 		exit(1);
 	}
 	else if (pid > 0)
 		wait(NULL);
 }
 
-void	(t_pipeline *args)
+void	(t_command *args)
 {
 	if (is_builtin(args->cmds->cmd))
 		exec_builtin(args);
