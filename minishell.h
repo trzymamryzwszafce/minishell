@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/10/23 17:52:55 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/10/27 15:20:45 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ typedef enum s_type
 	R_OUT_APP,	// >>
 	R_HEREDOC,	// <<
 	PIPE,		// |
-	ARG,		// cmd, args, flags
-	//ENV,		// envp
+	ARG,		// cmd, args, flags, envp
 }		t_type;
 
 typedef struct s_token

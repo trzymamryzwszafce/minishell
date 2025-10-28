@@ -10,28 +10,22 @@ char *ft_dupa(enum s_type dupa)
 		case R_HEREDOC : return "heredoc";
 		case PIPE : return "pipe";
 		case ARG : return "arg";
-		//case ENV : return "env";
 	}
 	return (NULL);
 }
 
-// for (t_token *p = tokens; p; p = p->next) {
-// 				printf("node: %s\n", p->elem ? p->elem : "(null)");
-// 				printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
-// 			}
 
-
-void free_env_list(t_envp *envp)
+void free_env_list(t_envp **envp)
 {
     t_envp *tmp;
 
-    while (envp)
+    while (*envp)
     {
-        tmp = envp->next;
-        free(envp->key);
-        free(envp->value);
-        free(envp);
-        envp = tmp;
+        tmp = (*envp)->next;
+        free((*envp)->key);
+        free((*envp)->value);
+		free(*envp);
+        *envp = tmp;
     }
 }
 
@@ -52,6 +46,10 @@ void ft_process_input(char *input, t_envp **envp)
 	if (!tokens)
 		return ;
 	error = ft_parsing(tokens, input, 0);
+	// for (t_token *p = tokens; p; p = p->next) {
+	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
+	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
+	// 		}
 	if (error == 0)
 	{
 		//egzekucja
@@ -71,12 +69,12 @@ int	main(void)
 	{
 		input = readline(">>> ");
 		if (!input)
-			return (0);
+			break ;
 		else if (*input)
 			ft_process_input(input, &envp);
 		free(input);
 	}
-	free_env_list(envp);
+	free_env_list(&envp);
 	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
 	return (0);
 }

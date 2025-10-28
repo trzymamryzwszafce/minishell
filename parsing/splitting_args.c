@@ -154,3 +154,4 @@ int	ft_split_input(t_token *tokens, char *input)
 		cur = ft_is_limiter(cur, input, &i);
 	return (0);
 }
+

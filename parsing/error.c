@@ -131,3 +131,4 @@ int ft_type_input(t_token *token)
 	}
 	return (ft_errors(token));
 }
+

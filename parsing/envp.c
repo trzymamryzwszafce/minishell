@@ -50,8 +50,8 @@ char *ft_assign_value(char *str)
 			if (j - i < 2)
 				return (NULL);
 			value = malloc(j - 1 + 1);
-			while (str[i])
-				value[k++] = str[i++];
+			while (str[++i])
+				value[k++] = str[i];
 			value[k] = '\0';
 			return (value);
 		}
@@ -82,12 +82,12 @@ char *ft_get_envp_value(t_envp **envp, char *key)
 {
 	t_envp *node;
 
-	if (!*envp || !key)
+	if (!envp || !key)
 		return (NULL);
 	node = *envp;
 	while (node != NULL)
 	{
-		if (!ft_strcmp(node->key, key))
+		if (!ft_strcmp(node->key, key)) //sa takie same
 		{
 			if (node->value == NULL)
 				return (ft_strdup(""));
@@ -170,3 +170,4 @@ t_envp *ft_create_envp(char **environ)
 	//print_envs(envp);
 	return (envp);
 }
+
