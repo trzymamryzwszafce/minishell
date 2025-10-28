@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/10/27 15:20:45 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/10/28 20:59:52 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		ft_split_input(t_token *tokens, char *input);
 int		ft_count_until_deli(char *s, int n, char delimiter, int count);
 
 //tokenizer.c
-int		ft_type_input(t_token *token);
+int		ft_type_input(t_token *token, t_envp **envp);
 void	ft_add_type(t_token *token);
 void	ft_is_redir_pipe(t_token *token);
 

@@ -29,23 +29,24 @@ void free_env_list(t_envp **envp)
     }
 }
 
-int ft_parsing(t_token *tokens, char *input,  int error)
+int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error)
 {
 	error = ft_split_input(tokens, input);
 	if (error == 0)
-		error = ft_type_input(tokens);
+		error = ft_type_input(tokens, envp);
 	return (error);
 }
 void ft_process_input(char *input, t_envp **envp)
 {
 	t_token *tokens;
+	t_command *cmd;
 	int error;
 
 	add_history(input);
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 		return ;
-	error = ft_parsing(tokens, input, 0);
+	error = ft_parsing(tokens, envp, input, 0);
 	// for (t_token *p = tokens; p; p = p->next) {
 	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
 	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");

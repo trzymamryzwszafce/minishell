@@ -119,7 +119,40 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
 	return (error);
 }
 
-int ft_type_input(t_token *token)
+// void ft_check_quote(t_token str, t_envp **envp, int *i)
+// {
+// 	char *new_str;
+// 	if (str.elem[*i] == "\"")
+// 	{
+// 		i++;
+// 		while (ft_isalpha(str.elem[*i]) || str.elem[*i] == '\'') //jezeli w quotach zwykłe znaki to idziemy dalej
+// 			i++;
+// 		new_str = ft_calloc();	
+// 	}
+// }
+
+// void ft_arg_converter(t_token *token, t_envp **envp)
+// {
+// 	t_token *cur;
+// 	int i;
+
+// 	cur = token;
+// 	i = 0;
+// 	while (cur->next != NULL)
+// 	{
+// 		if (cur->type == ARG)
+// 		{
+// 			while (cur->elem[i])
+// 			{
+// 				ft_check_quote(*cur, envp, &i);
+// 				i++;
+// 			}
+// 		}
+// 		cur = cur->next;
+// 	}
+// }
+
+int ft_type_input(t_token *token, t_envp **envp)
 {
 	t_token *cur;
 
@@ -129,6 +162,8 @@ int ft_type_input(t_token *token)
 		ft_add_type(cur);
 		cur = cur->next;
 	}
+	//function to take care of envs
+	//ft_arg_converter(token, envp);
 	return (ft_errors(token));
 }
 
