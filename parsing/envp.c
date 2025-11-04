@@ -167,7 +167,7 @@ t_envp *ft_create_envp(char **environ)
 		 }
 	 	i++;
 	}
-	//print_envs(envp);
+	print_envs(envp);
 	return (envp);
 }
 

@@ -14,8 +14,7 @@ char *ft_dupa(enum s_type dupa)
 	return (NULL);
 }
 
-
-void free_env_list(t_envp **envp)
+void ft_free_env_list(t_envp **envp)
 {
     t_envp *tmp;
 
@@ -27,6 +26,23 @@ void free_env_list(t_envp **envp)
 		free(*envp);
         *envp = tmp;
     }
+}
+
+/* free whole token linked list (elem + node) */
+void ft_free_tokens(t_token *tokens)
+{
+	t_token *cur;
+	t_token *tmp;
+
+	cur = tokens;
+	while (cur)
+	{
+		tmp = cur->next;
+		if (cur->elem)
+			free(cur->elem);
+		free(cur);
+		cur = tmp;
+	}
 }
 
 int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error)
@@ -53,9 +69,9 @@ void ft_process_input(char *input, t_envp **envp)
 	// 		}
 	if (error == 0)
 	{
-		//egzekucja
+		//egzekuzja
 	}
-	free(tokens);
+	ft_free_tokens(tokens);
 }
 
 
@@ -75,7 +91,7 @@ int	main(void)
 			ft_process_input(input, &envp);
 		free(input);
 	}
-	free_env_list(&envp);
+	ft_free_env_list(&envp);
 	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
 	return (0);
 }

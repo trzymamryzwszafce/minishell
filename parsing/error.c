@@ -119,38 +119,74 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
 	return (error);
 }
 
-// void ft_check_quote(t_token str, t_envp **envp, int *i)
-// {
-// 	char *new_str;
-// 	if (str.elem[*i] == "\"")
-// 	{
-// 		i++;
-// 		while (ft_isalpha(str.elem[*i]) || str.elem[*i] == '\'') //jezeli w quotach zwykłe znaki to idziemy dalej
-// 			i++;
-// 		new_str = ft_calloc();	
-// 	}
-// }
+char *ft_join_and_free(char *s1, char *s2)
+{
+    char *res = ft_strjoin(s1, s2);
+    free(s1);
+	free(s2);
+    return res;
+}
 
-// void ft_arg_converter(t_token *token, t_envp **envp)
-// {
-// 	t_token *cur;
-// 	int i;
+char *ft_change_arg(char *str, bool double_q, bool single_g, int *i, char *new_str)
+{
+	char *temp;
+	int j; //przechowalnia dla i na chwile
 
-// 	cur = token;
-// 	i = 0;
-// 	while (cur->next != NULL)
-// 	{
-// 		if (cur->type == ARG)
-// 		{
-// 			while (cur->elem[i])
-// 			{
-// 				ft_check_quote(*cur, envp, &i);
-// 				i++;
-// 			}
-// 		}
-// 		cur = cur->next;
-// 	}
-// }
+	if (!str || !new_str)
+        return (NULL);
+	if (!double_q && !single_g)
+	{
+		j = *i;//początek
+		while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
+			(*i)++;
+		temp = ft_substr(str, j, *i - j);
+		new_str = ft_join_and_free(new_str, temp);
+	}
+	//dalej musze ogarnąć przypadki z quotami
+	return (new_str);
+}
+
+char *ft_convert(t_token str, t_envp **envp)
+{
+	char *new_str;
+	int i;
+	bool double_q;
+	bool single_q;
+	
+	new_str = ft_strdup("");
+	i = 0;
+	double_q = false;
+	single_q = false;
+	while (i < (int )ft_strlen(str.elem))
+	{
+		if (str.elem[i] == '\'' && !double_q)
+			single_q = !single_q;
+		else if (str.elem[i] == '\"' && !single_q)
+			double_q = !double_q;
+		new_str = ft_change_arg(str.elem, double_q, single_q, &i, new_str);
+	}
+	return (new_str);
+}
+
+void ft_arg_converter(t_token *token, t_envp **envp)
+{
+	t_token *cur;
+	char *new_str;
+
+	cur = token;
+	while (cur->next != NULL) //cur != NULL
+	{
+		if (cur->type == ARG)
+		{
+			new_str = ft_convert(*cur, envp);
+			free(cur->elem);
+			cur->elem = new_str;
+			new_str = NULL;
+			printf("%s\n",cur->elem);
+		}
+		cur = cur->next;
+	}
+}
 
 int ft_type_input(t_token *token, t_envp **envp)
 {
@@ -163,7 +199,7 @@ int ft_type_input(t_token *token, t_envp **envp)
 		cur = cur->next;
 	}
 	//function to take care of envs
-	//ft_arg_converter(token, envp);
+	ft_arg_converter(token, envp);
 	return (ft_errors(token));
 }
 
