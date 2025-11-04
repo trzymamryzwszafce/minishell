@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/02 01:00:03 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/04 18:29:32 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <string.h>
+
+typedef struct s_convert
+{
+	bool double_q;
+	bool single_q;
+	bool dolar_sign;	
+}	t_convert;
 
 typedef enum s_type
 {
@@ -80,5 +87,11 @@ void	ft_error_message(int exit_code, char *message);
 
 //envp.c
 t_envp	*ft_create_envp(char **environ);
+void ft_add_to_envp(t_envp **envp, char *key, char *value);
+void ft_new_envp_value(t_envp **envp, char *key, char *value);
+char *ft_get_envp_value(t_envp **envp, char *key);
+void ft_add_envp_list(t_envp **envp, char *key, char *value);
+char *ft_assign_value(char *str);
+char *ft_assign_key(char *str);
 
 #endif

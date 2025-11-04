@@ -119,51 +119,98 @@ int ft_errors(t_token *token) //będzie zwracał kod błędu
 	return (error);
 }
 
-char *ft_join_and_free(char *s1, char *s2)
+char *ft_join_and_free(char *s1, char *s2) //to do zmiany
 {
-    char *res = ft_strjoin(s1, s2);
-    free(s1);
-	free(s2);
-    return res;
-}
+    char *res;
+    char *a = s1 ? s1 : ft_strdup("");
+    char *b = s2 ? s2 : ft_strdup("");
 
-char *ft_change_arg(char *str, bool double_q, bool single_g, int *i, char *new_str)
+    res = ft_strjoin(a, b);
+    if (s1)
+        free(s1);
+    if (!s2) // jeśli stworzyliśmy b (ft_strdup("")) to musimy je zwolnić
+        free(b);
+    // nie free(s2) tutaj, bo caller (ten który stworzył s2) powinien je zwolnić
+    return (res);
+}
+// char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str) //te dosłowne
+// {
+// 	char deli;
+
+// 	deli = str[*i];
+// }
+
+char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 {
 	char *temp;
-	int j; //przechowalnia dla i na chwile
+	int j;//przechowalnia dla i na chwile
 
-	if (!str || !new_str)
+	j = *i;//początek
+	while (str[*i] && str[*i] != '$' && str[*i] != '\'' && str[*i] != '\"')
+		(*i)++;
+	temp = ft_substr(str, j, *i - j);
+	new_str = ft_join_and_free(new_str, temp);
+	return (new_str);
+}
+char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
+{
+	if (!str)
         return (NULL);
-	if (!double_q && !single_g)
-	{
-		j = *i;//początek
-		while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
-			(*i)++;
-		temp = ft_substr(str, j, *i - j);
-		new_str = ft_join_and_free(new_str, temp);
-	}
+	if (!new_str)
+		return (ft_strdup(""));
+	if (!sign->double_q && !sign->single_q)
+		new_str = ft_no_quote(str, sign, i, new_str);
+	// if (sign->double_q)
+	// {
+	// 	new_str = ft_double_quote(str, sign, &i, new_str);
+	// }
 	//dalej musze ogarnąć przypadki z quotami
 	return (new_str);
 }
 
-char *ft_convert(t_token str, t_envp **envp)
+char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str)
+{
+	int j; //początek str
+	char *temp_key; //bedzie przechowywał od znaku dolara do końca envp
+	char *temp_value;
+
+	(*i)++;
+	j = *i;
+	while (str[*i] && str[*i] != '\'' && str[*i] != '\"' && str[*i] != '$')
+		(*i)++;
+	temp_key = ft_substr(str, j, *i - j);
+	temp_value = ft_get_envp_value(envp, temp_key);
+	if (!temp_value)
+		temp_value = ft_strdup("");
+	free(temp_key);
+	new_str = ft_join_and_free(new_str, temp_value);
+	return (new_str);
+}
+
+char *ft_convert(t_token str, t_envp **envp, t_convert *sign)
 {
 	char *new_str;
 	int i;
-	bool double_q;
-	bool single_q;
 	
 	new_str = ft_strdup("");
 	i = 0;
-	double_q = false;
-	single_q = false;
+	sign->double_q = false;
+	sign->single_q = false;
+	sign->dolar_sign = false;
 	while (i < (int )ft_strlen(str.elem))
 	{
-		if (str.elem[i] == '\'' && !double_q)
-			single_q = !single_q;
-		else if (str.elem[i] == '\"' && !single_q)
-			double_q = !double_q;
-		new_str = ft_change_arg(str.elem, double_q, single_q, &i, new_str);
+		if (str.elem[i] == '\'' && !sign->double_q)
+			sign->single_q = !sign->single_q;
+		else if (str.elem[i] == '\"' && !sign->single_q)
+			sign->double_q = !sign->double_q;
+		else if (str.elem[i] == '$' && !sign->double_q && !sign->single_q)
+		{
+			sign->dolar_sign = !sign->dolar_sign; //pomyslec nad logiką tu
+			new_str = ft_envp_value_converter(envp, str.elem, &i, new_str); //tutaj trzeba pamiętać że jeżeli po envp znajde quoty to musze się cofnąć o jedno i do tylu żeby moja funkcja mogła potem zaznaczyć że znalazła quota - w tej nie mam struktury quotowej
+			sign->dolar_sign = !sign->dolar_sign;
+		}
+		else
+			new_str = ft_change_arg(str.elem, sign, &i, new_str);
 	}
 	return (new_str);
 }
@@ -171,14 +218,16 @@ char *ft_convert(t_token str, t_envp **envp)
 void ft_arg_converter(t_token *token, t_envp **envp)
 {
 	t_token *cur;
+	t_convert sign;
 	char *new_str;
 
 	cur = token;
+	//sign = malloc(sizeof(t_convert));
 	while (cur->next != NULL) //cur != NULL
 	{
 		if (cur->type == ARG)
 		{
-			new_str = ft_convert(*cur, envp);
+			new_str = ft_convert(*cur, envp, &sign);
 			free(cur->elem);
 			cur->elem = new_str;
 			new_str = NULL;
@@ -186,6 +235,7 @@ void ft_arg_converter(t_token *token, t_envp **envp)
 		}
 		cur = cur->next;
 	}
+	//free(sign);
 }
 
 int ft_type_input(t_token *token, t_envp **envp)
