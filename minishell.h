@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/04 18:29:32 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/04 23:55:05 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,28 @@ t_envp	*ft_create_envp(char **environ);
 void ft_add_to_envp(t_envp **envp, char *key, char *value);
 void ft_new_envp_value(t_envp **envp, char *key, char *value);
 char *ft_get_envp_value(t_envp **envp, char *key);
+
+//envp2.c
 void ft_add_envp_list(t_envp **envp, char *key, char *value);
 char *ft_assign_value(char *str);
 char *ft_assign_key(char *str);
+
+//error.c
+int ft_errors(t_token *token);
+void    ft_error_message(int exit_code, char *message);
+
+//error2.c
+int ft_quote_error(char *s);
+int ft_pipe_error(int position, char *current, char *next, enum s_type next_type);
+int ft_redir_error(enum s_type cur_type, enum s_type next_type);
+
+//arg_converter.c
+void ft_arg_converter(t_token *token, t_envp **envp);
+char *ft_convert(t_token str, t_envp **envp, t_convert *sign);
+char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str);
+char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str);
+
+char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_join_and_free(char *s1, char *s2);
 
 #endif
