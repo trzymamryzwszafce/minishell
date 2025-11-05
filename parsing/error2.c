@@ -47,8 +47,6 @@ int ft_redir_error(enum s_type cur_type, enum s_type next_type)
 	return (0);
 }
 
-
-
 int ft_type_input(t_token *token, t_envp **envp)
 {
 	t_token *cur;

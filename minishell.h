@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/04 23:55:05 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/05 20:30:48 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 typedef struct s_convert
 {
 	bool double_q;
-	bool single_q;
-	bool dolar_sign;	
+	bool single_q;	
 }	t_convert;
 
 typedef enum s_type
@@ -83,8 +82,6 @@ int		ft_type_input(t_token *token, t_envp **envp);
 void	ft_add_type(t_token *token);
 void	ft_is_redir_pipe(t_token *token);
 
-void	ft_error_message(int exit_code, char *message);
-
 //envp.c
 t_envp	*ft_create_envp(char **environ);
 void ft_add_to_envp(t_envp **envp, char *key, char *value);
@@ -104,13 +101,18 @@ void    ft_error_message(int exit_code, char *message);
 int ft_quote_error(char *s);
 int ft_pipe_error(int position, char *current, char *next, enum s_type next_type);
 int ft_redir_error(enum s_type cur_type, enum s_type next_type);
+int ft_type_input(t_token *token, t_envp **envp);
 
 //arg_converter.c
 void ft_arg_converter(t_token *token, t_envp **envp);
 char *ft_convert(t_token str, t_envp **envp, t_convert *sign);
 char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str);
-char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str);
 
+//arg_converter2.c
+char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
 
