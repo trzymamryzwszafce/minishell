@@ -1,22 +1,14 @@
 #include "../minishell.h"
 
-char *ft_join_and_free(char *s1, char *s2) //to do zmiany
+char *ft_join_and_free(char *s1, char *s2)
 {
-    char *res;
-    char *a = s1 ? s1 : ft_strdup("");
-    char *b = s2 ? s2 : ft_strdup("");
-
-    res = ft_strjoin(a, b);
-    if (s1)
-        free(s1);
-    if (!s2) // jeśli stworzyliśmy b (ft_strdup("")) to musimy je zwolnić
-        free(b);
-    // nie free(s2) tutaj, bo caller (ten który stworzył s2) powinien je zwolnić
-    return (res);
+    char *res = ft_strjoin(s1, s2);
+	free(s1);
+	return res;
 }
 
-char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str)
-{80
+char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+{
 	char *temp;
 	int j;
 
@@ -27,8 +19,9 @@ char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str)
 	while (str[*i] && str[*i] != '"')
 	{
 		if (str[*i] == '$')
-			break;
-		(*i)++;
+			new_str = ft_envp_value_converter(envp, str, i, new_str); //problem
+		else
+			(*i)++;
 	}
 	if (*i > j)
 	{
@@ -66,7 +59,7 @@ char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 	return (new_str);
 }
 
-char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
+char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
 {
 	if (!str)
         return (NULL);
@@ -75,7 +68,7 @@ char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
 	if (!sign->double_q && !sign->single_q)
 		new_str = ft_no_quote(str, sign, i, new_str);
 	if (sign->double_q)
-		new_str = ft_double_quote(str, sign, i, new_str);
+		new_str = ft_double_quote(str, sign, i, new_str, envp);
 	else if (sign->single_q)
 	{
 		/* copy literally until next single quote */

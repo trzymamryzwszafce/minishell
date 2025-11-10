@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/05 20:30:48 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/10 20:56:58 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,12 @@ int ft_type_input(t_token *token, t_envp **envp);
 void ft_arg_converter(t_token *token, t_envp **envp);
 char *ft_convert(t_token str, t_envp **envp, t_convert *sign);
 char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str);
-char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str);
-char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
+char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
 
 //arg_converter2.c
-char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str);
-char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str);
+char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
+char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
 char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
 

@@ -22,12 +22,12 @@ char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str)
 	free(tmp_dup);
 	return (new_str);
 }
-char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str)
+char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
 {
 	if (!sign->single_q)
 	{
 		sign->single_q = true;
-		new_str = ft_change_arg(str, sign, i, new_str);
+		new_str = ft_change_arg(str, sign, i, new_str, envp);
 	}
 	else
 	{
@@ -36,12 +36,12 @@ char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str)
 	}
 	return (new_str);
 }
-char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str)
+char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
 {
 	if (!sign->double_q)
 	{
 		sign->double_q = true;
-		new_str = ft_change_arg(str, sign, i, new_str);
+		new_str = ft_change_arg(str, sign, i, new_str, envp);
 	}
 	else
 	{
@@ -63,13 +63,13 @@ char *ft_convert(t_token str, t_envp **envp, t_convert *sign)
 	while (i < (int )ft_strlen(str.elem))
 	{
 		if (str.elem[i] == '\'' && !sign->double_q)
-			new_str = ft_handle_single_quote(str.elem, sign, &i, new_str);
+			new_str = ft_handle_single_quote(str.elem, sign, &i, new_str, envp);
 		else if (str.elem[i] == '"' && !sign->single_q)
-			new_str = ft_handle_double_quote(str.elem, sign, &i, new_str);
+			new_str = ft_handle_double_quote(str.elem, sign, &i, new_str, envp);
 		else if (str.elem[i] == '$' && !sign->single_q)
 			new_str = ft_envp_value_converter(envp, str.elem, &i, new_str);
 		else
-			new_str = ft_change_arg(str.elem, sign, &i, new_str);
+			new_str = ft_change_arg(str.elem, sign, &i, new_str, envp);
 	}
 	return (new_str);
 }
@@ -89,7 +89,7 @@ void ft_arg_converter(t_token *token, t_envp **envp)
 			free(cur->elem);
 			cur->elem = new_str;
 			new_str = NULL;
-			printf("%s\n",cur->elem);
+			//printf("%s\n",cur->elem);
 		}
 		cur = cur->next;
 	}
