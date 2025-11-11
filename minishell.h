@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/11 18:08:35 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/11 20:04:33 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_command
 	bool	*pipe_out;
 	bool	redir;
 	int		cmd_count;
-	//char	*binary;
 	char	**heredoc;
 	t_envp	**envp;
 }		t_command;

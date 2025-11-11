@@ -63,6 +63,7 @@ void ft_process_input(char *input, t_envp **envp)
 	if (!tokens)
 		return ;
 	error = ft_parsing(tokens, envp, input, 0);
+	ft_struct_filler(tokens, envp, cmd);
 	// for (t_token *p = tokens; p; p = p->next) {
 	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
 	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
