@@ -144,10 +144,17 @@ int	ft_split_input(t_token *tokens, char *input)
 	i = 0;
 	if (ft_strnstr(input, ">><>", input_len) != NULL
 		|| ft_strnstr(input, ">> <>", input_len) != NULL
+		|| ft_strnstr(input, "<< <>", input_len) != NULL
 		|| ft_strnstr(input, "><>", input_len) != NULL
-		|| ft_strnstr(input, "> <>", input_len) != NULL)
+		|| ft_strnstr(input, "> <>", input_len) != NULL
+		|| ft_strnstr(input, "< <>", input_len) != NULL)
 	{
 		write(2, "minishell: syntax error near unexpected token `<>'\n", 51);
+		return (258);
+	}
+	if (ft_strnstr(input, "<>>", input_len) != NULL) //nwm czy jest sens
+	{
+		write(2, "minishell: syntax error near unexpected token `>'\n", 50);
 		return (258);
 	}
 	while (input[i])

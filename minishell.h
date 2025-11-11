@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/10 20:56:58 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/11 18:08:35 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct s_command
 	bool	*pipe_out;
 	bool	redir;
 	int		cmd_count;
-	char	*binary;
-	char	*heredoc;
+	//char	*binary;
+	char	**heredoc;
 	t_envp	**envp;
 }		t_command;
 
@@ -112,7 +112,7 @@ char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, 
 
 //arg_converter2.c
 char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
-char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);
+char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp);
 char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
 

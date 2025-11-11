@@ -28,6 +28,7 @@ char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, 
 	{
 		sign->single_q = true;
 		new_str = ft_change_arg(str, sign, i, new_str, envp);
+		sign->single_q = false;
 	}
 	else
 	{
@@ -42,6 +43,7 @@ char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, 
 	{
 		sign->double_q = true;
 		new_str = ft_change_arg(str, sign, i, new_str, envp);
+		sign->double_q = false;
 	}
 	else
 	{

@@ -7,19 +7,24 @@ char *ft_join_and_free(char *s1, char *s2)
 	return res;
 }
 
-char *ft_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 {
 	char *temp;
 	int j;
 
-	(void)sign;
 	if (str[*i] == '"')
 		(*i)++;
 	j = *i;
 	while (str[*i] && str[*i] != '"')
 	{
 		if (str[*i] == '$')
+		{
+			temp = ft_substr(str, j, *i - j);
+			new_str = ft_join_and_free(new_str, temp);
+			free(temp);
 			new_str = ft_envp_value_converter(envp, str, i, new_str); //problem
+			j = *i;
+		}
 		else
 			(*i)++;
 	}
@@ -68,7 +73,7 @@ char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **
 	if (!sign->double_q && !sign->single_q)
 		new_str = ft_no_quote(str, sign, i, new_str);
 	if (sign->double_q)
-		new_str = ft_double_quote(str, sign, i, new_str, envp);
+		new_str = ft_double_quote(str, i, new_str, envp);
 	else if (sign->single_q)
 	{
 		/* copy literally until next single quote */
