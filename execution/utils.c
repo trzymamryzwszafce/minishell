@@ -33,4 +33,19 @@ char    *cmd_check(char *argv, char **dir)
         }
         error_exit("wrong command");
 }
+
+void	print_envs(t_envp *list)
+{
+	t_envp	*node;
+
+	node = list;
+	while (node)
+	{
+		printf("%s=", node->key);
+		if (node->value)
+			printf("%s", node->value);
+		printf("\n");
+		node = node->next;
+	}
+}
 */
