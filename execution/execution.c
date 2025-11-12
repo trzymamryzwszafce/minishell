@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/12 18:17:18 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/12 20:49:42 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 /*
-void	execution(t_pipeline *args)
+void	execution(t_data *data)
 {
-	if (is_buidtin()) // TODO
-		exec_impobuildin(args); // TODO cd, export, unset
+	if (data->cmd->next == NULL && is_builtin(data->cmd->cmd[0])) // TODO
+		exec_impobuiltin(data->cmd); // TODO cd, export, unset
 	else
 	{
-		
-		exec_external(args); // TODO
+	
+		exec_external(data->cmd); // TODO
 	}
 }
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/10/20 19:55:24 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/12 21:53:12 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,5 @@ void	exec_external(void)
 	}
 	else if (pid > 0)
 		wait(NULL);
-}
-
-void	(t_command *args)
-{
-	if (is_builtin(args->cmds->cmd))
-		exec_builtin(args);
-	else
-		exec_external(args);
 }
 */
