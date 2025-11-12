@@ -55,15 +55,19 @@ int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error)
 void ft_process_input(char *input, t_envp **envp)
 {
 	t_token *tokens;
+	t_data *data;
 	t_command *cmd;
 	int error;
 
 	add_history(input);
 	tokens = malloc(sizeof(t_token));
+	data = malloc(sizeof(t_data));
+	cmd = malloc(sizeof(t_command));
+	data->cmd = cmd;
 	if (!tokens)
 		return ;
 	error = ft_parsing(tokens, envp, input, 0);
-	ft_struct_filler(tokens, envp, cmd);
+	ft_struct_filler(tokens, envp, data);
 	// for (t_token *p = tokens; p; p = p->next) {
 	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
 	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
@@ -73,6 +77,8 @@ void ft_process_input(char *input, t_envp **envp)
 		//egzekuzja
 	}
 	ft_free_tokens(tokens);
+	free(cmd);
+	free(data);
 }
 
 

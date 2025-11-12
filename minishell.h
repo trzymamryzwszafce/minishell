@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/11 20:04:33 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/12 20:22:59 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,16 @@ typedef struct s_command
 	char	**red_out;
 	char	**red_in;
 	bool	append;
-	bool	*pipe_out;
-	bool	redir;
-	int		cmd_count;
 	char	**heredoc;
-	t_envp	**envp;
+	int		heredoc_count;
+	struct s_command *next;
 }		t_command;
+
+typedef struct s_data
+{
+	int cmd_count;
+	t_command *cmd;
+}	t_data;
 
 //splitting_args.c
 int		ft_count_input_words(char const *s);
@@ -114,5 +118,8 @@ char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **
 char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp);
 char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
+
+//struct_filler.c
+void ft_struct_filler(t_token *tokens, t_envp **envp, t_data *data);
 
 #endif

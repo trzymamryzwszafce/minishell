@@ -44,7 +44,6 @@ void ft_add_to_envp(t_envp **envp, char *key, char *value)
 		ft_add_envp_list(envp, key, value);
 	 else
 	 	ft_new_envp_value(envp, key, value);
-    
 }
 
 t_envp *ft_create_envp(char **environ)
