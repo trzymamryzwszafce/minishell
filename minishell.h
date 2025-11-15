@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/12 20:22:59 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/15 19:05:46 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef struct s_convert
 typedef enum s_type
 {
 	R_IN,		// <
+	ARG_IN,
 	R_OUT_TRUNC,	// >
+	ARG_OUT,
 	R_OUT_APP,	// >>
 	R_HEREDOC,	// <<
 	PIPE,		// |
@@ -54,11 +56,12 @@ typedef struct s_envp
 
 typedef struct s_command
 {
-	char	**cmd;
+	char	**arg;
 	char	**red_out;
 	char	**red_in;
 	bool	append;
 	char	**heredoc;
+	bool	b_heredoc;
 	int		heredoc_count;
 	struct s_command *next;
 }		t_command;
@@ -81,9 +84,8 @@ int		ft_split_input(t_token *tokens, char *input);
 int		ft_count_until_deli(char *s, int n, char delimiter, int count);
 
 //tokenizer.c
-int		ft_type_input(t_token *token, t_envp **envp);
 void	ft_add_type(t_token *token);
-void	ft_is_redir_pipe(t_token *token);
+void ft_add_type_arg(t_token *token);
 
 //envp.c
 t_envp	*ft_create_envp(char **environ);
@@ -121,5 +123,8 @@ char *ft_join_and_free(char *s1, char *s2);
 
 //struct_filler.c
 void ft_struct_filler(t_token *tokens, t_envp **envp, t_data *data);
+
+//debug.c
+void print_command_list(t_command *cmd);
 
 #endif

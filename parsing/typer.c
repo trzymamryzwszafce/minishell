@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void ft_is_redir_pipe(t_token *token)
+void ft_add_type(t_token *token)
 {
 	if (ft_strcmp(token->elem, "<") == 0)
 		token->type = R_IN;
@@ -16,7 +16,10 @@ void ft_is_redir_pipe(t_token *token)
 		token->type = ARG;
 }
 
-void ft_add_type(t_token *token)
+void ft_add_type_arg(t_token *token)
 {
-	ft_is_redir_pipe(token);
+	if (token->prev && token->prev->type == R_IN && token->type == ARG)
+		token->type = ARG_IN;
+	else if (token->prev && token->prev->type == R_OUT_TRUNC && token->type == ARG)
+		token->type = ARG_OUT;
 }

@@ -10,8 +10,43 @@ char *ft_dupa(enum s_type dupa)
 		case R_HEREDOC : return "heredoc";
 		case PIPE : return "pipe";
 		case ARG : return "arg";
+		case ARG_IN : return "arg_in";
+		case ARG_OUT : return "arg_out";
 	}
 	return (NULL);
+}
+static void free_str_array(char **arr)
+{
+    int i;
+	
+	i = 0;
+    if (!arr)
+        return ;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
+}
+
+void ft_free_command_list(t_command *cmd)
+{
+    t_command *tmp;
+
+    while (cmd)
+    {
+        tmp = cmd->next;
+
+        free_str_array(cmd->arg);
+        free_str_array(cmd->red_in);
+        free_str_array(cmd->red_out);
+        free_str_array(cmd->heredoc);
+
+        free(cmd);
+        cmd = tmp;
+    }
+	//free(cmd);
 }
 
 void ft_free_env_list(t_envp **envp)
@@ -60,24 +95,24 @@ void ft_process_input(char *input, t_envp **envp)
 	int error;
 
 	add_history(input);
-	tokens = malloc(sizeof(t_token));
-	data = malloc(sizeof(t_data));
-	cmd = malloc(sizeof(t_command));
-	data->cmd = cmd;
-	if (!tokens)
-		return ;
+	tokens = ft_calloc(1, sizeof(t_token));
+	data = ft_calloc(1, sizeof(t_data));
+	data->cmd = NULL;
 	error = ft_parsing(tokens, envp, input, 0);
-	ft_struct_filler(tokens, envp, data);
+	if (error == 0)
+		ft_struct_filler(tokens, envp, data);
 	// for (t_token *p = tokens; p; p = p->next) {
 	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
-	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "7");
+	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "(null)");
 	// 		}
 	if (error == 0)
 	{
+		print_command_list(data->cmd);
 		//egzekuzja
+		ft_free_command_list(data->cmd);
+    	data->cmd = NULL;
 	}
 	ft_free_tokens(tokens);
-	free(cmd);
 	free(data);
 }
 
@@ -99,6 +134,6 @@ int	main(void)
 		free(input);
 	}
 	ft_free_env_list(&envp);
-	rl_clear_history(); //czyścimy historie z >>> - nie wiem czy potrzebne
+	rl_clear_history();
 	return (0);
 }
