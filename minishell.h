@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/16 14:54:25 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/16 20:00:31 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_command
 typedef struct s_data
 {
 	int cmd_count;
+	int	ls_exit;
 	t_command *cmd;
 }	t_data;
 
