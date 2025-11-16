@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/15 19:05:46 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/16 14:54:25 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum s_type
 	R_HEREDOC,	// <<
 	PIPE,		// |
 	ARG,		// cmd, args, flags, envp
+	HEREDOC_DELI,
 }		t_type;
 
 typedef struct s_token
@@ -122,7 +123,7 @@ char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
 
 //struct_filler.c
-void ft_struct_filler(t_token *tokens, t_envp **envp, t_data *data);
+void ft_struct_filler(t_token *tokens, t_data *data);
 
 //debug.c
 void print_command_list(t_command *cmd);

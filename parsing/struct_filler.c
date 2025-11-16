@@ -40,8 +40,41 @@ void count_and_alloc_for_cmd(t_token *start, t_command *cmd)
     cmd->arg = calloc(args + 1, sizeof(char *));
     cmd->red_in = calloc(rin + 1, sizeof(char *));
     cmd->red_out = calloc(rout + 1, sizeof(char *));
+    cmd->heredoc_count = 0;
+}
+void ft_search_for_append(t_type type, t_command *cmd)
+{
+    if (type == R_OUT_APP)
+        cmd->append = true;
+    else
+        cmd->append = false;
 }
 
+void ft_count_heredoc(t_token *token, t_command *cmd)
+{
+    token->type = HEREDOC_DELI;
+    cmd->heredoc_count++;
+}
+void ft_heredoc(t_token *start, t_command *cmd)
+{
+    if (cmd->heredoc_count == 0)
+        return;
+
+    t_token *cur = start;
+    int i = 0;
+    cmd->heredoc = calloc(cmd->heredoc_count + 1, sizeof(char *));
+
+    while (cur && cur->type != PIPE)
+    {
+        if (cur->type == R_HEREDOC && cur->next != NULL)
+        {
+            cmd->heredoc[i++] = strdup(cur->next->elem);
+            cur->next->type = HEREDOC_DELI;
+            cmd->b_heredoc = true;
+        }
+        cur = cur->next;
+    }
+}
 
 static t_token *fill_one_cmd(t_token *start, t_command *cmd)
 {
@@ -62,39 +95,40 @@ static t_token *fill_one_cmd(t_token *start, t_command *cmd)
             cmd->red_in[j++] = strdup(cur->elem);
         else if (cur->type == ARG_OUT)
             cmd->red_out[k++] = strdup(cur->elem);
-        else if (cur->type == R_HEREDOC)
-        {
-            cmd->b_heredoc = true;
-            cmd->heredoc_count++;
-        }
+        else if(cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC)
+            ft_search_for_append(cur->type, cmd);
+         else if(cur->type == R_HEREDOC)
+             ft_count_heredoc(cur->next, cmd);
         cur = cur->next;
     }
     return (cur); // cur == PIPE or NULL
 }
 
-void ft_struct_filler(t_token *tokens, t_envp **envp, t_data *data)
+void ft_struct_filler(t_token *tokens, t_data *data)
 {
-    (void)envp;
-
-    t_token     *cur;
-    t_command   *cmd;
+    t_token *cur;
+    t_token *next;
+    t_command *cmd;
 
     cur = tokens;
     data->cmd = malloc(sizeof(t_command));
     init_cmd(data->cmd);
     cmd = data->cmd;
-
     while (cur->next != NULL)
     {
         count_and_alloc_for_cmd(cur, cmd);
-        cur = fill_one_cmd(cur, cmd);
-        if (cur && cur->type == PIPE)
-        {
-            cur = cur->next;
-
-            cmd->next = malloc(sizeof(t_command));
-            init_cmd(cmd->next);
-            cmd = cmd->next;
-        }
+        next = fill_one_cmd(cur, cmd);
+        ft_heredoc(cur, cmd);
+        if (!next)
+            break;
+        if (next->type == PIPE)
+            cur = next->next;
+        else 
+            cur = next;
+        if (cur->next == NULL)
+            break;
+        cmd->next = malloc(sizeof(t_command));
+        init_cmd(cmd->next);
+        cmd = cmd->next;
     }
 }
