@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/16 17:24:12 by szmadeja          #+#    #+#             */
+/*   Updated: 2025/11/16 17:51:52 by szmadeja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-/*
+
 char    **get_path(char **envp)
 {
         int     i;
@@ -33,6 +45,13 @@ char    *cmd_check(char *argv, char **dir)
         }
         error_exit("wrong command");
 }
+int is_builtin(char *cmd)
+{
+        if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "exit")
+                || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"))
+                return (1);
+        return (0);
+}
 
 void	print_envs(t_envp *list)
 {
@@ -48,4 +67,3 @@ void	print_envs(t_envp *list)
 		node = node->next;
 	}
 }
-*/
