@@ -12,8 +12,13 @@
 
 #include "../../minishell.h"
 
-void	ft_env(t_envp *list)
+void	ft_env(char **args, t_envp *list)
 {
+	if (args[1])
+	{
+		ft_putendl_fd("bash: env: za duzo argumenow\n", 2);
+		return (1);
+	}
 	while (list)
 	{
 		if (list->value != NULL)
@@ -23,4 +28,5 @@ void	ft_env(t_envp *list)
 		}
 		list = list->next;
 	}
+	return (0);
 }

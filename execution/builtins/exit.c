@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:16:26 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/16 20:27:59 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/16 23:11:41 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ int	is_numeric(const char *s)
 	return (1);
 }
 
-void	ft_exit(char **args, int last_status)
+int	ft_exit(char **args, int last_status)
 {
-	long long	code;
+	long long	status;
 
 	ft_printf("exit\n");
 	if (!args[1])
 		exit(last_status);
 	if (!is_numeric(args[1]))
 	{
-		ft_printf("bash: exit: %s: daj numerki\n", args[1]);
+		ft_putstr_fd("bash: exit: daj numerki\n", 2);
 		exit (2);
 	}
 	if (args[2])
 	{
-		ft_printf("bash: exit: za duzo argumentuw\n");
-		return ;
+		ft_putstr_fd("bash: exit: za duzo argumentow\n", 2);
+		return (1);
 	}
-	code = ft_atoll(args[1]);
-	exit ((unsigned char)code);
+	status = ft_atoll(args[1]);
+	exit ((unsigned char)status);
 }
