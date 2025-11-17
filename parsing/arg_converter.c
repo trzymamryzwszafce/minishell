@@ -76,14 +76,15 @@ char *ft_convert(t_token str, t_envp **envp, t_convert *sign)
 	return (new_str);
 }
 
-void ft_arg_converter(t_token *token, t_envp **envp)
+void ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 {
 	t_token *cur;
 	t_convert sign;
 	char *new_str;
+	char *temp;
 
 	cur = token;
-	while (cur->next != NULL) //cur != NULL
+	while (cur->next != NULL)
 	{
 		if (cur->type == ARG)
 		{
@@ -91,7 +92,12 @@ void ft_arg_converter(t_token *token, t_envp **envp)
 			free(cur->elem);
 			cur->elem = new_str;
 			new_str = NULL;
-			//printf("%s\n",cur->elem);
+			if (ft_strcmp(cur->elem, "$?") == 0)
+			{
+				temp = ft_itoa(data->ls_exit);
+				free(cur->elem);
+				cur->elem = temp;
+			}
 		}
 		cur = cur->next;
 	}

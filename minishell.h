@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/16 20:00:31 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:27:01 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,22 @@ typedef struct s_data
 	t_command *cmd;
 }	t_data;
 
-//splitting_args.c
-int		ft_count_input_words(char const *s);
-t_token	*ft_create_node(t_token *cur);
-t_token	*ft_add_node(t_token *token, char *s, int *i, int n);
-int		ft_count_chars(char *s, int n);
-t_token	*ft_quote(t_token *token, char *input, char deli, int *i);
-t_token	*ft_is_limiter(t_token *token, char *input, int *i);
-int		ft_split_input(t_token *tokens, char *input);
 
 int		ft_count_until_deli(char *s, int n, char delimiter, int count);
+
+//splitting_args.c
+int		ft_split_input(t_token *tokens, char *input);
+//int	ft_hardcode_error(char *input);
+t_token	*ft_is_limiter(t_token *token, char *input, int *i);
+t_token	*ft_quote(t_token *token, char *input, char deli, int *i);
+int		ft_count_chars(char *s, int n);
+
+//splitting_args2.c
+int	ft_skip_quotes(char *s, int *n);
+t_token	*ft_add_node(t_token *token, char *s, int *i, int n);
+t_token	*ft_create_node(t_token *cur);
+int		ft_count_input_words(char const *s);
+
 
 //tokenizer.c
 void	ft_add_type(t_token *token);
@@ -108,10 +114,10 @@ void    ft_error_message(int exit_code, char *message);
 int ft_quote_error(char *s);
 int ft_pipe_error(int position, char *current, char *next, enum s_type next_type);
 int ft_redir_error(enum s_type cur_type, enum s_type next_type);
-int ft_type_input(t_token *token, t_envp **envp);
+int ft_type_input(t_token *token, t_envp **envp, t_data *data);
 
 //arg_converter.c
-void ft_arg_converter(t_token *token, t_envp **envp);
+void ft_arg_converter(t_token *token, t_envp **envp, t_data *data);
 char *ft_convert(t_token str, t_envp **envp, t_convert *sign);
 char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str);
 char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp);

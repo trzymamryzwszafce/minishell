@@ -1,20 +1,5 @@
 #include "minishell.h"
-//to wszystko jako debuger to zniknie za jakiś czas
-char *ft_dupa(enum s_type dupa)
-{
-	switch (dupa)
-	{
-		case R_IN : return "r_in";
-		case R_OUT_TRUNC : return "r_out_trunc";
-		case R_OUT_APP : return "r_out_app";
-		case R_HEREDOC : return "heredoc";
-		case PIPE : return "pipe";
-		case ARG : return "arg";
-		case ARG_IN : return "arg_in";
-		case ARG_OUT : return "arg_out";
-	}
-	return (NULL);
-}
+
 static void free_str_array(char **arr)
 {
     int i;
@@ -80,11 +65,11 @@ void ft_free_tokens(t_token *tokens)
 	}
 }
 
-int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error)
+int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error, t_data *data)
 {
 	error = ft_split_input(tokens, input);
 	if (error == 0)
-		error = ft_type_input(tokens, envp);
+		error = ft_type_input(tokens, envp, data);
 	return (error);
 }
 void ft_process_input(char *input, t_envp **envp)
@@ -98,15 +83,10 @@ void ft_process_input(char *input, t_envp **envp)
 	tokens = ft_calloc(1, sizeof(t_token));
 	data = ft_calloc(1, sizeof(t_data));
 	data->cmd = NULL;
-	error = ft_parsing(tokens, envp, input, 0);
-	if (error == 0)
-		ft_struct_filler(tokens, data);
-	// for (t_token *p = tokens; p; p = p->next) {
-	// 		printf("node: %s\n", p->elem ? p->elem : "(null)");
-	// 		printf("type: %s\n", ft_dupa(p->type) ? ft_dupa(p->type) : "(null)");
-	// 		}
+	error = ft_parsing(tokens, envp, input, 0, data);	
 	if (error == 0)
 	{
+		ft_struct_filler(tokens, data);
 		print_command_list(data->cmd);
 		//egzekuzja
 		ft_free_command_list(data->cmd);

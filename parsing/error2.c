@@ -45,7 +45,7 @@ int ft_redir_error(enum s_type cur_type, enum s_type next_type)
 	return (0);
 }
 
-int ft_type_input(t_token *token, t_envp **envp)
+int ft_type_input(t_token *token, t_envp **envp, t_data *data)
 {
 	t_token *cur;
 	if (!token)
@@ -64,6 +64,6 @@ int ft_type_input(t_token *token, t_envp **envp)
 		cur = cur->next;
 	}
 	//function to take care of envs
-	ft_arg_converter(token, envp);
+	ft_arg_converter(token, envp, data);
 	return (ft_errors(token));
 }
