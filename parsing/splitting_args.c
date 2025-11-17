@@ -1,89 +1,15 @@
 #include "../minishell.h"
 
-int	ft_count_input_words(char const *s)
-{
-	int	count;
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	count = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] == ' ' || s[i] == '\t' || s[i] == '>'
-			|| s[i] == '<' || s[i] == '|')
-			i++;
-		if (s[i] != '\0')
-			count++;
-		while (s[i] != ' ' && s[i] != '\t' && s[i] != '>'
-			&& s[i] != '<' && s[i] != '|' && s[i] != '\0')
-			i++;
-	}
-	return (count);
-}
-
-t_token	*ft_create_node(t_token *cur)
-{
-	t_token	*new_node;
-
-	new_node = ft_calloc(1, sizeof(t_token));
-	if (!new_node)
-		return (NULL);
-	if (cur)
-	{
-		cur->next = new_node;
-		new_node->prev = cur;
-	}
-	return (new_node);
-}
-
-t_token	*ft_add_node(t_token *token, char *s, int *i, int n)
-{
-	int		j;
-	char	*string;
-
-	if (n <= 0 || !token)
-		return (token);
-	string = ft_calloc(1, n + 1);
-	j = 0;
-	while (j < n && s[*i])
-	{
-		string[j] = s[*i];
-		(*i)++;
-		j++;
-	}
-	string[j] = '\0';
-	token->elem = string;
-	token->next = ft_create_node(token);
-	return (token->next);
-}
-
-//n - num where to start
 int	ft_count_chars(char *s, int n)
 {
-	int		count;
-	char	q;
+	int	count;
 
 	count = 0;
 	while (s[n] && s[n] != ' ' && s[n] != '\t' && s[n] != '<'
 		&& s[n] != '>' && s[n] != '|')
 	{
-		if (s[n] == 39 || s[n] == 34)
-		{
-			q = s[n++];
-			count++;
-			while (s[n] && s[n] != q)
-			{
-				n++;
-				count++;
-			}
-			if (s[n] == q)
-			{
-				n++;
-				count++;
-			}
-		}
+		if (s[n] == '\'' || s[n] == '\"')
+			count += ft_skip_quotes(s, &n);
 		else
 		{
 			n++;
@@ -152,7 +78,7 @@ int	ft_split_input(t_token *tokens, char *input)
 		write(2, "minishell: syntax error near unexpected token `<>'\n", 51);
 		return (258);
 	}
-	if (ft_strnstr(input, "<>>", input_len) != NULL) //nwm czy jest sens
+	if (ft_strnstr(input, "<>>", input_len) != NULL)
 	{
 		write(2, "minishell: syntax error near unexpected token `>'\n", 50);
 		return (258);
@@ -161,4 +87,3 @@ int	ft_split_input(t_token *tokens, char *input)
 		cur = ft_is_limiter(cur, input, &i);
 	return (0);
 }
-

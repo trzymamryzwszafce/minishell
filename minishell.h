@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/17 15:27:01 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/18 00:05:19 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_data
 
 
 int		ft_count_until_deli(char *s, int n, char delimiter, int count);
+void	init_cmd(t_command *cmd);
 
 //splitting_args.c
 int		ft_split_input(t_token *tokens, char *input);

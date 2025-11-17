@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+void	init_cmd(t_command *cmd)
+{
+	cmd->arg = NULL;
+	cmd->red_in = NULL;
+	cmd->red_out = NULL;
+	cmd->append = false;
+	cmd->heredoc = NULL;
+	cmd->b_heredoc = false;
+	cmd->heredoc_count = 0;
+	cmd->next = NULL;
+}
+
 static void free_str_array(char **arr)
 {
     int i;

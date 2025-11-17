@@ -1,17 +1,5 @@
 #include "../minishell.h"
 
-void	init_cmd(t_command *cmd)
-{
-	cmd->arg = NULL;
-	cmd->red_in = NULL;
-	cmd->red_out = NULL;
-	cmd->append = false;
-	cmd->heredoc = NULL;
-	cmd->b_heredoc = false;
-	cmd->heredoc_count = 0;
-	cmd->next = NULL;
-}
-
 void	count_and_alloc_for_cmd(t_token *start, t_command *cmd)
 {
 	t_token	*cur;
@@ -71,6 +59,13 @@ void	ft_heredoc(t_token *start, t_command *cmd)
 	}
 }
 
+static void	handle_heredoc_token(t_token **cur, t_command *cmd)
+{
+	cmd->heredoc_count++;
+	if (*cur && (*cur)->next)
+		*cur = (*cur)->next;
+}
+
 t_token	*fill_one_cmd(t_token *start, t_command *cmd)
 {
 	t_token	*cur;
@@ -93,7 +88,7 @@ t_token	*fill_one_cmd(t_token *start, t_command *cmd)
 		else if (cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC)
 			ft_search_for_append(cur->type, cmd);
 		else if (cur->type == R_HEREDOC)
-			cmd->heredoc_count++;
+			handle_heredoc_token(&cur, cmd);
 		cur = cur->next;
 	}
 	return (cur);
