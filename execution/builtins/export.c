@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:15:19 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/17 02:34:32 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/18 19:28:11 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,6 @@ void	split_value(char *arg, char **key, char **value)
 		*value = ft_strdup(arg + i + 1);
 	else
 		*value = NULL;
-}
-
-void	env_update(t_envp **env, char *key, char *value)
-{
-	t_envp	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, key))
-		{
-			if (tmp->value != NULL)
-				free(tmp->value);
-			if (value != NULL)
-				tmp->value = ft_strdup(value);
-			else
-				tmp->value = NULL;
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	env_add(env, key, value);
 }
 
 int	process_arg(t_envp **env, char *arg)

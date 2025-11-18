@@ -6,13 +6,13 @@
 /*   By: szmadeja <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:15:58 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/16 18:34:36 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/18 19:21:51 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_env(char **args, t_envp *list)
+int	ft_env(char **args, t_envp *list)
 {
 	if (args[1])
 	{

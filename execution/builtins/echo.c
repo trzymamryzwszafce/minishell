@@ -6,13 +6,13 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:10:14 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/16 18:22:20 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/18 19:21:36 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_echo(char **args)
+int	ft_echo(char **args)
 {
 	int	i;
 	int	j;
@@ -39,4 +39,5 @@ void	ft_echo(char **args)
 	}
 	if (nline == 1)
 		ft_printf("\n");
+	return (0);
 }
