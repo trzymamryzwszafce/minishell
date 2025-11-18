@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/18 00:05:19 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/18 13:58:29 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	init_cmd(t_command *cmd);
 
 //splitting_args.c
 int		ft_split_input(t_token *tokens, char *input);
-//int	ft_hardcode_error(char *input);
+int	ft_check_syntax_errors(char *input, int input_len);
 t_token	*ft_is_limiter(t_token *token, char *input, int *i);
 t_token	*ft_quote(t_token *token, char *input, char deli, int *i);
 int		ft_count_chars(char *s, int n);

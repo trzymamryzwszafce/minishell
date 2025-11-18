@@ -1,10 +1,10 @@
 #include "../minishell.h"
 
-int ft_quote_error(char *s)
+int	ft_quote_error(char *s)
 {
-	int	len;
-	char deli;
-	int i;
+	int		len;
+	char	deli;
+	int		i;
 
 	i = 0;
 	len = ft_strlen(s);
@@ -24,7 +24,7 @@ int ft_quote_error(char *s)
 	return (0);
 }
 
-int ft_pipe_error(int position, char *current, char *next, enum s_type next_type)
+int	ft_pipe_error(int position, char *current, char *next, t_type next_type)
 {
 	if (position == 0 && ft_strcmp(current, "|") == 0)
 		return (258);
@@ -32,25 +32,29 @@ int ft_pipe_error(int position, char *current, char *next, enum s_type next_type
 		return (258);
 	if (current && ft_strcmp(current, "|") == 0 && ft_strcmp(next, "|") == 0)
 		return (258);
-	if (current && ft_strcmp(current, "|") == 0 && (next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC))
+	if (current && ft_strcmp(current, "|") == 0 && (next_type == R_IN
+			|| next_type == R_OUT_APP || next_type == R_OUT_TRUNC
+			|| next_type == R_HEREDOC))
 		return (258);
 	return (0);
 }
 
-int ft_redir_error(enum s_type cur_type, enum s_type next_type)
+int	ft_redir_error(enum s_type cur_type, enum s_type next_type)
 {
-	if ((cur_type == R_IN || cur_type == R_OUT_APP || cur_type == R_OUT_TRUNC || cur_type == R_HEREDOC) && 
-		(next_type == R_IN || next_type == R_OUT_APP || next_type == R_OUT_TRUNC || next_type == R_HEREDOC || next_type == PIPE))
+	if ((cur_type == R_IN || cur_type == R_OUT_APP || cur_type == R_OUT_TRUNC
+			|| cur_type == R_HEREDOC) && (next_type == R_IN
+			|| next_type == R_OUT_APP || next_type == R_OUT_TRUNC
+			|| next_type == R_HEREDOC || next_type == PIPE))
 		return (258);
 	return (0);
 }
 
-int ft_type_input(t_token *token, t_envp **envp, t_data *data)
+int	ft_type_input(t_token *token, t_envp **envp, t_data *data)
 {
-	t_token *cur;
+	t_token	*cur;
+
 	if (!token)
 		return (0);
-
 	cur = token;
 	while (cur->next != NULL)
 	{
@@ -63,7 +67,6 @@ int ft_type_input(t_token *token, t_envp **envp, t_data *data)
 		ft_add_type_arg(cur);
 		cur = cur->next;
 	}
-	//function to take care of envs
 	ft_arg_converter(token, envp, data);
 	return (ft_errors(token));
 }

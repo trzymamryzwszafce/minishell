@@ -57,17 +57,8 @@ t_token	*ft_is_limiter(t_token *token, char *input, int *i)
 	return (token);
 }
 
-int	ft_split_input(t_token *tokens, char *input)
+int	ft_check_syntax_errors(char *input, int input_len)
 {
-	int		i;
-	t_token	*cur;
-	int		input_len;
-	char	*found;
-	int		error;
-
-	input_len = ft_strlen(input);
-	cur = tokens;
-	i = 0;
 	if (ft_strnstr(input, ">><>", input_len) != NULL
 		|| ft_strnstr(input, ">> <>", input_len) != NULL
 		|| ft_strnstr(input, "<< <>", input_len) != NULL
@@ -83,6 +74,23 @@ int	ft_split_input(t_token *tokens, char *input)
 		write(2, "minishell: syntax error near unexpected token `>'\n", 50);
 		return (258);
 	}
+	return (0);
+}
+
+int	ft_split_input(t_token *tokens, char *input)
+{
+	int		i;
+	t_token	*cur;
+	int		input_len;
+	char	*found;
+	int		error;
+
+	i = 0;
+	input_len = ft_strlen(input);
+	error = ft_check_syntax_errors(input, input_len);
+	if (error != 0)
+		return (error);
+	cur = tokens;
 	while (input[i])
 		cur = ft_is_limiter(cur, input, &i);
 	return (0);
