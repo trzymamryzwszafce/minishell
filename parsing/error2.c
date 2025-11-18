@@ -52,6 +52,7 @@ int	ft_redir_error(enum s_type cur_type, enum s_type next_type)
 int	ft_type_input(t_token *token, t_envp **envp, t_data *data)
 {
 	t_token	*cur;
+	int		error;
 
 	if (!token)
 		return (0);
@@ -67,6 +68,9 @@ int	ft_type_input(t_token *token, t_envp **envp, t_data *data)
 		ft_add_type_arg(cur);
 		cur = cur->next;
 	}
+	error = ft_errors(token);
+	if (error != 0)
+		return (error);
 	ft_arg_converter(token, envp, data);
-	return (ft_errors(token));
+	return (0);
 }

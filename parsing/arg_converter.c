@@ -1,11 +1,12 @@
 #include "../minishell.h"
 
-char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str)
+char	*ft_envp_value_converter(t_envp **envp,
+	char *str, int *i, char *new_str)
 {
-	int j; //początek str
-	char *temp_key; //bedzie przechowywał od znaku dolara do końca envp
-	char *temp_value;
-	char *tmp_dup;
+	int		j;
+	char	*temp_key;
+	char	*temp_value;
+	char	*tmp_dup;
 
 	(*i)++;
 	j = *i;
@@ -22,7 +23,8 @@ char *ft_envp_value_converter(t_envp **envp, char *str, int *i, char *new_str)
 	free(tmp_dup);
 	return (new_str);
 }
-char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+
+char	*ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
 {
 	if (!sign->single_q)
 	{
@@ -37,7 +39,8 @@ char *ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, 
 	}
 	return (new_str);
 }
-char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+
+char	*ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
 {
 	if (!sign->double_q)
 	{
@@ -53,10 +56,10 @@ char *ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, 
 	return (new_str);
 }
 
-char *ft_convert(t_token str, t_envp **envp, t_convert *sign)
+char	*ft_convert(t_token str, t_envp **envp, t_convert *sign)
 {
-	char *new_str;
-	int i;
+	char	*new_str;
+	int		i;
 	
 	new_str = ft_strdup("");
 	i = 0;
@@ -76,12 +79,12 @@ char *ft_convert(t_token str, t_envp **envp, t_convert *sign)
 	return (new_str);
 }
 
-void ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
+void	ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 {
-	t_token *cur;
-	t_convert sign;
-	char *new_str;
-	char *temp;
+	t_token		*cur;
+	t_convert	sign;
+	char		*new_str;
+	char		*temp;
 
 	cur = token;
 	while (cur->next != NULL)
@@ -92,7 +95,7 @@ void ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 			free(cur->elem);
 			cur->elem = new_str;
 			new_str = NULL;
-			if (ft_strcmp(cur->elem, "$?") == 0)
+			if (cur->elem && ft_strcmp(cur->elem, "$?") == 0)
 			{
 				temp = ft_itoa(data->ls_exit);
 				free(cur->elem);
