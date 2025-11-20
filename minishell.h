@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/20 13:44:07 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/20 16:14:21 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_token	*ft_add_node(t_token *token, char *s, int *i, int n);
 t_token	*ft_create_node(t_token *cur);
 int		ft_count_input_words(char const *s);
 
-
 //tokenizer.c
 void	ft_add_type(t_token *token);
 void ft_add_type_arg(t_token *token);
@@ -111,11 +110,14 @@ char *ft_assign_key(char *str);
 
 //error.c
 int ft_errors(t_token *token);
+int	ft_check_redir(t_token *cur, int *error, char **message);
+int	ft_check_pipe(t_token *cur, int i, int *error, char **message);
+void	ft_check_quotes(t_token *cur, int *error, char **message);
 void    ft_error_message(int exit_code, char *message);
 
 //error2.c
 int ft_quote_error(char *s);
-int ft_pipe_error(int position, char *current, char *next, enum s_type next_type);
+int ft_pipe_error(int position, char *current, char *next, t_type next_type);
 int ft_redir_error(enum s_type cur_type, enum s_type next_type);
 int ft_type_input(t_token *token, t_envp **envp, t_data *data);
 
@@ -134,6 +136,9 @@ char *ft_join_and_free(char *s1, char *s2);
 
 //struct_filler.c
 void ft_struct_filler(t_token *tokens, t_data *data);
+
+//typer.c
+void	count_and_alloc_for_cmd(t_token *start, t_command *cmd);
 
 //debug.c
 void print_command_list(t_command *cmd);

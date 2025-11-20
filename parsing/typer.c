@@ -1,5 +1,32 @@
 #include "../minishell.h"
 
+void	count_and_alloc_for_cmd(t_token *start, t_command *cmd)
+{
+	t_token	*cur;
+	int		args;
+	int		rin;
+	int		rout;
+
+	cur = start;
+	args = 0;
+	rin = 0;
+	rout = 0;
+	while (cur->next != NULL && cur->type != PIPE)
+	{
+		if (cur->type == ARG)
+			args++;
+		else if (cur->type == ARG_IN)
+			rin++;
+		else if (cur->type == ARG_OUT)
+			rout++;
+		cur = cur->next;
+	}
+	cmd->arg = calloc(args + 1, sizeof(char *));
+	cmd->red_in = calloc(rin + 1, sizeof(char *));
+	cmd->red_out = calloc(rout + 1, sizeof(char *));
+	cmd->heredoc_count = 0;
+}
+
 void	ft_add_type(t_token *token)
 {
 	if (ft_strcmp(token->elem, "<") == 0)

@@ -22,8 +22,49 @@ void	ft_error_message(int exit_code, char *message)
 	return ;
 }
 
+void	ft_check_quotes(t_token *cur, int *error, char **message)
+{
+	if (cur->type != ARG)
+		return ;
+	*error = ft_quote_error(cur->elem);
+	if (*error)
+		*message = "unclosed quotes";
+}
 
-int	ft_errors(t_token *token) //będzie zwracał kod błędu
+int	ft_check_pipe(t_token *cur, int i, int *error, char **message)
+{
+	if (cur->type != PIPE || *error != 0)
+		return (0);
+	*error = ft_pipe_error(i, cur->elem, cur->next->elem, cur->next->type);
+	if (*error)
+	{
+		*message = "|";
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_check_redir(t_token *cur, int *error, char **message)
+{
+	if ((cur->type != R_IN && cur->type != R_OUT_APP && cur->type != R_OUT_TRUNC
+			&& cur->type != R_HEREDOC) || *error != 0)
+		return (0);
+	if (cur->next->elem == NULL)
+	{
+		*error = 258;
+		*message = "newline";
+		return (1);
+	}
+	*error = ft_redir_error(cur->type, cur->next->type);
+	if (*error)
+	{
+		*message = cur->next->elem;
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_errors(t_token *token)
 {
 	t_token	*cur;
 	int		error;
@@ -36,36 +77,11 @@ int	ft_errors(t_token *token) //będzie zwracał kod błędu
 	message = NULL;
 	while (cur->next != NULL)
 	{
-		if (cur->type == ARG)
-		{
-			error = ft_quote_error(cur->elem);
-			if (error)
-				message = "unclosed quotes";
-		}
-		else if (cur->type == PIPE && error == 0)
-		{
-			error = ft_pipe_error(i, cur->elem, cur->next->elem, cur->next->type);
-			if (error)
-			{
-				message = "|";
-				break ;
-			}
-		}
-		else if ((cur->type == R_IN || cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC || cur->type == R_HEREDOC) && error == 0)
-		{
-			if (cur->next->elem == NULL)
-			{
-				error = 258;
-				message = "newline";
-				break ;
-			}
-			error = ft_redir_error(cur->type, cur->next->type);
-			if (error)
-			{
-				message = cur->next->elem;
-				break ;
-			}
-		}
+		ft_check_quotes(cur, &error, &message);
+		if (ft_check_pipe(cur, i, &error, &message))
+			break ;
+		if (ft_check_redir(cur, &error, &message))
+			break ;
 		i++;
 		cur = cur->next;
 	}

@@ -32,10 +32,6 @@ int	ft_pipe_error(int position, char *current, char *next, t_type next_type)
 		return (258);
 	if (current && ft_strcmp(current, "|") == 0 && ft_strcmp(next, "|") == 0)
 		return (258);
-	if (current && ft_strcmp(current, "|") == 0 && (next_type == R_IN
-			|| next_type == R_OUT_APP || next_type == R_OUT_TRUNC
-			|| next_type == R_HEREDOC))
-		return (258);
 	return (0);
 }
 
