@@ -1,10 +1,10 @@
 #include "../minishell.h"
 
-char *ft_assign_key(char *str)
+char	*ft_assign_key(char *str)
 {
-	int i;
-	int j;
-	char *key;
+	int		i;
+	int		j;
+	char	*key;
 
 	i = 0;
 	j = 0;
@@ -18,10 +18,7 @@ char *ft_assign_key(char *str)
 			key = malloc(i + 1);
 			j = 0;
 			while (j < i)
-			{
-				key[j] = str[j];
-				j++;
-			}
+				key[j++] = str[j];
 			key[j] = '\0';
 			return (key);
 		}
@@ -30,17 +27,17 @@ char *ft_assign_key(char *str)
 	return (key);
 }
 
-char *ft_assign_value(char *str)
+char	*ft_assign_value(char *str)
 {
-	int i;
-	int j;
-	int k;
-	char *value;
+	int		i;
+	int		j;
+	int		k;
+	char	*value;
 
-	i = -1; //samo key i = bez value
-	j = 0; //na całość
-	k = 0; //na value
-	while(str[++i])
+	i = -1;
+	j = 0;
+	k = 0;
+	while (str[++i])
 	{
 		if (str[i] == '=')
 		{
@@ -58,20 +55,21 @@ char *ft_assign_value(char *str)
 	}
 	return (NULL);
 }
-void ft_add_envp_list(t_envp **envp, char *key, char *value)
-{
-    t_envp *new;
-	t_envp *node;
 
-    new = malloc(sizeof(t_envp));
-    new->key = ft_strdup(key);
-    new->value = ft_strdup(value);
-    new->next = NULL;
-    if (*envp == NULL)
-    {
-        *envp = new;
-        return ;
-    }
+void	ft_add_envp_list(t_envp **envp, char *key, char *value)
+{
+	t_envp	*new;
+	t_envp	*node;
+
+	new = malloc(sizeof(t_envp));
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	if (*envp == NULL)
+	{
+		*envp = new;
+		return ;
+	}
 	node = *envp;
 	while (node->next != NULL)
 		node = node->next;

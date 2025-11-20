@@ -24,12 +24,13 @@ char	*ft_envp_value_converter(t_envp **envp,
 	return (new_str);
 }
 
-char	*ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+char	*ft_handle_single_quote(char *str, t_convert *sign,
+	int *i, char *new_str)
 {
 	if (!sign->single_q)
 	{
 		sign->single_q = true;
-		new_str = ft_change_arg(str, sign, i, new_str, envp);
+		new_str = ft_change_arg(str, sign, i, new_str);
 		sign->single_q = false;
 	}
 	else
@@ -40,12 +41,13 @@ char	*ft_handle_single_quote(char *str, t_convert *sign, int *i, char *new_str, 
 	return (new_str);
 }
 
-char	*ft_handle_double_quote(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+char	*ft_handle_double_quote(char *str, t_convert *sign,
+	int *i, char *new_str)
 {
 	if (!sign->double_q)
 	{
 		sign->double_q = true;
-		new_str = ft_change_arg(str, sign, i, new_str, envp);
+		new_str = ft_change_arg(str, sign, i, new_str);
 		sign->double_q = false;
 	}
 	else
@@ -60,21 +62,22 @@ char	*ft_convert(t_token str, t_envp **envp, t_convert *sign)
 {
 	char	*new_str;
 	int		i;
-	
+
 	new_str = ft_strdup("");
 	i = 0;
 	sign->double_q = false;
 	sign->single_q = false;
+	sign->envp = envp;
 	while (i < (int )ft_strlen(str.elem))
 	{
 		if (str.elem[i] == '\'' && !sign->double_q)
-			new_str = ft_handle_single_quote(str.elem, sign, &i, new_str, envp);
+			new_str = ft_handle_single_quote(str.elem, sign, &i, new_str);
 		else if (str.elem[i] == '"' && !sign->single_q)
-			new_str = ft_handle_double_quote(str.elem, sign, &i, new_str, envp);
+			new_str = ft_handle_double_quote(str.elem, sign, &i, new_str);
 		else if (str.elem[i] == '$' && !sign->single_q)
 			new_str = ft_envp_value_converter(envp, str.elem, &i, new_str);
 		else
-			new_str = ft_change_arg(str.elem, sign, &i, new_str, envp);
+			new_str = ft_change_arg(str.elem, sign, &i, new_str);
 	}
 	return (new_str);
 }
@@ -89,7 +92,7 @@ void	ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 	cur = token;
 	while (cur->next != NULL)
 	{
-		if (cur->type == ARG)
+		if (cur->type == ARG || cur->type == ARG_IN || cur->type == ARG_OUT)
 		{
 			new_str = ft_convert(*cur, envp, &sign);
 			free(cur->elem);

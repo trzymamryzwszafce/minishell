@@ -2,17 +2,12 @@
 
 static int	is_meta(char c)
 {
-	return (c == ' ' || c == '\t' || c == '<' || c == '>' || c == '|'); //zmienić ' ' na is white space
-}
-
-static int	is_quote(char c)
-{
-	return (c == 39 || c == 34);
+	return (c == ' ' || c == '\t' || c == '<' || c == '>' || c == '|');
 }
 
 static void	adv_plain(const char *s, int *i, int *cnt)
 {
-	while (s[*i] && !is_meta(s[*i]) && !is_quote(s[*i]))
+	while (s[*i] && !is_meta(s[*i]) && s[*i] != '\'' && s[*i] != '"')
 	{
 		(*i)++;
 		(*cnt)++;
@@ -42,7 +37,7 @@ static void	advance_word(const char *s, int *i, int *cnt)
 {
 	while (s[*i] && !is_meta(s[*i]))
 	{
-		if (is_quote(s[*i]))
+		if (s[*i] == '\'' || s[*i] == '"')
 			adv_quoted(s, i, cnt);
 		else
 			adv_plain(s, i, cnt);

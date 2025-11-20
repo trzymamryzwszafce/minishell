@@ -1,16 +1,30 @@
 #include "../minishell.h"
 
-char *ft_join_and_free(char *s1, char *s2)
+char	*ft_join_and_free(char *s1, char *s2)
 {
-    char *res = ft_strjoin(s1, s2);
+	char	*res;
+
+	res = ft_strjoin(s1, s2);
 	free(s1);
-	return res;
+	return (res);
 }
 
-char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
+char	*ft_substr_join_free(char *new_str, char *str, int start, int len)
 {
-	char *temp;
-	int j;
+	char	*temp;
+
+	temp = ft_substr(str, start, len);
+	if (!temp)
+		return (new_str);
+	new_str = ft_join_and_free(new_str, temp);
+	free(temp);
+	return (new_str);
+}
+
+char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
+{
+	char	*temp;
+	int		j;
 
 	if (str[*i] == '"')
 		(*i)++;
@@ -19,74 +33,62 @@ char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 	{
 		if (str[*i] == '$')
 		{
-			temp = ft_substr(str, j, *i - j);
-			new_str = ft_join_and_free(new_str, temp);
-			free(temp);
-			new_str = ft_envp_value_converter(envp, str, i, new_str); //problem
+			new_str = ft_substr_join_free(new_str, str, j, *i - j);
+			new_str = ft_envp_value_converter(envp, str, i, new_str);
 			j = *i;
 		}
 		else
 			(*i)++;
 	}
 	if (*i > j)
-	{
-		temp = ft_substr(str, j, *i - j);
-		new_str = ft_join_and_free(new_str, temp);
-		free(temp);
-	}
+		new_str = ft_substr_join_free(new_str, str, j, *i - j);
 	if (str[*i] == '"')
 		(*i)++;
 	return (new_str);
 }
 
-char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
+char	*ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 {
-	char *temp;
-	int j;//przechowalnia dla i na chwile
+	char	*temp;
+	int		j;
 
-	j = *i;//początek
+	j = *i;
 	if (!sign->double_q)
 	{
 		while (str[*i] && str[*i] != '$' && str[*i] != '\'' && str[*i] != '\"')
 			(*i)++;
-		temp = ft_substr(str, j, *i - j);
-		new_str = ft_join_and_free(new_str, temp);
-		free(temp);
+		new_str = ft_substr_join_free(new_str, str, j, *i - j);
 	}
 	else
 	{
 		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
 			(*i)++;
-		temp = ft_substr(str, j, *i - j);
-		new_str = ft_join_and_free(new_str, temp);
-		free(temp);
+		new_str = ft_substr_join_free(new_str, str, j, *i - j);
 	}
 	return (new_str);
 }
 
-char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str, t_envp **envp)
+char	*ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
 {
+	char	*temp;
+	int		start;
+
 	if (!str)
-        return (NULL);
+		return (NULL);
 	if (!new_str)
 		return (ft_strdup(""));
 	if (!sign->double_q && !sign->single_q)
 		new_str = ft_no_quote(str, sign, i, new_str);
 	if (sign->double_q)
-		new_str = ft_double_quote(str, i, new_str, envp);
+		new_str = ft_double_quote(str, i, new_str, sign->envp);
 	else if (sign->single_q)
 	{
-		/* copy literally until next single quote */
-		char *temp;
-		int start;
 		if (str[*i] == '\'')
 			(*i)++;
 		start = *i;
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
-		temp = ft_substr(str, start, *i - start);
-		new_str = ft_join_and_free(new_str, temp);
-		free(temp);
+		new_str = ft_substr_join_free(new_str, str, start, *i - start);
 		if (str[*i] == '\'')
 			(*i)++;
 	}
