@@ -73,6 +73,7 @@ typedef struct s_data
 {
 	int cmd_count;
 	int	ls_exit;
+	int	pipe_count;
 	t_command *cmd;
 }	t_data;
 

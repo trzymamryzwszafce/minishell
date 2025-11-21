@@ -95,14 +95,14 @@ void ft_process_input(char *input, t_envp **envp)
 	tokens = ft_calloc(1, sizeof(t_token));
 	data = ft_calloc(1, sizeof(t_data));
 	data->cmd = NULL;
-	error = ft_parsing(tokens, envp, input, 0, data);	
+	error = ft_parsing(tokens, envp, input, 0, data);
 	if (error == 0)
 	{
 		ft_struct_filler(tokens, data);
 		print_command_list(data->cmd);
 		//egzekuzja
 		ft_free_command_list(data->cmd);
-    	data->cmd = NULL;
+    		data->cmd = NULL;
 	}
 	ft_free_tokens(tokens);
 	free(data);

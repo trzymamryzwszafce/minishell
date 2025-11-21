@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 19:20:43 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/18 19:28:02 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:42:23 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,23 @@ void	env_update(t_envp **env, char *key, char *value)
 		tmp = tmp->next;
 	}
 	env_add(env, key, value);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	else if (!ft_strcmp(cmd, "env"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	else if (!ft_strcmp(cmd, "export"))
+		return (1);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	return (0);
 }
