@@ -10,7 +10,7 @@ char	*ft_envp_value_converter(t_envp **envp,
 
 	(*i)++;
 	j = *i;
-	while (str[*i] && str[*i] != '\'' && str[*i] != '\"' && str[*i] != '$')
+	while (str[*i] && str[*i] != '\'' && str[*i] != '\"' && str[*i] != '$' && str[*i] != ' ')
 		(*i)++;
 	temp_key = ft_substr(str, j, *i - j);
 	temp_value = ft_get_envp_value(envp, temp_key);

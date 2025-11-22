@@ -77,7 +77,7 @@ int	ft_check_syntax_errors(char *input, int input_len)
 	if (ft_strnstr(input, "<>", input_len) != NULL)
 	{
 		write(2,
-			"minishell: syntax error nearunexpected token `newline'\n", 56);
+			"minishell: syntax error near unexpected token `newline'\n", 56);
 		return (258);
 	}
 	return (0);

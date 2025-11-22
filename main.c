@@ -12,59 +12,56 @@ void	init_cmd(t_command *cmd)
 	cmd->next = NULL;
 }
 
-static void free_str_array(char **arr)
+void	ft_free_str_array(char **arr)
 {
-    int i;
-	
+	int	i;
+
 	i = 0;
-    if (!arr)
-        return ;
-    while (arr[i])
-    {
-        free(arr[i]);
-        i++;
-    }
-    free(arr);
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
-void ft_free_command_list(t_command *cmd)
+void	ft_free_command_list(t_command *cmd)
 {
-    t_command *tmp;
+	t_command	*tmp;
 
-    while (cmd)
-    {
-        tmp = cmd->next;
-
-        free_str_array(cmd->arg);
-        free_str_array(cmd->red_in);
-        free_str_array(cmd->red_out);
-        free_str_array(cmd->heredoc);
-
-        free(cmd);
-        cmd = tmp;
-    }
-	//free(cmd);
+	while (cmd)
+	{
+		tmp = cmd->next;
+		ft_free_str_array(cmd->arg);
+		ft_free_str_array(cmd->red_in);
+		ft_free_str_array(cmd->red_out);
+		ft_free_str_array(cmd->heredoc);
+		free(cmd);
+		cmd = tmp;
+	}
 }
 
-void ft_free_env_list(t_envp **envp)
+void	ft_free_env_list(t_envp **envp)
 {
-    t_envp *tmp;
+	t_envp	*tmp;
 
-    while (*envp)
-    {
-        tmp = (*envp)->next;
-        free((*envp)->key);
-        free((*envp)->value);
+	while (*envp)
+	{
+		tmp = (*envp)->next;
+		free((*envp)->key);
+		free((*envp)->value);
 		free(*envp);
-        *envp = tmp;
-    }
+		*envp = tmp;
+	}
 }
 
 /* free whole token linked list (elem + node) */
-void ft_free_tokens(t_token *tokens)
+void	ft_free_tokens(t_token *tokens)
 {
-	t_token *cur;
-	t_token *tmp;
+	t_token	*cur;
+	t_token	*tmp;
 
 	cur = tokens;
 	while (cur)
@@ -77,19 +74,19 @@ void ft_free_tokens(t_token *tokens)
 	}
 }
 
-int ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error, t_data *data)
+int	ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error, t_data *data)
 {
 	error = ft_split_input(tokens, input);
 	if (error == 0)
 		error = ft_type_input(tokens, envp, data);
 	return (error);
 }
-void ft_process_input(char *input, t_envp **envp)
+void	ft_process_input(char *input, t_envp **envp)
 {
-	t_token *tokens;
-	t_data *data;
-	t_command *cmd;
-	int error;
+	t_token		*tokens;
+	t_data		*data;
+	t_command	*cmd;
+	int			error;
 
 	add_history(input);
 	tokens = ft_calloc(1, sizeof(t_token));
@@ -99,22 +96,22 @@ void ft_process_input(char *input, t_envp **envp)
 	if (error == 0)
 	{
 		ft_struct_filler(tokens, data);
-		print_command_list(data->cmd);
+		//print_command_list(data->cmd);
 		//egzekuzja
 		//execution(data, cmd, envp);
 		ft_free_command_list(data->cmd);
-    	data->cmd = NULL;
+		data->cmd = NULL;
 	}
 	ft_free_tokens(tokens);
 	free(data);
 }
 
-
 int	main(void)
 {
-	extern char **environ;
- 	char *input;
-	t_envp *envp;
+	extern char	**environ;
+	char		*input;
+	t_envp		*envp;
+
 	using_history();
 	envp = ft_create_envp(environ);
 	while (1)
