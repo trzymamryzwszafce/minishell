@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:16:26 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/16 23:11:41 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 00:57:22 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_exit(char **args, int last_status)
 {
 	long long	status;
 
-	ft_printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
 	if (!args[1])
 		exit(last_status);
 	if (!is_numeric(args[1]))

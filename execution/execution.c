@@ -6,16 +6,58 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/21 03:51:30 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 04:22:22 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	exec_parent_builtin(t_data *data, t_command *cmd, t_envp **env)
+{
+	if (!ft_strcmp(cmd->arg[0], "cd"))
+		return (ft_cd(env, cmd->arg));
+	else if (!ft_strcmp(cmd->arg[0], "export"))
+		return (ft_export(env, cmd->arg));
+	else if (!ft_strcmp(cmd->arg[0], "unset"))
+		return (ft_unset(env, cmd->arg));
+	else if (!ft_strcmp(cmd->arg[0], "exit"))
+		ft_exit(cmd->arg, data->ls_exit);
+	return (0);
+}
+
+void	restore_fd(int fd_in, int fd_out)
+{
+	if(fd_in >= 0)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if(fd_out >= 0)
+	{
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+}
+
 void	execution(t_data *data, t_command *cmd, t_envp **env)
 {
-	if (data->pipe_count == 0 && data->cmd_count == 1
-		&& !ft_strcmp(cmd->arg[0], "exit"))
-		ft_exit(cmd->arg[0], data->ls_exit);
-	exec_cmd(data, cmd, env);
+	int	fd_in;
+	int	fd_out;
+
+	if (data->pipe_count == 0 && is_parent_builtin(data->cmd->arg[0]))
+	{
+		fd_in = dup(STDIN_FILENO);
+		fd_out = dup(STDOUT_FILENO);
+		// if (redirections(data) != 0) //TODO
+		// {
+		// }
+		data->ls_exit = exec_parent_builtin(data, cmd, env);
+		restore_fd(fd_in, fd_out);
+		return ;
+	}
+	// if (data->pipe_count > 0) //TODO
+	// {
+	// }
+	// else
+	// 	exec_simple_command
 }

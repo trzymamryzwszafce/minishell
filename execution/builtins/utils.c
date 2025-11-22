@@ -6,11 +6,27 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 19:20:43 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/21 03:42:23 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 02:51:58 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	env_add(t_envp **env, char *key, char *value)
+{
+	t_envp		*new;
+
+	new = malloc(sizeof(t_envp));
+	if (!new)
+		return ;
+	new->key = ft_strdup(key);
+	if (value)
+		new->value = ft_strdup(value);
+	else
+		new->value = NULL;
+	new->next = *env;
+	*env = new;
+}
 
 int	valid_check(char *s)
 {
@@ -82,6 +98,29 @@ int	is_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "pwd"))
 		return (1);
 	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	return (0);
+}
+int	is_parent_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "export"))
+		return (1);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	return (0);
+}
+
+int	is_child_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "env"))
 		return (1);
 	return (0);
 }

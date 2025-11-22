@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/20 16:14:21 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/11/22 04:22:40 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_convert
 {
 	bool double_q;
 	bool single_q;
-	struct t_envp **envp;
+	struct s_envp **envp;
 }	t_convert;
 
 typedef enum s_type
@@ -49,6 +49,12 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }		t_token;
+
+typedef struct s_pipes
+{
+	int	fd[2];
+	int	old_fd;
+}	t_pipes;
 
 typedef struct s_envp
 {
@@ -144,4 +150,23 @@ void	count_and_alloc_for_cmd(t_token *start, t_command *cmd);
 //debug.c
 void print_command_list(t_command *cmd);
 
+void	execution(t_data *data, t_command *cmd, t_envp **env);
+
+//builtins
+int	ft_cd(t_envp **env, char **args);
+int	ft_echo(char **args);
+int	ft_env(char **args, t_envp *list);
+int	ft_exit(char **args, int last_status);
+int	ft_export(t_envp **env, char **args);
+int	ft_pwd(void);
+int	ft_unset(t_envp **env, char **args);
+//utils
+int	valid_check(char *s);
+int	print_expo_env(t_envp *env);
+void	env_update(t_envp **env, char *key, char *value);
+int	is_builtin(char *cmd);
+void	env_add(t_envp **env, char *key, char *value);
+int	is_parent_builtin(char *cmd);
+int	is_child_builtin(char *cmd);
+void execute_builtin(t_data *data, t_envp **env);
 #endif
