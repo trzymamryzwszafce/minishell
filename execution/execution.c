@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/22 04:22:22 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:43:18 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	exec_parent_builtin(t_data *data, t_command *cmd, t_envp **env)
 {
-	if (!ft_strcmp(cmd->arg[0], "cd"))
-		return (ft_cd(env, cmd->arg));
-	else if (!ft_strcmp(cmd->arg[0], "export"))
-		return (ft_export(env, cmd->arg));
-	else if (!ft_strcmp(cmd->arg[0], "unset"))
-		return (ft_unset(env, cmd->arg));
-	else if (!ft_strcmp(cmd->arg[0], "exit"))
-		ft_exit(cmd->arg, data->ls_exit);
+	if (!ft_strcmp(data->cmd->arg[0], "cd"))
+		return (ft_cd(env, data->cmd->arg));
+	else if (!ft_strcmp(data->cmd->arg[0], "export"))
+		return (ft_export(env, data->cmd->arg));
+	else if (!ft_strcmp(data->cmd->arg[0], "unset"))
+		return (ft_unset(env, data->cmd->arg));
+	else if (!ft_strcmp(data->cmd->arg[0], "exit"))
+		ft_exit(data->cmd->arg, data->ls_exit);
 	return (0);
 }
 
@@ -41,18 +41,18 @@ void	restore_fd(int fd_in, int fd_out)
 
 void	execution(t_data *data, t_command *cmd, t_envp **env)
 {
-	int	fd_in;
-	int	fd_out;
+	// int	fd_in;
+	// int	fd_out;
 
 	if (data->pipe_count == 0 && is_parent_builtin(data->cmd->arg[0]))
 	{
-		fd_in = dup(STDIN_FILENO);
-		fd_out = dup(STDOUT_FILENO);
+		// fd_in = dup(STDIN_FILENO);
+		// fd_out = dup(STDOUT_FILENO);
 		// if (redirections(data) != 0) //TODO
 		// {
 		// }
 		data->ls_exit = exec_parent_builtin(data, cmd, env);
-		restore_fd(fd_in, fd_out);
+		// restore_fd(fd_in, fd_out);
 		return ;
 	}
 	// if (data->pipe_count > 0) //TODO

@@ -6,27 +6,11 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:15:19 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/18 19:28:11 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:41:03 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	env_add(t_envp **env, char *key, char *value)
-{
-	t_envp		*new;
-
-	new = malloc(sizeof(t_envp));
-	if (!new)
-		return ;
-	new->key = ft_strdup(key);
-	if (value)
-		new->value = ft_strdup(value);
-	else
-		new->value = NULL;
-	new->next = *env;
-	*env = new;
-}
 
 void	split_value(char *arg, char **key, char **value)
 {

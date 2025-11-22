@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/22 04:22:40 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:40:00 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,6 @@ void	env_add(t_envp **env, char *key, char *value);
 int	is_parent_builtin(char *cmd);
 int	is_child_builtin(char *cmd);
 void execute_builtin(t_data *data, t_envp **env);
+void	execution(t_data *data, t_command *cmd, t_envp **env);
+
 #endif
