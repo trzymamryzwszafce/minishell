@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/22 19:40:00 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/23 02:23:08 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <limits.h>
+# include <sys/wait.h>
 
 typedef struct s_convert
 {
@@ -150,7 +151,7 @@ void	count_and_alloc_for_cmd(t_token *start, t_command *cmd);
 //debug.c
 void print_command_list(t_command *cmd);
 
-void	execution(t_data *data, t_command *cmd, t_envp **env);
+void	execution(t_data *data, t_envp **env);
 
 //builtins
 int	ft_cd(t_envp **env, char **args);
@@ -169,6 +170,8 @@ void	env_add(t_envp **env, char *key, char *value);
 int	is_parent_builtin(char *cmd);
 int	is_child_builtin(char *cmd);
 void execute_builtin(t_data *data, t_envp **env);
-void	execution(t_data *data, t_command *cmd, t_envp **env);
+char	**list_to_arr(t_envp *env);
+char	*cmd_path(char *cmd, char **envp);
+void	exec_simple_command(t_data *data, t_envp *env);
 
 #endif

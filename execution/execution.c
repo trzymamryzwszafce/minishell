@@ -6,13 +6,13 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/22 19:43:18 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/23 02:23:09 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	exec_parent_builtin(t_data *data, t_command *cmd, t_envp **env)
+int	exec_parent_builtin(t_data *data, t_envp **env)
 {
 	if (!ft_strcmp(data->cmd->arg[0], "cd"))
 		return (ft_cd(env, data->cmd->arg));
@@ -39,25 +39,25 @@ void	restore_fd(int fd_in, int fd_out)
 	}
 }
 
-void	execution(t_data *data, t_command *cmd, t_envp **env)
+void	execution(t_data *data, t_envp **env)
 {
-	// int	fd_in;
-	// int	fd_out;
+	int	fd_in;
+	int	fd_out;
 
 	if (data->pipe_count == 0 && is_parent_builtin(data->cmd->arg[0]))
 	{
-		// fd_in = dup(STDIN_FILENO);
-		// fd_out = dup(STDOUT_FILENO);
+		fd_in = dup(STDIN_FILENO);
+		fd_out = dup(STDOUT_FILENO);
 		// if (redirections(data) != 0) //TODO
 		// {
 		// }
-		data->ls_exit = exec_parent_builtin(data, cmd, env);
-		// restore_fd(fd_in, fd_out);
+		data->ls_exit = exec_parent_builtin(data, env);
+		restore_fd(fd_in, fd_out);
 		return ;
 	}
 	// if (data->pipe_count > 0) //TODO
 	// {
 	// }
 	// else
-	// 	exec_simple_command
+	exec_simple_command(data, *env);
 }

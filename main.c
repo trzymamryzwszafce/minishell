@@ -98,7 +98,7 @@ void	ft_process_input(char *input, t_envp **envp)
 		ft_struct_filler(tokens, data);
 		//print_command_list(data->cmd);
 		//egzekuzja
-		//execution(data, cmd, envp);
+		execution(data, envp);
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;
 	}

@@ -80,6 +80,7 @@ int					ft_udec(unsigned int n);
 int					ft_dec(int n);
 int					ft_hexptr(unsigned long n);
 int					ft_strcmp(const char *s1, const char *s2);
+void				ft_free2d(char **arr);
 char				*ft_strcpy(char *s1, char *s2);
 void				ft_free_split(char **arr);
 long long			ft_atoll(const char *str);
