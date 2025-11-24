@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/23 02:23:08 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 02:56:44 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 # include <limits.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 typedef struct s_convert
 {
@@ -173,5 +174,7 @@ void execute_builtin(t_data *data, t_envp **env);
 char	**list_to_arr(t_envp *env);
 char	*cmd_path(char *cmd, char **envp);
 void	exec_simple_command(t_data *data, t_envp *env);
+int	redirections(t_data *data);
+int	process_heredoc(char **heredoc, int heredoc_count);
 
 #endif

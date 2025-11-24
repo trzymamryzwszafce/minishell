@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/23 02:33:22 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 03:01:36 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	exec_simple_command(t_data *data, t_envp *env)
 	pid = fork();
 	if (pid == 0)
 	{
-		//redirections(data) TODO
+		if (redirections(data) < 0)
+			exit (1);
 		if (is_child_builtin(data->cmd->arg[0]))
 			exec_child_builtin(data, env);
 		exec_external(data, env);
