@@ -9,8 +9,8 @@ CFLAGS =  -I includes -I libft -g
 NAME = minishell
 
 # Source Files (all .c files in the current directory)
-SRCS = $(wildcard parsing/*.c execution/*.c execution/builtins/*.c) main.c
-#SRCS = $(wildcard parsing/*.c) main.c
+SRCS = $(wildcard parsing/*.c execution/*.c execution/builtins/*.c) main.c free_structs.c
+
 # Object Files
 OBJS = $(SRCS:.c=.o)
 

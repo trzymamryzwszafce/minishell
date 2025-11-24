@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/24 05:51:56 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:58:49 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,16 @@ typedef struct s_data
 	t_command *cmd;
 }	t_data;
 
+//main.c
+void	init_cmd(t_command *cmd);
+int	ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error, t_data *data);
+void	ft_process_input(char *input, t_envp **envp);
+
+//free_structs.c
+void	ft_free_str_array(char **arr);
+void	ft_free_command_list(t_command *cmd);
+void	ft_free_env_list(t_envp **envp);
+void	ft_free_tokens(t_token *tokens);
 
 int		ft_count_until_deli(char *s, int n, char delimiter, int count);
 void	init_cmd(t_command *cmd);
