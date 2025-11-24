@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/24 03:02:24 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 05:22:39 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	execution(t_data *data, t_envp **env)
 	int	fd_in;
 	int	fd_out;
 
-	if (!data->cmd || !data->cmd->arg || !data->cmd->arg[0])
-		return ;
+	// if (!data->cmd || !data->cmd->arg || !data->cmd->arg[0])
+	// 	return ;
 	if (data->pipe_count == 0 && is_parent_builtin(data->cmd->arg[0]))
 	{
 		fd_in = dup(STDIN_FILENO);

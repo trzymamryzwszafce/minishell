@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:11:18 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/18 20:31:27 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 05:38:09 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int	change_directory(t_envp **env, char *target)
 	char	oldpwd[PATH_MAX];
 	char	newpwd[PATH_MAX];
 
-	if (!getcwd(oldpwd, sizeof(oldpwd)))
-		return (ft_printf("bash: cd: bład przy obecnym katalogu\n"), 1);
 	if (chdir(target) == -1)
 		return (ft_printf("bash: cd: \"%s\" nie istnieje\n", target), 1);
 	env_update(env, "OLDPWD", oldpwd);

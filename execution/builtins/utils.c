@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 19:20:43 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/22 02:51:58 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 05:24:31 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	is_builtin(char *cmd)
 }
 int	is_parent_builtin(char *cmd)
 {
+	if (!cmd || !*cmd)
+		return (0);
 	if (!ft_strcmp(cmd, "cd"))
 		return (1);
 	else if (!ft_strcmp(cmd, "export"))
@@ -116,6 +118,8 @@ int	is_parent_builtin(char *cmd)
 
 int	is_child_builtin(char *cmd)
 {
+	if (!cmd || !*cmd)
+		return (0);
 	if (!ft_strcmp(cmd, "echo"))
 		return (1);
 	else if (!ft_strcmp(cmd, "pwd"))

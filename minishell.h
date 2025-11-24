@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/24 02:56:44 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/24 05:51:56 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	ft_echo(char **args);
 int	ft_env(char **args, t_envp *list);
 int	ft_exit(char **args, int last_status);
 int	ft_export(t_envp **env, char **args);
-int	ft_pwd(void);
+int	ft_pwd(t_envp *env);
 int	ft_unset(t_envp **env, char **args);
 //utils
 int	valid_check(char *s);
