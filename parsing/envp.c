@@ -23,8 +23,6 @@ char	*ft_get_envp_value(t_envp **envp, char *key)
 	{
 		if (!ft_strcmp(node->key, key))
 			return (node->value);
-		if (ft_strcmp(node->key, key))
-			return (ft_strdup(""));
 		node = node->next;
 	}
 	return (NULL);
