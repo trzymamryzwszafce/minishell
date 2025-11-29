@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   envp.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/29 12:15:49 by nadamczy          #+#    #+#             */
+/*   Updated: 2025/11/29 12:21:20 by nadamczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*ft_get_envp_value(t_envp **envp, char *key)
@@ -10,10 +22,9 @@ char	*ft_get_envp_value(t_envp **envp, char *key)
 	while (node != NULL)
 	{
 		if (!ft_strcmp(node->key, key))
-		{
-			/* return pointer to stored value (may be NULL) - caller should not free it */ //tu kiedyś było że jeżeli !node->value to strdup("")
 			return (node->value);
-		}
+		if (ft_strcmp(node->key, key))
+			return (ft_strdup(""));
 		node = node->next;
 	}
 	return (NULL);
