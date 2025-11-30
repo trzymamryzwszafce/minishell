@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/30 03:28:03 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/30 03:45:17 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	execution(t_data *data, t_envp **env)
 		data->ls_exit = exec_parent_builtin(data, env);
 		return (restore_fd(fd_in, fd_out));
 	}
-	if (data->pipe_count > 0)
+	//if (data->pipe_count > 0)
+	if (data->cmd->next)
 		exec_pipeline(data, env);
 	else
 		exec_simple_command(data, *env);
