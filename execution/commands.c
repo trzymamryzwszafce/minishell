@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/24 05:52:35 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/30 02:55:40 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_external(t_data *data, t_envp *env)
 	}
 }
 
-int	exec_child_builtin(t_data *data, t_envp *env)
+void	exec_child_builtin(t_data *data, t_envp *env)
 {
 	if (!ft_strcmp(data->cmd->arg[0], "echo"))
 		exit(ft_echo(data->cmd->arg));
@@ -58,8 +58,6 @@ void	exec_simple_command(t_data *data, t_envp *env)
 	{
 		if (redirections(data) < 0)
 			exit (1);
-		// if (!data->cmd->arg || !data->cmd->arg[0])
-		// 	exit (0);
 		if (is_child_builtin(data->cmd->arg[0]))
 			exec_child_builtin(data, env);
 		exec_external(data, env);

@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 19:20:43 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/24 05:24:31 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/11/30 02:56:27 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	env_update(t_envp **env, char *key, char *value)
 
 int	is_builtin(char *cmd)
 {
+	if (!cmd || !*cmd)
+		return (0);
 	if (!ft_strcmp(cmd, "cd"))
 		return (1);
 	else if (!ft_strcmp(cmd, "echo"))

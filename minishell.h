@@ -186,5 +186,9 @@ char	*cmd_path(char *cmd, char **envp);
 void	exec_simple_command(t_data *data, t_envp *env);
 int	redirections(t_data *data);
 int	process_heredoc(char **heredoc, int heredoc_count);
+void	exec_pipeline(t_data *data, t_envp **env);
+void	exec_child_builtin(t_data *data, t_envp *env);
+int	exec_parent_builtin(t_data *data, t_envp **env);
+void	exec_external(t_data *data, t_envp *env);
 
 #endif
