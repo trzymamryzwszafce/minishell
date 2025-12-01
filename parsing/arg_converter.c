@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_converter.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:14:58 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:17:58 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:49:21 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_envp_value_converter(t_envp **envp,
 
 	(*i)++;
 	j = *i;
+	if (str[*i] == '?')
+		return (ft_substr_join_free(new_str, str, j - 1, *i - j + 1));
 	while (str[*i] && str[*i] != '\'' && str[*i] != '\"'
 		&& str[*i] != '$' && str[*i] != ' ')
 		(*i)++;

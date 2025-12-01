@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/11/29 12:16:42 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/01 17:42:51 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ char *ft_change_arg(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_double_quote(char *str, int *i, char *new_str, t_envp **envp);
 char *ft_no_quote(char *str, t_convert *sign, int *i, char *new_str);
 char *ft_join_and_free(char *s1, char *s2);
+char	*ft_substr_join_free(char *new_str, char *str, int start, int len);
 
 //struct_filler.c
 void ft_struct_filler(t_token *tokens, t_data *data);
