@@ -75,17 +75,17 @@ int	redirections(t_data *data)
 {
 	if (!data->cmd)
 		return (0);
-	if (data->cmd->heredoc_count > 0)
-	{
-		if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
-			return (cleanup(), -1);
-	}
+	// if (data->cmd->heredoc_count > 0)
+	// {
+	// 	if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+	// 		return (cleanup(), -1);
+	// }
 	if (data->cmd->b_heredoc)
 	{
 		if (apply_heredoc() < 0)
 			return (cleanup(), -1);
 	}
-	if (handle_input_redirs(data->cmd->red_in) < 0)
+	else if (handle_input_redirs(data->cmd->red_in) < 0)
 		return (cleanup(), -1);
 	if (handle_output_redirs(data->cmd->red_out, data->cmd->append) < 0)
 		return (cleanup(), -1);

@@ -6,11 +6,18 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/30 02:55:40 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/02 01:02:58 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_and_exit(t_data *data, char *path, char **envp, int n)
+{
+	free(path);
+	ft_free2d(envp);
+	exit(data->ls_exit = n);
+}
 
 void	exec_external(t_data *data, t_envp *env)
 {
@@ -25,37 +32,65 @@ void	exec_external(t_data *data, t_envp *env)
 	path = cmd_path(data->cmd->arg[0], envp);
 	if (!path)
 	{
-		ft_printf("%s: command not found\n", data->cmd->arg[0]); // to do zmiany
+		ft_putstr_fd(data->cmd->arg[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		ft_free2d(envp);
-		exit(127);
+		exit(data->ls_exit = 127);
 	}
-	if (execve(path, data->cmd->arg, envp) < 0) // to też
-	{
-		free(path);
-		ft_free2d(envp);
-		exit(126);
-	}
+	if (execve(path, data->cmd->arg, envp) < 0)
+		free_and_exit(data, path, envp, 126);
+	else
+		free_and_exit(data, path, envp, 0);
 }
 
 void	exec_child_builtin(t_data *data, t_envp *env)
 {
 	if (!ft_strcmp(data->cmd->arg[0], "echo"))
-		exit(ft_echo(data->cmd->arg));
+		exit(data->ls_exit = ft_echo(data->cmd->arg));
 	else if (!ft_strcmp(data->cmd->arg[0], "env"))
-		exit(ft_env(data->cmd->arg, env));
+		exit(data->ls_exit = ft_env(data->cmd->arg, env));
 	else if (!ft_strcmp(data->cmd->arg[0], "pwd"))
-		exit(ft_pwd(env));
-	exit(0);
+		exit(data->ls_exit = ft_pwd(env));
+	exit(data->ls_exit = 0);
+}
+
+void	wait_child(t_data *data, pid_t pid)
+{
+	int	status;
+	int	sig;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		data->ls_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(2, "\n", 1);
+		else if (sig == SIGQUIT)
+			write(2, "Quit: (core dumped)\n", 20);
+		data->ls_exit = 128 + sig;
+	}
 }
 
 void	exec_simple_command(t_data *data, t_envp *env)
 {
-	pid_t pid;
-	int	status;
+	pid_t	pid;
 
+	if (data->cmd->heredoc_count > 0)
+    {
+        if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+        {
+            data->ls_exit = 1;
+            return;
+        }
+    }
+	exec_signals();
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (redirections(data) < 0)
 			exit (1);
 		if (is_child_builtin(data->cmd->arg[0]))
@@ -68,10 +103,6 @@ void	exec_simple_command(t_data *data, t_envp *env)
 		data->ls_exit = 1;
 		return ;
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		data->ls_exit = WEXITSTATUS(status);
-	else
-		data->ls_exit = 1;
-	return ;
+	wait_child(data, pid);
+	idle_signals();
 }

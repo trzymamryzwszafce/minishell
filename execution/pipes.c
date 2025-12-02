@@ -43,13 +43,21 @@ void	update_pipes(t_data *data, t_pipes *pipes)
 void	dziecko_czekanie(t_data *data)
 {
 	int	status;
-	
+	int	sig;
+
 	while (wait(&status) > 0)
 	{
 		if (WIFEXITED(status))
 			data->ls_exit = WEXITSTATUS(status);
-		else
-			data->ls_exit = 1;
+		else if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				write(2, "\n", 1);
+			else if (sig == SIGQUIT)
+				write(2, "Quit: (core dumped)\n", 20);
+			data->ls_exit = 128 + sig;
+		}
 	}
 }
 
@@ -57,7 +65,25 @@ void	exec_pipeline(t_data *data, t_envp **env)
 {
 	t_pipes	pipes;
 	pid_t	pid;
+	t_command	*start;
 
+	start = data->cmd;
+	while (data->cmd)
+	{
+		if (data->cmd->heredoc_count > 0)
+		{
+			if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+			{
+				data->ls_exit = 1;
+				data->cmd = start;
+				return ;
+			}
+		}
+		data->cmd = data->cmd->next;
+	}
+	data->cmd = start;
+
+	exec_signals();
 	pipes.old_fd = STDIN_FILENO;
 	while (data->cmd)
 	{
@@ -67,7 +93,11 @@ void	exec_pipeline(t_data *data, t_envp **env)
 		if (pid == -1)
 			return (perror("fork"), (void)(data->ls_exit = 1));
 		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			handle_pipe(data, &pipes, env);
+		}
 		update_pipes(data, &pipes);
 		data->cmd = data->cmd->next;
 	}

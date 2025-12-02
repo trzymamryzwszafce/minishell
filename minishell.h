@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/01 17:42:51 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/01 23:36:11 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_command
 	char	**heredoc;
 	bool	b_heredoc;
 	int		heredoc_count;
+	int		*heredoc_tmp;
 	struct s_command *next;
 }		t_command;
 
@@ -191,5 +192,7 @@ void	exec_pipeline(t_data *data, t_envp **env);
 void	exec_child_builtin(t_data *data, t_envp *env);
 int	exec_parent_builtin(t_data *data, t_envp **env);
 void	exec_external(t_data *data, t_envp *env);
+void	exec_signals(void);
+void	idle_signals(void);
 
 #endif

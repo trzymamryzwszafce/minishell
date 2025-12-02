@@ -1,5 +1,17 @@
 #include "../minishell.h"
 
+int	create_unique_heredoc(char **out_path)
+{
+	char template[] = "/tmp/minish_heredoc_XXXXXX";
+	int fd = mkstemp(template);
+	if (fd < 0)
+		return perror("heredoc"), -1;
+	*out_path = ft_strdup(template);
+	if (!*out_path)
+		return (close(fd), -1);
+	return fd;
+}
+
 int	write_heredoc(int fd, char *delimiter)
 {
 	char	*line;
@@ -10,7 +22,7 @@ int	write_heredoc(int fd, char *delimiter)
 		if (!line || !ft_strcmp(line, delimiter))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		ft_putendl_fd(line, fd);
 		free(line);
@@ -36,9 +48,14 @@ int	create_heredoc_file(char *delimeter)
 int	process_heredoc(char **heredoc, int heredoc_count)
 {
 	int	i;
+	struct sigaction	sa;
 
 	if (!heredoc || heredoc_count == 0)
 		return (0);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGQUIT, &sa, NULL);
 	i = 0;
 	while (i < heredoc_count)
 	{
@@ -46,5 +63,6 @@ int	process_heredoc(char **heredoc, int heredoc_count)
 			return (-1);
 		i++;
 	}
+	idle_signals();
 	return (0);
 }
