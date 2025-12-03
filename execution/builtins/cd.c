@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:11:18 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/24 05:38:09 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 02:31:13 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_target(t_envp *env, char *arg)
 		home = get_env(env, "HOME");
 		if (!home)
 		{
-			ft_printf("bash: cd: dom nie ustawiony\n");
+			ft_putendl_fd("bash: cd: HOME not set", 2);
 			return (NULL);
 		}
 		return (home);
@@ -43,7 +43,7 @@ char	*get_target(t_envp *env, char *arg)
 		oldpwd = get_env(env, "OLDPWD");
 		if (!oldpwd)
 		{
-			ft_printf("bash: cd: oldpwd nie ustawione\n");
+			ft_putendl_fd("bash: cd: OLDPWD not set", 2);
 			return (NULL);
 		}
 		return (oldpwd);
@@ -56,11 +56,20 @@ int	change_directory(t_envp **env, char *target)
 	char	oldpwd[PATH_MAX];
 	char	newpwd[PATH_MAX];
 
+	getcwd(oldpwd, sizeof(oldpwd));
 	if (chdir(target) == -1)
-		return (ft_printf("bash: cd: \"%s\" nie istnieje\n", target), 1);
+	{
+		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd(target, 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		return (1);
+	}
 	env_update(env, "OLDPWD", oldpwd);
 	if (!getcwd(newpwd, sizeof(newpwd)))
-		return (ft_printf("bash: cd: błąd przy nowym katalogu\n"), 1);
+	{
+		ft_putendl_fd("bash: cd: Error with new directory", 2);
+		return (1);
+	}
 	env_update(env, "PWD", newpwd);
 	return (0);
 }
@@ -70,7 +79,10 @@ int	ft_cd(t_envp **env, char **args)
 	char	*target;
 
 	if (args[1] && args[2])
-		return (ft_printf("bash: cd: za duzo argumentow\n"), 1);
+	{
+		ft_putendl_fd("bash: cd: too many arguments", 2);
+		return (1);
+	}
 	target = get_target(*env, args[1]);
 	if (!target)
 		return (1);

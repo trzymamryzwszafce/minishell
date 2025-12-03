@@ -1,17 +1,5 @@
 #include "../minishell.h"
 
-int	create_unique_heredoc(char **out_path)
-{
-	char template[] = "/tmp/minish_heredoc_XXXXXX";
-	int fd = mkstemp(template);
-	if (fd < 0)
-		return perror("heredoc"), -1;
-	*out_path = ft_strdup(template);
-	if (!*out_path)
-		return (close(fd), -1);
-	return fd;
-}
-
 int	write_heredoc(int fd, char *delimiter)
 {
 	char	*line;
@@ -47,7 +35,7 @@ int	create_heredoc_file(char *delimeter)
 
 int	process_heredoc(char **heredoc, int heredoc_count)
 {
-	int	i;
+	int					i;
 	struct sigaction	sa;
 
 	if (!heredoc || heredoc_count == 0)

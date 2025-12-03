@@ -6,38 +6,44 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:10:14 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/18 19:21:36 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:41:56 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static int	check_n_flag(char *arg)
+{
+	int	j;
+
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	j = 2;
+	while (arg[j] == 'n')
+		j++;
+	return (arg[j] == '\0');
+}
+
 int	ft_echo(char **args)
 {
 	int	i;
-	int	j;
 	int	nline;
 
 	i = 1;
 	nline = 1;
-	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
+	while (args[i] && check_n_flag(args[i]))
 	{
-		j = 2;
-		while (args[i][j] == 'n')
-			j++;
-		if (args[i][j] != '\0')
-			break ;
 		nline = 0;
 		i++;
 	}
 	while (args[i])
 	{
-		ft_printf("%s", args[i]);
+		ft_putstr_fd(args[i], 2);
 		if (args[i + 1])
-			ft_printf(" ");
+			ft_putstr_fd(" ", 2);
 		i++;
 	}
-	if (nline == 1)
-		ft_printf("\n");
+	if (nline)
+		ft_putendl_fd("", 2);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/01 03:35:48 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:51:30 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	exec_parent_builtin(t_data *data, t_envp **env)
 
 void	restore_fd(int fd_in, int fd_out)
 {
-	if(fd_in >= 0)
+	if (fd_in >= 0)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
-	if(fd_out >= 0)
+	if (fd_out >= 0)
 	{
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
@@ -56,7 +56,6 @@ void	execution(t_data *data, t_envp **env)
 		data->ls_exit = exec_parent_builtin(data, env);
 		return (restore_fd(fd_in, fd_out));
 	}
-	//if (data->pipe_count > 0)
 	if (data->cmd->next)
 		exec_pipeline(data, env);
 	else

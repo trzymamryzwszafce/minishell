@@ -6,27 +6,11 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 22:08:47 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/01 23:23:39 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 02:32:01 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void	handle_exec(int sig, siginfo_t *info, void *context)
-// {
-// 	(void) info;
-// 	(void) context;
-
-// 	if (sig == SIGQUIT)
-// 	{
-// 		rl_on_new_line();
-// 	}
-// 	if (sig == SIGINT)
-// 	{
-// 		write(2, "\n", 1);
-// 		rl_on_new_line();
-// 	}
-// }
 
 void	handle_idle(int sig, siginfo_t *info, void *context)
 {

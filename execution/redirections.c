@@ -27,7 +27,7 @@ int	handle_output_redirs(char **red_out, bool append)
 {
 	int	fd;
 	int	i;
-	int flags;
+	int	flags;
 
 	if (!red_out)
 		return (0);
@@ -51,9 +51,10 @@ int	handle_output_redirs(char **red_out, bool append)
 	return (0);
 }
 
-int apply_heredoc(void)
+int	apply_heredoc(void)
 {
-	int fd;
+	int	fd;
+
 	fd = open("/tmp/.heredoc_tmp", O_RDONLY);
 	if (fd < 0)
 	{
@@ -75,11 +76,6 @@ int	redirections(t_data *data)
 {
 	if (!data->cmd)
 		return (0);
-	// if (data->cmd->heredoc_count > 0)
-	// {
-	// 	if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
-	// 		return (cleanup(), -1);
-	// }
 	if (data->cmd->b_heredoc)
 	{
 		if (apply_heredoc() < 0)

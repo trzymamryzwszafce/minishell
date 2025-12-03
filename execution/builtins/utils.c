@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 19:20:43 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/30 02:56:27 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:25:43 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,33 +100,6 @@ int	is_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "pwd"))
 		return (1);
 	else if (!ft_strcmp(cmd, "unset"))
-		return (1);
-	return (0);
-}
-int	is_parent_builtin(char *cmd)
-{
-	if (!cmd || !*cmd)
-		return (0);
-	if (!ft_strcmp(cmd, "cd"))
-		return (1);
-	else if (!ft_strcmp(cmd, "export"))
-		return (1);
-	else if (!ft_strcmp(cmd, "unset"))
-		return (1);
-	else if (!ft_strcmp(cmd, "exit"))
-		return (1);
-	return (0);
-}
-
-int	is_child_builtin(char *cmd)
-{
-	if (!cmd || !*cmd)
-		return (0);
-	if (!ft_strcmp(cmd, "echo"))
-		return (1);
-	else if (!ft_strcmp(cmd, "pwd"))
-		return (1);
-	else if (!ft_strcmp(cmd, "env"))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:15:40 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/17 02:34:31 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:56:09 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int	ft_unset(t_envp **env, char **args)
 	{
 		if (!valid_check(args[i]))
 		{
-			ft_printf("bash: unset: `%s`: zly parametr\n", args[i]);
+			ft_putstr_fd("bash: unset: '", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putendl_fd("': not a valid identifier", 2);
 			status = 1;
 		}
 		else

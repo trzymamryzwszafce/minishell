@@ -6,18 +6,11 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/02 01:02:58 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 02:39:00 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_and_exit(t_data *data, char *path, char **envp, int n)
-{
-	free(path);
-	ft_free2d(envp);
-	exit(data->ls_exit = n);
-}
 
 void	exec_external(t_data *data, t_envp *env)
 {
@@ -25,10 +18,10 @@ void	exec_external(t_data *data, t_envp *env)
 	char	*path;
 
 	if (!data->cmd->arg || !data->cmd->arg[0])
-		exit(127);
+		exit(data->ls_exit = 127);
 	envp = list_to_arr(env);
 	if (!envp)
-		exit (1);
+		exit (data->ls_exit = 1);
 	path = cmd_path(data->cmd->arg[0], envp);
 	if (!path)
 	{
@@ -37,10 +30,11 @@ void	exec_external(t_data *data, t_envp *env)
 		ft_free2d(envp);
 		exit(data->ls_exit = 127);
 	}
-	if (execve(path, data->cmd->arg, envp) < 0)
-		free_and_exit(data, path, envp, 126);
-	else
-		free_and_exit(data, path, envp, 0);
+	execve(path, data->cmd->arg, envp);
+	perror(path);
+	free(path);
+	ft_free2d(envp);
+	exit(data->ls_exit = 126);
 }
 
 void	exec_child_builtin(t_data *data, t_envp *env)
@@ -73,18 +67,25 @@ void	wait_child(t_data *data, pid_t pid)
 	}
 }
 
+int	prefork_heredoc(t_data *data)
+{
+	if (data->cmd->heredoc_count > 0)
+	{
+		if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+		{
+			data->ls_exit = 1;
+			return (-1);
+		}
+	}
+	return (0);
+}
+
 void	exec_simple_command(t_data *data, t_envp *env)
 {
 	pid_t	pid;
 
-	if (data->cmd->heredoc_count > 0)
-    {
-        if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
-        {
-            data->ls_exit = 1;
-            return;
-        }
-    }
+	if (prefork_heredoc(data) < 0)
+		return ;
 	exec_signals();
 	pid = fork();
 	if (pid == 0)
@@ -92,7 +93,7 @@ void	exec_simple_command(t_data *data, t_envp *env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (redirections(data) < 0)
-			exit (1);
+			exit (data->ls_exit = 1);
 		if (is_child_builtin(data->cmd->arg[0]))
 			exec_child_builtin(data, env);
 		exec_external(data, env);

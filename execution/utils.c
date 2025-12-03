@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 17:24:12 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/23 02:10:30 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 02:32:09 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,9 @@ char	**get_path(char **envp)
 	return (NULL);
 }
 
-// char	*cmd_check(char *argv, char **dir)
-// {
-// 	int		i;
-// 	char	*cmd_path;
-// 	char	*path;
-
-// 	i = 0;
-// 	while (dir[i])
-// 	{
-// 		cmd_path = ft_strjoin(dir[i], "/");
-// 		path = ft_strjoin(cmd_path, argv);
-// 		free(cmd_path);
-// 		if (!access(path, F_OK))
-// 			return (path);
-// 		free(path);
-// 		i++;
-// 	}
-// 	error_exit("wrong command");
-// }
-
 int	count_env(t_envp *env)
 {
-	int	i;
+	int		i;
 	t_envp	*tmp;
 
 	i = 0;
@@ -80,7 +60,7 @@ char	**list_to_arr(t_envp *env)
 {
 	char	**envp;
 	t_envp	*tmp;
-	int	i;
+	int		i;
 
 	envp = malloc(sizeof(char *) * (count_env(env) + 1));
 	if (!envp)
@@ -120,40 +100,4 @@ char	*path_check(char *dir, char *cmd)
 		return (path);
 	free(path);
 	return (NULL);
-}
-
-char	*search_path(char **dirs, char *cmd)
-{
-	char	*res;
-	int	i;
-
-	i = 0;
-	while (dirs[i])
-	{
-		res = path_check(dirs[i], cmd);
-		if(res)
-			return (res);
-		i++;
-	}
-	return (NULL);
-}
-char	*cmd_path(char *cmd, char **envp)
-{
-	char	**dirs;
-	char	*res;
-
-	if (!cmd || !*cmd)
-		return (NULL);
-	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
-	dirs = get_path(envp);
-	if (!dirs)
-		return (NULL);
-	res = search_path(dirs, cmd);
-	ft_free2d(dirs);
-	return (res);
 }

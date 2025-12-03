@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:15:19 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/22 19:41:03 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:53:00 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ int	process_arg(t_envp **env, char *arg)
 
 	if (!valid_check(arg))
 	{
-		ft_printf("bash: export: `%s`: zly parametr\n", arg);
+		ft_putstr_fd("bash: export: '", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
 		return (1);
 	}
 	split_value(arg, &key, &value);

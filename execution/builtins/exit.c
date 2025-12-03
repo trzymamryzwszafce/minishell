@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 17:16:26 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/11/22 00:57:22 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 01:47:07 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	ft_exit(char **args, int last_status)
 		exit(last_status);
 	if (!is_numeric(args[1]))
 	{
-		ft_putstr_fd("bash: exit: daj numerki\n", 2);
+		ft_putstr_fd("bash: exit: numeric argument required\n", 2);
 		exit (2);
 	}
 	if (args[2])
 	{
-		ft_putstr_fd("bash: exit: za duzo argumentow\n", 2);
+		ft_putstr_fd("bash: exit: too many arguments\n", 2);
 		return (1);
 	}
 	status = ft_atoll(args[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:29 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/01 17:48:44 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/03 02:40:49 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	ft_parsing(t_token *tokens, t_envp **envp, char *input,  int error, t_data *
 		error = ft_type_input(tokens, envp, data);
 	return (error);
 }
+
 void	ft_process_input(char *input, t_envp **envp)
 {
 	t_token		*tokens;
@@ -47,7 +48,6 @@ void	ft_process_input(char *input, t_envp **envp)
 	{
 		ft_struct_filler(tokens, data);
 		//print_command_list(data->cmd);
-		//egzekuzja
 		execution(data, envp);
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;
@@ -62,11 +62,12 @@ int	main(void)
 	char		*input;
 	t_envp		*envp;
 
+	idle_signals();
 	using_history();
 	envp = ft_create_envp(environ);
 	while (1)
 	{
-		input = readline(">>> ");
+		input = readline("\033[1;35mMINICWEL \033[0m");
 		if (!input)
 			break ;
 		else if (*input)

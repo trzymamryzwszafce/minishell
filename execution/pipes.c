@@ -14,19 +14,16 @@ void	handle_pipe(t_data *data, t_pipes *pipes, t_envp **env)
 		close(pipes->fd[1]);
 	}
 	if (redirections(data) < 0)
-		exit(1);
+		exit(data->ls_exit = 1);
 	if (is_builtin(data->cmd->arg[0]))
 	{
 		if (is_child_builtin(data->cmd->arg[0]))
-		{
 			exec_child_builtin(data, *env);
-			exit (data->ls_exit);
-		}
 		else
-			exit(exec_parent_builtin(data, env));
+			exit (data->ls_exit = exec_parent_builtin(data, env));
 	}
 	exec_external(data, *env);
-	exit(127);
+	exit(data->ls_exit = 127);
 }
 
 void	update_pipes(t_data *data, t_pipes *pipes)
@@ -61,10 +58,8 @@ void	dziecko_czekanie(t_data *data)
 	}
 }
 
-void	exec_pipeline(t_data *data, t_envp **env)
+int	prepipe_heredoc(t_data *data)
 {
-	t_pipes	pipes;
-	pid_t	pid;
 	t_command	*start;
 
 	start = data->cmd;
@@ -72,19 +67,30 @@ void	exec_pipeline(t_data *data, t_envp **env)
 	{
 		if (data->cmd->heredoc_count > 0)
 		{
-			if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+			if (process_heredoc(data->cmd->heredoc,
+					data->cmd->heredoc_count) < 0)
 			{
-				data->ls_exit = 1;
 				data->cmd = start;
-				return ;
+				return (-1);
 			}
 		}
 		data->cmd = data->cmd->next;
 	}
 	data->cmd = start;
+	return (0);
+}
 
+void	exec_pipeline(t_data *data, t_envp **env)
+{
+	t_pipes		pipes;
+	pid_t		pid;
+	t_command	*start;
+
+	if (prepipe_heredoc(data) < 0)
+		return ((void)(data->ls_exit = 1));
 	exec_signals();
 	pipes.old_fd = STDIN_FILENO;
+	start = data->cmd;
 	while (data->cmd)
 	{
 		if (data->cmd->next && pipe(pipes.fd) == -1)
@@ -102,4 +108,5 @@ void	exec_pipeline(t_data *data, t_envp **env)
 		data->cmd = data->cmd->next;
 	}
 	dziecko_czekanie(data);
+	data->cmd = start;
 }
