@@ -59,8 +59,8 @@ void	ft_add_type_arg(t_token *token)
 {
 	if (token->prev && token->prev->type == R_IN && token->type == ARG)
 		token->type = ARG_IN;
-	else if (token->prev && token->prev->type == R_OUT_TRUNC
-		&& token->type == ARG
-		|| token->prev && token->prev->type == R_OUT_APP && token->type == ARG)
+	else if ((token->prev && token->prev->type == R_OUT_TRUNC
+		&& token->type == ARG)
+		|| (token->prev && token->prev->type == R_OUT_APP && token->type == ARG))
 		token->type = ARG_OUT;
 }

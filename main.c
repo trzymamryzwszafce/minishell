@@ -36,7 +36,6 @@ void	ft_process_input(char *input, t_envp **envp)
 {
 	t_token		*tokens;
 	t_data		*data;
-	t_command	*cmd;
 	int			error;
 
 	add_history(input);

@@ -29,9 +29,12 @@ char	*ft_assign_key(char *str)
 				return (NULL);
 			key = malloc(i + 1);
 			j = 0;
-			while (j++ < i)
+			while (j < i)
+			{
 				key[j] = str[j];
-			key[j] = '\0';
+				j++;
+			}
+				key[j] = '\0';
 			return (key);
 		}
 		i++;
