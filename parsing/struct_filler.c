@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_filler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:15 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:16:16 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:46:30 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	ft_heredoc(t_token *start, t_command *cmd)
 		return ;
 	cur = start;
 	i = 0;
-	cmd->heredoc = calloc(cmd->heredoc_count + 1, sizeof(char *));
+	cmd->heredoc = ft_calloc(cmd->heredoc_count + 1, sizeof(char *));
 	while (cur && cur->type != PIPE)
 	{
 		if (cur->type == R_HEREDOC && cur->next != NULL)
 		{
-			cmd->heredoc[i++] = strdup(cur->next->elem);
+			cmd->heredoc[i++] = ft_strdup(cur->next->elem);
 			cur->next->type = HEREDOC_DELI;
 			cmd->b_heredoc = true;
 		}
@@ -65,11 +65,11 @@ t_token	*fill_one_cmd(t_token *start, t_command *cmd)
 	while (cur->next != NULL && cur->type != PIPE)
 	{
 		if (cur->type == ARG)
-			cmd->arg[i++] = strdup(cur->elem);
+			cmd->arg[i++] = ft_strdup(cur->elem);
 		else if (cur->type == ARG_IN)
-			cmd->red_in[j++] = strdup(cur->elem);
+			cmd->red_in[j++] = ft_strdup(cur->elem);
 		else if (cur->type == ARG_OUT)
-			cmd->red_out[k++] = strdup(cur->elem);
+			cmd->red_out[k++] = ft_strdup(cur->elem);
 		else if (cur->type == R_OUT_APP || cur->type == R_OUT_TRUNC)
 			ft_search_for_append(cur->type, cmd);
 		else if (cur->type == R_HEREDOC)

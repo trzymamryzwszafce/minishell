@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   typer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:19 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:16:20 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:46:48 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	count_and_alloc_for_cmd(t_token *start, t_command *cmd)
 			rout++;
 		cur = cur->next;
 	}
-	cmd->arg = calloc(args + 1, sizeof(char *));
-	cmd->red_in = calloc(rin + 1, sizeof(char *));
-	cmd->red_out = calloc(rout + 1, sizeof(char *));
+	cmd->arg = ft_calloc(args + 1, sizeof(char *));
+	cmd->red_in = ft_calloc(rin + 1, sizeof(char *));
+	cmd->red_out = ft_calloc(rout + 1, sizeof(char *));
 	cmd->heredoc_count = 0;
 }
 
