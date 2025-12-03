@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitting_args.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:07 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:16:08 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:10:22 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_split_input(t_token *tokens, char *input)
 	int		i;
 	t_token	*cur;
 	int		input_len;
-	char	*found;
+	//char	*found;
 	int		error;
 
 	i = 0;

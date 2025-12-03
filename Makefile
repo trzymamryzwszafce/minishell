@@ -3,7 +3,7 @@
 CC = cc
 
 # Compiler flags
-CFLAGS =  -I includes -I libft -g
+CFLAGS =  -I includes -I libft -g -Wall -Wextra -Werror
 
 # Executable Name
 NAME = minishell

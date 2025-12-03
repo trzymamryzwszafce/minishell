@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:15:58 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:15:59 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:10:08 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_check_pipe(t_token *cur, int i, int *error, char **message)
 {
 	if (cur->type != PIPE || *error != 0)
 		return (0);
-	*error = ft_pipe_error(i, cur->elem, cur->next->elem, cur->next->type);
+	*error = ft_pipe_error(i, cur->elem, cur->next->elem);
 	if (*error)
 	{
 		*message = "|";

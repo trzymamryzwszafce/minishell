@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/03 17:48:48 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:09:48 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void    ft_error_message(int exit_code, char *message);
 
 //error2.c
 int ft_quote_error(char *s);
-int ft_pipe_error(int position, char *current, char *next, t_type next_type);
+int ft_pipe_error(int position, char *current, char *next);
 int ft_redir_error(enum s_type cur_type, enum s_type next_type);
 int ft_type_input(t_token *token, t_envp **envp, t_data *data);
 

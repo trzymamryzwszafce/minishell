@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_converter2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:15:30 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:15:33 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:08:19 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_substr_join_free(char *new_str, char *str, int start, int len)
 
 char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 {
-	char	*temp;
+	//char	*temp;
 	int		j;
 
 	if (str[*i] == '"')
@@ -61,7 +61,7 @@ char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 
 char	*ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 {
-	char	*temp;
+//	char	*temp;
 	int		j;
 
 	j = *i;
@@ -82,7 +82,7 @@ char	*ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 
 char	*ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
 {
-	char	*temp;
+	//char	*temp;
 	int		start;
 
 	if (!str)

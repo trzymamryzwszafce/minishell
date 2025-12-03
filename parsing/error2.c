@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:03 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:16:04 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:09:22 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_quote_error(char *s)
 	return (0);
 }
 
-int	ft_pipe_error(int position, char *current, char *next, t_type next_type)
+int	ft_pipe_error(int position, char *current, char *next)
 {
 	if (position == 0 && ft_strcmp(current, "|") == 0)
 		return (258);

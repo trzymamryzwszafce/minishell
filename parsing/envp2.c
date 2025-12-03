@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nadamczy <nadamczy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:15:53 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/11/29 12:15:54 by nadamczy         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:08:56 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_assign_key(char *str)
 				return (NULL);
 			key = malloc(i + 1);
 			j = 0;
-			while (j < i)
-				key[j++] = str[j];
+			while (j++ < i)
+				key[j] = str[j];
 			key[j] = '\0';
 			return (key);
 		}
