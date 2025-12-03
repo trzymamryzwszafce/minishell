@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/03 17:32:39 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:48:48 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	execution(t_data *data, t_envp **env);
 
 //builtins
 int	ft_cd(t_envp **env, char **args);
-int	ft_echo(char **args, t_envp *env);
+int	ft_echo(char **args);
 int	ft_env(char **args, t_envp *list);
 int	ft_exit(char **args, int last_status);
 int	ft_export(t_envp **env, char **args);

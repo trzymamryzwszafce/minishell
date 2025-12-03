@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/03 17:31:56 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:49:06 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_external(t_data *data, t_envp *env)
 void	exec_child_builtin(t_data *data, t_envp *env)
 {
 	if (!ft_strcmp(data->cmd->arg[0], "echo"))
-		exit(data->ls_exit = ft_echo(data->cmd->arg, env));
+		exit(data->ls_exit = ft_echo(data->cmd->arg));
 	else if (!ft_strcmp(data->cmd->arg[0], "env"))
 		exit(data->ls_exit = ft_env(data->cmd->arg, env));
 	else if (!ft_strcmp(data->cmd->arg[0], "pwd"))

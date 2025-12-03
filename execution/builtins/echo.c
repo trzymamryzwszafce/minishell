@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 16:10:14 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/03 17:33:10 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:48:49 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	check_n_flag(char *arg)
 	return (arg[j] == '\0');
 }
 
-int	ft_echo(char **args, t_envp *env)
+int	ft_echo(char **args)
 {
 	int	i;
 	int	nline;
@@ -45,6 +45,5 @@ int	ft_echo(char **args, t_envp *env)
 	}
 	if (nline)
 		ft_putendl_fd("", 2);
-	ft_free_env_list(env);
 	return (0);
 }
