@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:29 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/03 02:40:49 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:29:43 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_process_input(char *input, t_envp **envp)
 		ft_struct_filler(tokens, data);
 		//print_command_list(data->cmd);
 		execution(data, envp);
+		ft_free_env_list(envp);
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;
 	}
