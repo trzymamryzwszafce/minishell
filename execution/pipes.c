@@ -15,13 +15,13 @@ void	handle_pipe(t_data *data, t_pipes *pipes, t_envp **env)
 	}
 	if (redirections(data) < 0)
 		exit(data->ls_exit = 1);
-	if (is_builtin(data->cmd->arg[0]))
-	{
-		if (is_child_builtin(data->cmd->arg[0]))
-			exec_child_builtin(data, *env);
-		else
-			exit (data->ls_exit = exec_parent_builtin(data, env));
-	}
+	//if (is_builtin(data->cmd->arg[0]))
+//	{
+	//	if (is_child_builtin(data->cmd->arg[0]))
+	//		exec_child_builtin(data, *env);
+	//	else
+	//		exit (data->ls_exit = exec_parent_builtin(data, env));
+	//}
 	exec_external(data, *env);
 	exit(data->ls_exit = 127);
 }

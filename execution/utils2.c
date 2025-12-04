@@ -37,7 +37,6 @@ char	*cmd_path(char *cmd, char **envp)
 	return (res);
 }
 
-
 int	is_parent_builtin(char *cmd)
 {
 	if (!cmd || !*cmd)

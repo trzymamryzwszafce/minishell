@@ -6,11 +6,18 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/03 17:49:06 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/04 02:28:15 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	cleanup_child(t_data *data, t_envp *env)
+{
+	free_data(data);
+	ft_free_env_list(&env);
+	ft_free_tokens(tokens);
+}
 
 void	exec_external(t_data *data, t_envp *env)
 {
@@ -37,15 +44,19 @@ void	exec_external(t_data *data, t_envp *env)
 	exit(data->ls_exit = 126);
 }
 
-void	exec_child_builtin(t_data *data, t_envp *env)
+void	exec_child_builtin(t_data *data, t_envp *env, t_token *tokens)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (!ft_strcmp(data->cmd->arg[0], "echo"))
-		exit(data->ls_exit = ft_echo(data->cmd->arg));
+		exit_code = ft_echo(data->cmd->arg);
 	else if (!ft_strcmp(data->cmd->arg[0], "env"))
-		exit(data->ls_exit = ft_env(data->cmd->arg, env));
+		exit_code = ft_env(data->cmd->arg, env);
 	else if (!ft_strcmp(data->cmd->arg[0], "pwd"))
-		exit(data->ls_exit = ft_pwd(env));
-	exit(data->ls_exit = 0);
+		exit_code = ft_pwd(env);
+	cleanup_child(data, env, tokens);
+	exit(data->ls_exit = exit_code);
 }
 
 void	wait_child(t_data *data, pid_t pid)
@@ -80,7 +91,7 @@ int	prefork_heredoc(t_data *data)
 	return (0);
 }
 
-void	exec_simple_command(t_data *data, t_envp *env)
+void	exec_simple_command(t_data *data, t_envp *env, t_token *tokens)
 {
 	pid_t	pid;
 
@@ -95,7 +106,7 @@ void	exec_simple_command(t_data *data, t_envp *env)
 		if (redirections(data) < 0)
 			exit (data->ls_exit = 1);
 		if (is_child_builtin(data->cmd->arg[0]))
-			exec_child_builtin(data, env);
+			exec_child_builtin(data, env, tokens);
 		exec_external(data, env);
 	}
 	else if (pid < 0)
