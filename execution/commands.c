@@ -6,13 +6,13 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/04 02:28:15 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:17:18 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cleanup_child(t_data *data, t_envp *env)
+void	cleanup_child(t_data *data, t_envp *env, t_token *tokens)
 {
 	free_data(data);
 	ft_free_env_list(&env);
