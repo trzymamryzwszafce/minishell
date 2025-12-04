@@ -41,4 +41,6 @@ void	free_data(t_data *data)
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;
 	}
+	if (data)
+		free(data);
 }

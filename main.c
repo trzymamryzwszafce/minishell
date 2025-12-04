@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:29 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/04 11:17:56 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:56:25 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ void	ft_process_input(char *input, t_envp **envp)
 	add_history(input);
 	tokens = ft_calloc(1, sizeof(t_token));
 	data = ft_calloc(1, sizeof(t_data));
+	data->token = tokens;
 	data->cmd = NULL;
 	error = ft_parsing(tokens, envp, input, 0, data);
 	if (error == 0)
 	{
 		ft_struct_filler(tokens, data);
 		//print_command_list(data->cmd);
-		execution(data, envp, tokens);
+		execution(data, envp);
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;
 	}
 	ft_free_tokens(tokens);
+	data->token = NULL;
 	free(data);
 }
 

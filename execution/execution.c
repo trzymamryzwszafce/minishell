@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 22:19:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/04 00:26:10 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:55:17 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_parent_builtin(t_data *data, t_envp **env)
 	else if (!ft_strcmp(data->cmd->arg[0], "unset"))
 		return (ft_unset(env, data->cmd->arg));
 	else if (!ft_strcmp(data->cmd->arg[0], "exit"))
-		return (ft_exit(data->cmd->arg, data->ls_exit));
+		return (ft_exit(data->cmd->arg, data, *env));
 	return (0);
 }
 
@@ -39,7 +39,7 @@ void	restore_fd(int fd_in, int fd_out)
 	}
 }
 
-void	execution(t_data *data, t_envp **env, t_token *tokens)
+void	execution(t_data *data, t_envp **env)
 {
 	int	fd_in;
 	int	fd_out;
@@ -59,5 +59,5 @@ void	execution(t_data *data, t_envp **env, t_token *tokens)
 	if (data->cmd->next)
 		exec_pipeline(data, env);
 	else
-		exec_simple_command(data, *env, tokens);
+		exec_simple_command(data, *env);
 }

@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/04 11:17:18 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/04 16:00:01 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,45 @@ void	cleanup_child(t_data *data, t_envp *env, t_token *tokens)
 	ft_free_tokens(tokens);
 }
 
+void	exit_with_cleanup(t_data *data, t_envp *env, int code)
+{
+	data->ls_exit = code;
+	cleanup_child(data, env, data->token);
+	exit(code);
+}
+
+static void	handle_execve_error(char *path, char **envp, t_data *data,
+		t_envp *env)
+{
+	perror(path);
+	free(path);
+	ft_free2d(envp);
+	exit_with_cleanup(data, env, 126);
+}
+
 void	exec_external(t_data *data, t_envp *env)
 {
 	char	**envp;
 	char	*path;
 
 	if (!data->cmd->arg || !data->cmd->arg[0])
-		exit(data->ls_exit = 127);
+		exit_with_cleanup(data, env, 127);
 	envp = list_to_arr(env);
 	if (!envp)
-		exit (data->ls_exit = 1);
+		exit_with_cleanup(data, env, 1);
 	path = cmd_path(data->cmd->arg[0], envp);
 	if (!path)
 	{
 		ft_putstr_fd(data->cmd->arg[0], 2);
 		ft_putendl_fd(": command not found", 2);
 		ft_free2d(envp);
-		exit(data->ls_exit = 127);
+		exit_with_cleanup(data, env, 127);
 	}
 	execve(path, data->cmd->arg, envp);
-	perror(path);
-	free(path);
-	ft_free2d(envp);
-	exit(data->ls_exit = 126);
+	handle_execve_error(path, envp, data, env);
 }
 
-void	exec_child_builtin(t_data *data, t_envp *env, t_token *tokens)
+void	exec_child_builtin(t_data *data, t_envp *env)
 {
 	int	exit_code;
 
@@ -55,8 +68,9 @@ void	exec_child_builtin(t_data *data, t_envp *env, t_token *tokens)
 		exit_code = ft_env(data->cmd->arg, env);
 	else if (!ft_strcmp(data->cmd->arg[0], "pwd"))
 		exit_code = ft_pwd(env);
-	cleanup_child(data, env, tokens);
-	exit(data->ls_exit = exit_code);
+	data->ls_exit = exit_code;
+	cleanup_child(data, env, data->token);
+	exit(exit_code);
 }
 
 void	wait_child(t_data *data, pid_t pid)
@@ -91,7 +105,18 @@ int	prefork_heredoc(t_data *data)
 	return (0);
 }
 
-void	exec_simple_command(t_data *data, t_envp *env, t_token *tokens)
+static void	handle_child_process(t_data *data, t_envp *env)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (redirections(data) < 0)
+		exit_with_cleanup(data, env, 1);
+	if (is_child_builtin(data->cmd->arg[0]))
+		exec_child_builtin(data, env);
+	exec_external(data, env);
+}
+
+void	exec_simple_command(t_data *data, t_envp *env)
 {
 	pid_t	pid;
 
@@ -100,15 +125,7 @@ void	exec_simple_command(t_data *data, t_envp *env, t_token *tokens)
 	exec_signals();
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		if (redirections(data) < 0)
-			exit (data->ls_exit = 1);
-		if (is_child_builtin(data->cmd->arg[0]))
-			exec_child_builtin(data, env, tokens);
-		exec_external(data, env);
-	}
+		handle_child_process(data, env);
 	else if (pid < 0)
 	{
 		perror("fork");
