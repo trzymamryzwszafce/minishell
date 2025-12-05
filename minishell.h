@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/04 11:17:36 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/05 17:48:24 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 	int	ls_exit;
 	int	pipe_count;
 	t_command *cmd;
+	t_token	*token;
 }	t_data;
 
 //main.c
@@ -164,13 +165,13 @@ void	count_and_alloc_for_cmd(t_token *start, t_command *cmd);
 //debug.c
 void print_command_list(t_command *cmd);
 
-void	execution(t_data *data, t_envp **env, t_token *tokens);
+void	execution(t_data *data, t_envp **env);
 
 //builtins
 int	ft_cd(t_envp **env, char **args);
 int	ft_echo(char **args);
 int	ft_env(char **args, t_envp *list);
-int	ft_exit(char **args, int last_status);
+int	ft_exit(char **args, t_data *data, t_envp *env);
 int	ft_export(t_envp **env, char **args);
 int	ft_pwd(t_envp *env);
 int	ft_unset(t_envp **env, char **args);
@@ -189,15 +190,16 @@ char	**list_to_arr(t_envp *env);
 char	*cmd_path(char *cmd, char **envp);
 char	*path_check(char *dir, char *cmd);
 char	**get_path(char **envp);
-void	exec_simple_command(t_data *data, t_envp *env, t_token *tokens);
+void	exec_simple_command(t_data *data, t_envp *env);
 int	redirections(t_data *data);
 int	process_heredoc(char **heredoc, int heredoc_count);
 void	exec_pipeline(t_data *data, t_envp **env);
-void	exec_child_builtin(t_data *data, t_envp *env, t_token *tokens);
+void	exec_child_builtin(t_data *data, t_envp *env);
 int	exec_parent_builtin(t_data *data, t_envp **env);
 void	exec_external(t_data *data, t_envp *env);
 void	exec_signals(void);
 void	idle_signals(void);
 void	free_data(t_data *data);
+void	cleanup_child(t_data *data, t_envp *env, t_token *tokens);
 
 #endif
