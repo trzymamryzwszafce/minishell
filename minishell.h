@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/05 17:48:24 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/05 18:24:10 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,5 +201,6 @@ void	exec_signals(void);
 void	idle_signals(void);
 void	free_data(t_data *data);
 void	cleanup_child(t_data *data, t_envp *env, t_token *tokens);
+void	exit_with_cleanup(t_data *data, t_envp *env, int code);
 
 #endif
