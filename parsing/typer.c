@@ -6,7 +6,7 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:19 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/03 16:46:48 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/05 22:13:27 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	ft_add_type_arg(t_token *token)
 	if (token->prev && token->prev->type == R_IN && token->type == ARG)
 		token->type = ARG_IN;
 	else if ((token->prev && token->prev->type == R_OUT_TRUNC
-		&& token->type == ARG)
-		|| (token->prev && token->prev->type == R_OUT_APP && token->type == ARG))
+			&& token->type == ARG)
+		|| (token->prev && token->prev->type == R_OUT_APP
+			&& token->type == ARG))
 		token->type = ARG_OUT;
 }

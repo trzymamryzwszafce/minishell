@@ -3,43 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   envp2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:15:53 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/03 18:08:56 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/05 22:05:53 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	*ft_handle_exit_code(t_convert *sign, int *i, char *new_str)
+{
+	char	*tmp_dup;
+
+	(*i)++;
+	tmp_dup = ft_itoa(sign->exit_code);
+	new_str = ft_join_and_free(new_str, tmp_dup);
+	free(tmp_dup);
+	return (new_str);
+}
+
+static char	*ft_copy_key(char *str, int len)
+{
+	char	*key;
+	int		j;
+
+	key = malloc(len + 1);
+	if (!key)
+		return (NULL);
+	j = 0;
+	while (j < len)
+	{
+		key[j] = str[j];
+		j++;
+	}
+	key[j] = '\0';
+	return (key);
+}
+
 char	*ft_assign_key(char *str)
 {
 	int		i;
-	int		j;
-	char	*key;
 
 	i = 0;
-	j = 0;
-	key = NULL;
 	while (str[i])
 	{
 		if (str[i] == '=')
 		{
 			if (i == 0)
 				return (NULL);
-			key = malloc(i + 1);
-			j = 0;
-			while (j < i)
-			{
-				key[j] = str[j];
-				j++;
-			}
-				key[j] = '\0';
-			return (key);
+			return (ft_copy_key(str, i));
 		}
 		i++;
 	}
-	return (key);
+	return (NULL);
 }
 
 char	*ft_assign_value(char *str)

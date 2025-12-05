@@ -6,13 +6,13 @@
 /*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:14:58 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/01 17:49:21 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/05 22:02:41 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_envp_value_converter(t_envp **envp,
+char	*ft_envp_value_converter(t_convert *sign,
 	char *str, int *i, char *new_str)
 {
 	int		j;
@@ -23,12 +23,12 @@ char	*ft_envp_value_converter(t_envp **envp,
 	(*i)++;
 	j = *i;
 	if (str[*i] == '?')
-		return (ft_substr_join_free(new_str, str, j - 1, *i - j + 1));
+		return (ft_handle_exit_code(sign, i, new_str));
 	while (str[*i] && str[*i] != '\'' && str[*i] != '\"'
 		&& str[*i] != '$' && str[*i] != ' ')
 		(*i)++;
 	temp_key = ft_substr(str, j, *i - j);
-	temp_value = ft_get_envp_value(envp, temp_key);
+	temp_value = ft_get_envp_value(sign->envp, temp_key);
 	free(temp_key);
 	if (temp_value)
 		tmp_dup = ft_strdup(temp_value);
@@ -90,7 +90,7 @@ char	*ft_convert(t_token str, t_envp **envp, t_convert *sign)
 		else if (str.elem[i] == '"' && !sign->single_q)
 			new_str = ft_handle_double_quote(str.elem, sign, &i, new_str);
 		else if (str.elem[i] == '$' && !sign->single_q)
-			new_str = ft_envp_value_converter(envp, str.elem, &i, new_str);
+			new_str = ft_envp_value_converter(sign, str.elem, &i, new_str);
 		else
 			new_str = ft_change_arg(str.elem, sign, &i, new_str);
 	}
@@ -102,9 +102,9 @@ void	ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 	t_token		*cur;
 	t_convert	sign;
 	char		*new_str;
-	char		*temp;
 
 	cur = token;
+	sign.exit_code = data->ls_exit;
 	while (cur->next != NULL)
 	{
 		if (cur->type == ARG || cur->type == ARG_IN || cur->type == ARG_OUT)
@@ -113,12 +113,6 @@ void	ft_arg_converter(t_token *token, t_envp **envp, t_data *data)
 			free(cur->elem);
 			cur->elem = new_str;
 			new_str = NULL;
-			if (cur->elem && ft_strcmp(cur->elem, "$?") == 0)
-			{
-				temp = ft_itoa(data->ls_exit);
-				free(cur->elem);
-				cur->elem = temp;
-			}
 		}
 		cur = cur->next;
 	}

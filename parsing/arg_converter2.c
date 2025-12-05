@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_converter2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:15:30 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/03 18:08:19 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:59:49 by sorbi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ char	*ft_substr_join_free(char *new_str, char *str, int start, int len)
 	return (new_str);
 }
 
-char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
+char	*ft_double_quote(char *str, int *i, char *new_str, t_convert *sign)
 {
-	//char	*temp;
 	int		j;
 
 	if (str[*i] == '"')
@@ -46,7 +45,7 @@ char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 		if (str[*i] == '$')
 		{
 			new_str = ft_substr_join_free(new_str, str, j, *i - j);
-			new_str = ft_envp_value_converter(envp, str, i, new_str);
+			new_str = ft_envp_value_converter(sign, str, i, new_str);
 			j = *i;
 		}
 		else
@@ -61,7 +60,6 @@ char	*ft_double_quote(char *str, int *i, char *new_str, t_envp **envp)
 
 char	*ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 {
-//	char	*temp;
 	int		j;
 
 	j = *i;
@@ -82,7 +80,6 @@ char	*ft_no_quote(char *str, t_convert *sign, int *i, char *new_str)
 
 char	*ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
 {
-	//char	*temp;
 	int		start;
 
 	if (!str)
@@ -92,7 +89,7 @@ char	*ft_change_arg(char *str, t_convert *sign, int *i, char *new_str)
 	if (!sign->double_q && !sign->single_q)
 		new_str = ft_no_quote(str, sign, i, new_str);
 	if (sign->double_q)
-		new_str = ft_double_quote(str, i, new_str, sign->envp);
+		new_str = ft_double_quote(str, i, new_str, sign);
 	else if (sign->single_q)
 	{
 		if (str[*i] == '\'')
