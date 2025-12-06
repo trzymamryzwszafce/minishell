@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 12:16:29 by nadamczy          #+#    #+#             */
-/*   Updated: 2025/12/05 21:51:42 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/06 01:46:54 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_process_input(char *input, t_envp **envp, int *last_exit_code)
 {
 	t_token		*tokens;
 	t_data		*data;
+	t_command	*start;
 	int			error;
 
 	add_history(input);
@@ -51,7 +52,9 @@ void	ft_process_input(char *input, t_envp **envp, int *last_exit_code)
 	if (error == 0)
 	{
 		ft_struct_filler(tokens, data);
+		start = data->cmd;
 		execution(data, envp);
+		data->cmd = start;
 		*last_exit_code = data->ls_exit;
 		ft_free_command_list(data->cmd);
 		data->cmd = NULL;

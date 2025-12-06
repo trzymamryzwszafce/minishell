@@ -6,34 +6,11 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 21:58:05 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/04 16:00:01 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/06 01:57:37 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	cleanup_child(t_data *data, t_envp *env, t_token *tokens)
-{
-	free_data(data);
-	ft_free_env_list(&env);
-	ft_free_tokens(tokens);
-}
-
-void	exit_with_cleanup(t_data *data, t_envp *env, int code)
-{
-	data->ls_exit = code;
-	cleanup_child(data, env, data->token);
-	exit(code);
-}
-
-static void	handle_execve_error(char *path, char **envp, t_data *data,
-		t_envp *env)
-{
-	perror(path);
-	free(path);
-	ft_free2d(envp);
-	exit_with_cleanup(data, env, 126);
-}
 
 void	exec_external(t_data *data, t_envp *env)
 {
@@ -92,20 +69,7 @@ void	wait_child(t_data *data, pid_t pid)
 	}
 }
 
-int	prefork_heredoc(t_data *data)
-{
-	if (data->cmd->heredoc_count > 0)
-	{
-		if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
-		{
-			data->ls_exit = 1;
-			return (-1);
-		}
-	}
-	return (0);
-}
-
-static void	handle_child_process(t_data *data, t_envp *env)
+void	handle_child_process(t_data *data, t_envp *env)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

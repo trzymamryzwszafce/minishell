@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sorbi <sorbi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 21:49:36 by sorbi             #+#    #+#             */
-/*   Updated: 2025/12/05 22:18:36 by sorbi            ###   ########.fr       */
+/*   Updated: 2025/12/06 01:55:02 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ char		**get_path(char **envp);
 void		exec_simple_command(t_data *data, t_envp *env);
 int			redirections(t_data *data);
 int			process_heredoc(char **heredoc, int heredoc_count);
+int			prefork_heredoc(t_data *data);
 void		exec_pipeline(t_data *data, t_envp **env);
 void		exec_child_builtin(t_data *data, t_envp *env);
 int			exec_parent_builtin(t_data *data, t_envp **env);
@@ -205,5 +206,7 @@ void		idle_signals(void);
 void		free_data(t_data *data);
 void		cleanup_child(t_data *data, t_envp *env, t_token *tokens);
 void		exit_with_cleanup(t_data *data, t_envp *env, int code);
+void		handle_execve_error(char *path, char **envp, t_data *data,
+				t_envp *env);
 
 #endif

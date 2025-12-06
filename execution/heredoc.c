@@ -1,4 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/06 01:52:07 by szmadeja          #+#    #+#             */
+/*   Updated: 2025/12/06 01:52:08 by szmadeja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+
+int	prefork_heredoc(t_data *data)
+{
+	if (data->cmd->heredoc_count > 0)
+	{
+		if (process_heredoc(data->cmd->heredoc, data->cmd->heredoc_count) < 0)
+		{
+			data->ls_exit = 1;
+			return (-1);
+		}
+	}
+	return (0);
+}
 
 int	write_heredoc(int fd, char *delimiter)
 {

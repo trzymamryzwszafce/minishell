@@ -1,4 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/06 01:54:20 by szmadeja          #+#    #+#             */
+/*   Updated: 2025/12/06 01:54:40 by szmadeja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+
+void	handle_execve_error(char *path, char **envp, t_data *data,
+		t_envp *env)
+{
+	perror(path);
+	free(path);
+	ft_free2d(envp);
+	exit_with_cleanup(data, env, 126);
+}
 
 char	*search_path(char **dirs, char *cmd)
 {
